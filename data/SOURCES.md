@@ -2,20 +2,21 @@
 
 Checked 2026-11-11. Every question in the bank cites one of these official pages with a source_url, source_title and a short quoted source_quote. No third-party blogs, no dump sites, no real exam content.
 
-Total distinct source pages: 131. Total questions: 1020.
+Total distinct source pages: 134. Total questions: 1020.
 
 - **Incident response overview for Azure** — <https://learn.microsoft.com/azure/security/fundamentals/incident-response-overview> — supports 12 question(s), topics: x-incident
 - **Azure operational security best practices** — <https://learn.microsoft.com/azure/security/fundamentals/operational-best-practices> — supports 3 question(s), topics: x-governance
 - **Data Residency for Microsoft Purview** — <https://learn.microsoft.com/en-au/microsoft-365/enterprise/m365-dr-service-purview?view=o365-worldwide> — supports 2 question(s), topics: x-data-protection
 - **Azure role-based access control versus access policies** — <https://learn.microsoft.com/en-us/azure/Key-Vault/general/rbac-access-policy> — supports 7 question(s), topics: storage-kv
-- **Enforce Token Limits for Models** — <https://learn.microsoft.com/en-us/azure/ai-foundry/control-plane/how-to-enforce-limits-models> — supports 11 question(s), topics: ai-foundry
+- **Enforce Token Limits for Models** — <https://learn.microsoft.com/en-us/azure/ai-foundry/control-plane/how-to-enforce-limits-models> — supports 10 question(s), topics: ai-foundry
+- **Configure AI Gateway in your Foundry resources** — <https://learn.microsoft.com/en-us/azure/foundry/configuration/enable-ai-api-management-gateway-portal> — supports 1 question(s), topics: ai-foundry
 - **Configure content filters** — <https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/content-filters> — supports 16 question(s), topics: ai-foundry
 - **Secure your Azure App Service deployment** — <https://learn.microsoft.com/en-us/azure/app-service/overview-security> — supports 9 question(s), topics: compute-app
 - **Integrate your app with an Azure virtual network** — <https://learn.microsoft.com/en-us/azure/app-service/overview-vnet-integration> — supports 5 question(s), topics: compute-app
 - **DevSecOps on Azure Kubernetes Service (AKS)** — <https://learn.microsoft.com/en-us/azure/architecture/guide/devsecops/devsecops-on-aks> — supports 6 question(s), topics: compute-containers
 - **Baseline Highly Available Zone-Redundant App Services Web Application** — <https://learn.microsoft.com/en-us/azure/architecture/web-apps/app-service/architectures/baseline-zone-redundant> — supports 5 question(s), topics: compute-app
 - **Configure connections to remote services in Azure Functions** — <https://learn.microsoft.com/en-us/azure/azure-functions/functions-identity-based-connections-tutorial> — supports 6 question(s), topics: compute-app
-- **Create and deploy Azure deployment stacks in Bicep** — <https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/deployment-stacks> — supports 4 question(s), topics: posture-backup
+- **Create and deploy Azure deployment stacks in Bicep** — <https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/deployment-stacks> — supports 3 question(s), topics: posture-backup
 - **Lock your Azure resources to protect your infrastructure - Azure Resource Manager** — <https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources> — supports 10 question(s), topics: identity-rbac
 - **Auditing for Azure SQL Database** — <https://learn.microsoft.com/en-us/azure/azure-sql/database/auditing-overview> — supports 5 question(s), topics: storage-db
 - **Use Microsoft Entra authentication with SQL** — <https://learn.microsoft.com/en-us/azure/azure-sql/database/authentication-mfa-ssms-overview?view=azuresql> — supports 4 question(s), topics: storage-db
@@ -43,7 +44,7 @@ Total distinct source pages: 131. Total questions: 1020.
 - **Enable vulnerability assessment for Azure SQL** — <https://learn.microsoft.com/en-us/azure/defender-for-cloud/sql-azure-vulnerability-assessment-enable> — supports 4 question(s), topics: storage-db
 - **Azure DNS Private Resolver Overview** — <https://learn.microsoft.com/en-us/azure/dns/dns-private-resolver-overview> — supports 7 question(s), topics: network-edge
 - **Azure Firewall FAQ** — <https://learn.microsoft.com/en-us/azure/firewall/firewall-faq> — supports 14 question(s), topics: network-core
-- **Azure Blueprints retirement FAQ** — <https://learn.microsoft.com/en-us/azure/governance/blueprints/blueprint-retirement-faq> — supports 7 question(s), topics: x-governance
+- **Azure Blueprints retirement FAQ** — <https://learn.microsoft.com/en-us/azure/governance/blueprints/blueprint-retirement-faq> — supports 8 question(s), topics: x-governance, posture-backup
 - **Organize your resources with management groups** — <https://learn.microsoft.com/en-us/azure/governance/management-groups/overview> — supports 11 question(s), topics: x-governance
 - **Overview of Azure Policy - Azure Policy** — <https://learn.microsoft.com/en-us/azure/governance/policy/overview> — supports 42 question(s), topics: identity-rbac, posture-backup, x-governance
 - **Regulatory Compliance details for FedRAMP Moderate - Azure Policy** — <https://learn.microsoft.com/en-us/azure/governance/policy/samples/fedramp-moderate> — supports 6 question(s), topics: x-governance
@@ -80,7 +81,9 @@ Total distinct source pages: 131. Total questions: 1020.
 - **Investigate data loss alerts with Microsoft Defender XDR** — <https://learn.microsoft.com/en-us/defender-xdr/dlp-investigate-alerts-defender> — supports 2 question(s), topics: x-incident
 - **Summarize incidents with Microsoft Copilot in Microsoft Defender** — <https://learn.microsoft.com/en-us/defender-xdr/security-copilot-m365d-incident-summary> — supports 5 question(s), topics: x-incident
 - **Best practices for Microsoft Entra Agent ID** — <https://learn.microsoft.com/en-us/entra/agent-id/best-practices-agent-id> — supports 2 question(s), topics: ai-identity
-- **What are agent identities?** — <https://learn.microsoft.com/en-us/entra/agent-id/what-are-agent-identities> — supports 10 question(s), topics: ai-identity
+- **What are agent identities?** — <https://learn.microsoft.com/en-us/entra/agent-id/what-are-agent-identities> — supports 7 question(s), topics: ai-identity
+- **Secure autonomous agents with Conditional Access** — <https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-autonomous-agents> — supports 2 question(s), topics: ai-identity
+- **How to Configure Grant Controls in Microsoft Entra** — <https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-grant> — supports 1 question(s), topics: ai-identity
 - **Quickstart: Add a guest user and send an invitation** — <https://learn.microsoft.com/en-us/entra/external-id/b2b-quickstart-add-guest-users-portal> — supports 1 question(s), topics: identity-rbac
 - **What is Microsoft Entra B2B collaboration?** — <https://learn.microsoft.com/en-us/entra/external-id/what-is-b2b> — supports 6 question(s), topics: x-data-protection
 - **What is Global Secure Access?** — <https://learn.microsoft.com/en-us/entra/global-secure-access/overview-what-is-global-secure-access> — supports 4 question(s), topics: network-edge

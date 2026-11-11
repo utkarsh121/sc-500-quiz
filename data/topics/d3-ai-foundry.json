@@ -22,6 +22,11 @@
       "title": "Input, Context, and Retrieval Hygiene",
       "url": "https://learn.microsoft.com/en-us/security/zero-trust/catalog-ai-defense-capabilities/input-context-retrieval-hygiene",
       "checked": "2026-11-11"
+    },
+    {
+      "title": "Configure AI Gateway in your Foundry resources",
+      "url": "https://learn.microsoft.com/en-us/azure/foundry/configuration/enable-ai-api-management-gateway-portal",
+      "checked": "2026-11-11"
     }
   ],
   "questions": [
@@ -798,12 +803,12 @@
         "Reader on the API Management resource is enough to enable the gateway"
       ],
       "question": "A team tries to enable AI Gateway with a v1-tier API Management instance in a different subscription. It fails. Which requirement is missed?",
-      "source_quote": "To enable AI Gateway for a project, you need the API Management Service Contributor role (or Owner) on the Azure API Management resource. A Foundry resource with AI Gateway configured.",
-      "source_title": "Enforce Token Limits for Models",
-      "source_url": "https://learn.microsoft.com/en-us/azure/ai-foundry/control-plane/how-to-enforce-limits-models",
+      "source_quote": "The API Management instance is in the same Microsoft Entra tenant and the same subscription as the Foundry resource. The API Management instance is created in one of the v2 tiers. You have at least the API Management Service Contributor role (or Owner) on the API Management instance.",
+      "source_title": "Configure AI Gateway in your Foundry resources",
+      "source_url": "https://learn.microsoft.com/en-us/azure/foundry/configuration/enable-ai-api-management-gateway-portal",
       "status": "active",
       "topic": "ai-foundry",
-      "version": 1
+      "version": 2
     },
     {
       "correct_index": 2,

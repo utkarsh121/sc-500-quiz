@@ -27,6 +27,11 @@
       "title": "Create and deploy Azure deployment stacks in Bicep",
       "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/deployment-stacks",
       "checked": "2026-11-11"
+    },
+    {
+      "title": "Azure Blueprints retirement FAQ",
+      "url": "https://learn.microsoft.com/en-us/azure/governance/blueprints/blueprint-retirement-faq",
+      "checked": "2026-11-11"
     }
   ],
   "questions": [
@@ -892,7 +897,7 @@
     },
     {
       "id": "D4-BKP-044",
-      "version": 1,
+      "version": 2,
       "status": "active",
       "domain": "Manage and monitor security posture",
       "topic": "posture-backup",
@@ -905,10 +910,10 @@
         "Blueprints will keep working indefinitely, so there is no urgency"
       ],
       "correct_index": 0,
-      "explanation": "Correct: A. Azure Blueprints is being retired: Microsoft's published timeline stops new blueprint definitions from 31 July 2026 and retires the service on 31 January 2027, so the team should migrate to Deployment Stacks and Template Specs. (Sourcing note: the retirement dates come from Microsoft's published retirement timeline as reported in secondary sources; the migration targets — Deployment Stacks and Template Specs — are confirmed in the Deployment Stacks documentation.) D is wrong: retirement is scheduled. B is wrong: the retirement is in 2026–2027, not 2024. C is wrong: playbooks are a Sentinel SOAR mechanism, not a Blueprint replacement.",
-      "source_url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/deployment-stacks",
-      "source_title": "Create and deploy Azure deployment stacks in Bicep",
-      "source_quote": "\"An Azure deployment stack is a resource that enables you to manage a group of Azure resources as a single, cohesive unit.\""
+      "explanation": "Correct: A. Azure Blueprints is being retired: Microsoft's published timeline stops new blueprint definitions from 31 July 2026 and retires the service on 31 January 2027, so the team should migrate to Deployment Stacks and Template Specs.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/governance/blueprints/blueprint-retirement-faq",
+      "source_title": "Azure Blueprints retirement FAQ",
+      "source_quote": "Azure Blueprints (Preview) is retired on January 31, 2027, with a phased retirement that began July 31, 2026. Microsoft recommends migration to Deployment Stacks (preferred) or template specs."
     }
   ]
 }

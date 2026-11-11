@@ -2,6 +2,15 @@
 
 All notable changes to the question bank and the app. Questions are never deleted — corrections and retirements are recorded here, and the old question stays in its per-topic file under `data/topics/` with status `deprecated` or `superseded`.
 
+## v2026.11.3 — 2026-11-11
+
+Citation corrections for the three caveats recorded in v2026.11.2. 10 questions corrected, each bumped to version 2; no question deleted, no count changed (still 1020).
+
+- D3-AI-039 re-sourced from 'Enforce Token Limits for Models' to 'Configure AI Gateway in your Foundry resources' (learn.microsoft.com/en-us/azure/foundry/configuration/enable-ai-api-management-gateway-portal) — the new page states the full rule verbatim: same Entra tenant and subscription, v2 tier, API Management Service Contributor or Owner. The old cited page only covered the role, not the tier/tenant rule.
+- D4-BKP-044 re-sourced from the Deployment Stacks Bicep page to the 'Azure Blueprints retirement FAQ' (learn.microsoft.com/en-us/azure/governance/blueprints/blueprint-retirement-faq) — retired 31 January 2027, phased retirement began 31 July 2026, migrate to Deployment Stacks (preferred) or template specs. The old sourcing-note caveat in its explanation is removed.
+- Entra Agent ID quotes now verbatim from the cited Learn pages, verified by direct page reads on 2026-11-11: D3-AGENT-002/007 quote the page's own 'specialized identity construct' sentence; D3-AGENT-008/023/025 quote the page's own availability and Agent 365 licence sentences. D3-AGENT-021/037 re-sourced to 'Secure autonomous agents with Conditional Access' — the 'Conditional Access follows the token subject' sentence is not on the 'What are agent identities?' page; it is on that page. D3-AGENT-004 re-sourced to 'How to Configure Grant Controls in Microsoft Entra' and its 'Block (or Allow)' wording corrected to Block only — Learn states agent identities don't support grant controls and only support Block access.
+- Still open, not fixed here: a few other Agent ID quotes (e.g. D3-AGENT-009, D3-AGENT-038) are paraphrases rather than verbatim page text and may belong to different Learn pages; the GA date / E5 prerequisite in D3-AGENT-023 also needs a direct source check. The two D2 sources cited from search snippets after a 403 remain as flagged in memory.
+
 ## v2026.11.2 — 2026-11-11
 
 Bank grown to 1020 hard questions, in per-topic files.
@@ -12,7 +21,7 @@ Bank grown to 1020 hard questions, in per-topic files.
 - All 200 original questions re-verified against Microsoft Learn / Azure docs, upgraded to hard scenario style, and given `source_url`, `source_title` and `source_quote`. 10 off-domain questions in the original Domain 1 set were replaced with verified Domain 1 questions (their Defender / Key Vault / Purview topics are covered in Domains 2 and 4).
 - 131 distinct official source pages cited — full list in `data/SOURCES.md`. For topics with no dedicated Learn page, Azure's own publications were used (Azure docs, Architecture Center, Microsoft Security pages).
 - Gaps from v2026.11.1 now covered: Azure Backup security, IaC governance (Bicep / Deployment Stacks, Azure Policy as Code), Virtual Network Manager, Virtual WAN, Entra Private Access, Logic Apps, Container Instances / Container Apps.
-- Caveats: D3-AI-039 (AI Gateway tier/tenant rule) is only partly supported by its cited Learn page; a few Entra Agent ID quotes were verified from search excerpts of the cited Learn pages rather than full page opens; D4-BKP-044 Blueprints retirement dates come from Microsoft's published retirement timeline via secondary reporting, with migration targets confirmed in the Deployment Stacks docs.
+- Caveats (fixed in v2026.11.3): D3-AI-039, the Entra Agent ID quotes, and D4-BKP-044 — see the v2026.11.3 entry above.
 
 ### App
 

@@ -1,5 +1,5 @@
 {
-  "bank_version": "2026.11.2",
+  "bank_version": "2026.11.3",
   "bank_name": "SC-500 Exam Practice — Question Bank",
   "last_updated": "2026-11-11",
   "total_questions": 1020,
@@ -202,9 +202,14 @@
       "count": 46
     }
   ],
-  "sources_count": 131,
+  "sources_count": 134,
   "versioning_policy": "Questions are never deleted. A question that becomes outdated is marked status 'deprecated' or 'superseded', kept in the bank and in git history, and replaced by a new versioned question. Corrections bump the question version and are recorded in CHANGELOG.md.",
   "changelog": [
+    {
+      "version": "2026.11.3",
+      "date": "2026-11-11",
+      "note": "Citation corrections for the v2026.11.2 caveats (10 questions, version bumped to 2): D3-AI-039 re-sourced to 'Configure AI Gateway in your Foundry resources'; D4-BKP-044 re-sourced to the Azure Blueprints retirement FAQ; Entra Agent ID quotes replaced with verbatim Learn text, D3-AGENT-021/037 re-sourced to 'Secure autonomous agents with Conditional Access', D3-AGENT-004 re-sourced to the Learn grant-controls page with the unsupported 'Block (or Allow)' wording corrected to Block only. 134 distinct source pages."
+    },
     {
       "version": "2026.11.2",
       "date": "2026-11-11",

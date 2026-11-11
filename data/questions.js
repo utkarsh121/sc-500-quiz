@@ -1,10 +1,15 @@
 /* Generated from data/topics/*.json — do not edit by hand. Edit the topic files and regenerate. */
 window.SC500_BANK = {
-  "bank_version": "2026.11.2",
+  "bank_version": "2026.11.3",
   "bank_name": "SC-500 Exam Practice — Question Bank",
   "last_updated": "2026-11-11",
   "total_questions": 1020,
   "changelog": [
+    {
+      "version": "2026.11.3",
+      "date": "2026-11-11",
+      "note": "Citation corrections for the v2026.11.2 caveats (10 questions, version bumped to 2): D3-AI-039 re-sourced to 'Configure AI Gateway in your Foundry resources'; D4-BKP-044 re-sourced to the Azure Blueprints retirement FAQ; Entra Agent ID quotes replaced with verbatim Learn text, D3-AGENT-021/037 re-sourced to 'Secure autonomous agents with Conditional Access', D3-AGENT-004 re-sourced to the Learn grant-controls page with the unsupported 'Block (or Allow)' wording corrected to Block only. 134 distinct source pages."
+    },
     {
       "version": "2026.11.2",
       "date": "2026-11-11",
@@ -11476,12 +11481,12 @@ window.SC500_BANK = {
         "Reader on the API Management resource is enough to enable the gateway"
       ],
       "question": "A team tries to enable AI Gateway with a v1-tier API Management instance in a different subscription. It fails. Which requirement is missed?",
-      "source_quote": "To enable AI Gateway for a project, you need the API Management Service Contributor role (or Owner) on the Azure API Management resource. A Foundry resource with AI Gateway configured.",
-      "source_title": "Enforce Token Limits for Models",
-      "source_url": "https://learn.microsoft.com/en-us/azure/ai-foundry/control-plane/how-to-enforce-limits-models",
+      "source_quote": "The API Management instance is in the same Microsoft Entra tenant and the same subscription as the Foundry resource. The API Management instance is created in one of the v2 tiers. You have at least the API Management Service Contributor role (or Owner) on the API Management instance.",
+      "source_title": "Configure AI Gateway in your Foundry resources",
+      "source_url": "https://learn.microsoft.com/en-us/azure/foundry/configuration/enable-ai-api-management-gateway-portal",
       "status": "active",
       "topic": "ai-foundry",
-      "version": 1
+      "version": 2
     },
     {
       "correct_index": 2,
@@ -11616,12 +11621,12 @@ window.SC500_BANK = {
         "The agent is automatically assigned its own identity in Microsoft Entra ID, so it can be governed like other identities"
       ],
       "question": "A team builds an AI agent in Copilot Studio. A developer claims the agent has no identity of its own and just uses an API key. What does Microsoft Entra Agent ID actually provide for that agent?",
-      "source_quote": "An agent identity is a specialized Microsoft Entra ID identity construct (not a plain service principal) designed for the dynamic, ephemeral, bulk-created nature of AI agents; it enables autonomous access, delegated (OBO) access, and authenticating incoming requests from other agents or clients.",
+      "source_quote": "Agent identities address this gap by providing a specialized identity construct built specifically for the unique requirements of AI agents operating at enterprise scale.",
       "source_title": "What are agent identities?",
       "source_url": "https://learn.microsoft.com/en-us/entra/agent-id/what-are-agent-identities",
       "status": "active",
       "topic": "ai-identity",
-      "version": 1
+      "version": 2
     },
     {
       "correct_index": 2,
@@ -11647,21 +11652,21 @@ window.SC500_BANK = {
       "correct_index": 3,
       "difficulty": "hard",
       "domain": "Secure compute",
-      "explanation": "Correct: agent identities are non-human identities that cannot complete interactive challenges, so the available Conditional Access grant controls are Block or Allow only; MFA is not available for them. The agent identity and the agent user account are distinct objects needing separate policies, and a raw API-key path bypasses Entra authentication so Conditional Access cannot apply to it. A is wrong: MFA cannot be required of an agent identity. C is wrong: targeting users does not cover agent identities. D is wrong: an API key bypasses Entra, so no Conditional Access policy can govern that path.",
+      "explanation": "Correct: agent identities are non-human identities that cannot complete interactive challenges, so the only available Conditional Access grant control for agent identities is Block; MFA is not available for them. The agent identity and the agent user account are distinct objects needing separate policies, and a raw API-key path bypasses Entra authentication so Conditional Access cannot apply to it. A is wrong: MFA cannot be required of an agent identity. C is wrong: targeting users does not cover agent identities. D is wrong: an API key bypasses Entra, so no Conditional Access policy can govern that path.",
       "id": "D3-AGENT-004",
       "options": [
         "Target the policy at the agents human sponsor only; that automatically covers the agent identity",
         "Keep the API key as the agents authentication and add a Conditional Access policy requiring MFA on that key",
         "Require MFA for the agent identity, targeting the agent identity in the policy, because agents complete MFA like users",
-        "Create a Conditional Access policy targeting the agent identity with Block (or Allow) as the grant control, because MFA is not available for agent identities, and separately cover the agent user account; also remove the API-key path, which bypasses Entra authentication"
+        "Create a Conditional Access policy targeting the agent identity with Block as the grant control, because MFA is not available for agent identities, and separately cover the agent user account; also remove the API-key path, which bypasses Entra authentication"
       ],
       "question": "A Copilot Studio agent with an Entra Agent ID has read access to HR data in SharePoint. The team writes a Conditional Access policy requiring MFA for the agent and applies it to the agents human sponsor. The policy has no effect on the agents sign-ins. What is wrong, and what is the correct design?",
-      "source_quote": "An agent identity is a specialized Microsoft Entra ID identity construct (not a plain service principal) designed for the dynamic, ephemeral, bulk-created nature of AI agents; it enables autonomous access, delegated (OBO) access, and authenticating incoming requests from other agents or clients.",
-      "source_title": "What are agent identities?",
-      "source_url": "https://learn.microsoft.com/en-us/entra/agent-id/what-are-agent-identities",
+      "source_quote": "Agent identities don't support grant controls and only support Block access.",
+      "source_title": "How to Configure Grant Controls in Microsoft Entra",
+      "source_url": "https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-grant",
       "status": "active",
       "topic": "ai-identity",
-      "version": 1
+      "version": 2
     },
     {
       "correct_index": 2,
@@ -11716,12 +11721,12 @@ window.SC500_BANK = {
         "A shared API key stored in the agent configuration, because agents cannot have Entra identities"
       ],
       "question": "A team is migrating agents built before Entra Agent ID existed. Those agents use plain app registrations. What is an Entra agent identity, and how does it differ from what the old agents use?",
-      "source_quote": "An agent identity is a specialized Microsoft Entra ID identity construct (not a plain service principal) designed for the dynamic, ephemeral, bulk-created nature of AI agents.",
+      "source_quote": "Agent identities address this gap by providing a specialized identity construct built specifically for the unique requirements of AI agents operating at enterprise scale.",
       "source_title": "What are agent identities?",
       "source_url": "https://learn.microsoft.com/en-us/entra/agent-id/what-are-agent-identities",
       "status": "active",
       "topic": "ai-identity",
-      "version": 1
+      "version": 2
     },
     {
       "correct_index": 0,
@@ -11736,12 +11741,12 @@ window.SC500_BANK = {
         "Agent identities are free in full, including Conditional Access and ID Protection, with no licence needed"
       ],
       "question": "Finance asks what an Entra Agent ID costs. The team says agent identities are free; the vendor says every agent needs a paid licence. Which statement is correct?",
-      "source_quote": "Agent ID is available to all Microsoft Entra customers at no extra license for the base identity object; however, extending Microsoft Entra security features (Agent 365 integration, Conditional Access for agents, ID Protection for agents) to agents requires a Microsoft Agent 365 license per user.",
+      "source_quote": "Agent ID is available for all Microsoft Entra customers. Extending Microsoft Entra security features to agents requires Microsoft Agent 365.",
       "source_title": "What are agent identities?",
       "source_url": "https://learn.microsoft.com/en-us/entra/agent-id/what-are-agent-identities",
       "status": "active",
       "topic": "ai-identity",
-      "version": 1
+      "version": 2
     },
     {
       "correct_index": 2,
@@ -11987,7 +11992,7 @@ window.SC500_BANK = {
       "correct_index": 3,
       "difficulty": "hard",
       "domain": "Secure compute",
-      "explanation": "Correct: Conditional Access follows the token subject: the agent identity or blueprint for app-only access, and the user for on-behalf-of access. A is wrong: the sponsor is not the subject of the agent app-only token. B is wrong: the blueprint is the subject for app-only, not the user. D is wrong: Conditional Access can target agent identities with Block or Allow; it is not inapplicable.",
+      "explanation": "Correct: Conditional Access follows the token subject: the agent identity or blueprint for app-only access, and the user for on-behalf-of access. A is wrong: the sponsor is not the subject of the agent app-only token. B is wrong: the blueprint is the subject for app-only, not the user. D is wrong: Conditional Access can target agent identities with Block; it is not inapplicable.",
       "id": "D3-AGENT-021",
       "options": [
         "The human sponsor, because the agent always acts as the sponsor",
@@ -11996,12 +12001,12 @@ window.SC500_BANK = {
         "Conditional Access does not apply to agents at all, so no subject matters"
       ],
       "question": "A Conditional Access policy must block an agent from signing in from an untrusted location when it acts autonomously, but allow it when it acts on behalf of a signed-in user. Which token subject does the policy follow in each case?",
-      "source_quote": "Conditional Access follows the token subject: agent identity or blueprint for app-only, the user for on-behalf-of.",
-      "source_title": "What are agent identities?",
-      "source_url": "https://learn.microsoft.com/en-us/entra/agent-id/what-are-agent-identities",
+      "source_quote": "In this access pattern, the access token's subject is the agent identity. Conditional Access policies therefore target the agent identity, not a user or an agent's user account.",
+      "source_title": "Secure autonomous agents with Conditional Access",
+      "source_url": "https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-autonomous-agents",
       "status": "active",
       "topic": "ai-identity",
-      "version": 1
+      "version": 2
     },
     {
       "correct_index": 1,
@@ -12036,12 +12041,12 @@ window.SC500_BANK = {
         "Agent 365 requires Microsoft 365 E7 and cannot be used with E5 at all"
       ],
       "question": "A company on Microsoft 365 E5 asks whether it can use Agent 365 and what it costs. Which statement is correct?",
-      "source_quote": "Generally available for Commercial since 1 May 2026, licensed per user, with Microsoft E5 as the recommended prerequisite. Agent ID is available to all Microsoft Entra customers at no extra license for the base identity object.",
+      "source_quote": "Microsoft Agent 365 enables agents to operate across Microsoft 365 services and enterprise workflows, which requires a Microsoft Agent 365 license for each user. Agent ID is available for all Microsoft Entra customers.",
       "source_title": "What are agent identities?",
       "source_url": "https://learn.microsoft.com/en-us/entra/agent-id/what-are-agent-identities",
       "status": "active",
       "topic": "ai-identity",
-      "version": 1
+      "version": 2
     },
     {
       "correct_index": 2,
@@ -12076,12 +12081,12 @@ window.SC500_BANK = {
         "Each agent needs a Microsoft 365 E7 licence of its own"
       ],
       "question": "A team runs 50 agents, all acting on behalf of 10 licensed users. How many Agent 365 licences do the agents need?",
-      "source_quote": "Agent ID is available to all Microsoft Entra customers at no extra license for the base identity object; however, extending Microsoft Entra security features to agents requires a Microsoft Agent 365 license per user. Agents acting on behalf of a licensed user are covered.",
+      "source_quote": "Agent ID is available for all Microsoft Entra customers. Extending Microsoft Entra security features to agents requires Microsoft Agent 365. Microsoft Agent 365 enables agents to operate across Microsoft 365 services and enterprise workflows, which requires a Microsoft Agent 365 license for each user.",
       "source_title": "What are agent identities?",
       "source_url": "https://learn.microsoft.com/en-us/entra/agent-id/what-are-agent-identities",
       "status": "active",
       "topic": "ai-identity",
-      "version": 1
+      "version": 2
     },
     {
       "correct_index": 0,
@@ -12316,12 +12321,12 @@ window.SC500_BANK = {
         "Target the policy at the human sponsor, because the sponsor is the subject of the agent token"
       ],
       "question": "A Conditional Access policy targets all users with MFA. An agent with its own Agent ID signs in from an untrusted location and is not blocked. Why, and what is the fix?",
-      "source_quote": "Conditional Access follows the token subject: agent identity or blueprint for app-only, the user for on-behalf-of. An agent identity is a specialized Microsoft Entra ID identity construct (not a plain service principal).",
-      "source_title": "What are agent identities?",
-      "source_url": "https://learn.microsoft.com/en-us/entra/agent-id/what-are-agent-identities",
+      "source_quote": "In this access pattern, the access token's subject is the agent identity. Conditional Access policies therefore target the agent identity, not a user or an agent's user account.",
+      "source_title": "Secure autonomous agents with Conditional Access",
+      "source_url": "https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-autonomous-agents",
       "status": "active",
       "topic": "ai-identity",
-      "version": 1
+      "version": 2
     },
     {
       "correct_index": 0,
@@ -15965,7 +15970,7 @@ window.SC500_BANK = {
     },
     {
       "id": "D4-BKP-044",
-      "version": 1,
+      "version": 2,
       "status": "active",
       "domain": "Manage and monitor security posture",
       "topic": "posture-backup",
@@ -15978,10 +15983,10 @@ window.SC500_BANK = {
         "Blueprints will keep working indefinitely, so there is no urgency"
       ],
       "correct_index": 0,
-      "explanation": "Correct: A. Azure Blueprints is being retired: Microsoft's published timeline stops new blueprint definitions from 31 July 2026 and retires the service on 31 January 2027, so the team should migrate to Deployment Stacks and Template Specs. (Sourcing note: the retirement dates come from Microsoft's published retirement timeline as reported in secondary sources; the migration targets — Deployment Stacks and Template Specs — are confirmed in the Deployment Stacks documentation.) D is wrong: retirement is scheduled. B is wrong: the retirement is in 2026–2027, not 2024. C is wrong: playbooks are a Sentinel SOAR mechanism, not a Blueprint replacement.",
-      "source_url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/deployment-stacks",
-      "source_title": "Create and deploy Azure deployment stacks in Bicep",
-      "source_quote": "\"An Azure deployment stack is a resource that enables you to manage a group of Azure resources as a single, cohesive unit.\""
+      "explanation": "Correct: A. Azure Blueprints is being retired: Microsoft's published timeline stops new blueprint definitions from 31 July 2026 and retires the service on 31 January 2027, so the team should migrate to Deployment Stacks and Template Specs.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/governance/blueprints/blueprint-retirement-faq",
+      "source_title": "Azure Blueprints retirement FAQ",
+      "source_quote": "Azure Blueprints (Preview) is retired on January 31, 2027, with a phased retirement that began July 31, 2026. Microsoft recommends migration to Deployment Stacks (preferred) or template specs."
     },
     {
       "id": "D4-COP-001",
