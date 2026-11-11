@@ -1,0 +1,929 @@
+{
+  "topic": "Microsoft Purview governance: sensitivity labels, DLP, data classification, insider risk, information protection, retention",
+  "topic_slug": "posture-purview",
+  "domain": "Manage and monitor security posture",
+  "source_pages": [
+    {
+      "title": "Learn about sensitivity labels",
+      "url": "https://learn.microsoft.com/en-us/purview/sensitivity-labels",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Learn about data loss prevention",
+      "url": "https://learn.microsoft.com/en-us/purview/dlp-learn-about-dlp",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Learn about Adaptive Protection in data loss prevention",
+      "url": "https://learn.microsoft.com/en-us/purview/dlp-adaptive-protection-learn",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Help dynamically mitigate risks with Adaptive Protection",
+      "url": "https://learn.microsoft.com/en-us/purview/insider-risk-management-adaptive-protection",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Learn about retention policies and labels to retain or delete",
+      "url": "https://learn.microsoft.com/en-us/purview/retention",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Use Microsoft Purview to manage data security and compliance for Microsoft Agent 365",
+      "url": "https://learn.microsoft.com/en-us/purview/ai-agent-365",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Step 2: Address files with the highest sensitivity - Secure by default with Microsoft Purview",
+      "url": "https://learn.microsoft.com/en-us/purview/deploymentmodels/depmod-secure-by-default-step2",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "What's new in Microsoft Purview",
+      "url": "https://learn.microsoft.com/en-us/purview/whats-new",
+      "checked": "2026-11-11"
+    }
+  ],
+  "questions": [
+    {
+      "id": "D4-PUR-001",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso applies a sensitivity label 'Confidential' to a Word document, and the label encrypts the file and adds a footer. A user copies the content into a new unlabelled document and emails it externally. A colleague says the label protects the copied content. What is the correct understanding?",
+      "options": [
+        "The label's encryption and footer apply to the labelled file; copied content in a new unlabelled document is not protected by the original label, which is why DLP policies are needed to block the exfiltration",
+        "The label automatically applies itself to any new document the user creates",
+        "The label encrypts the user's entire mailbox, so the email cannot leave",
+        "The label protects the copied content, because labels follow the text wherever it goes"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: A. A sensitivity label protects the file it is applied to (encryption, watermarking, access control); content copied into a new unlabelled file is not covered by the original label. DLP policies are the control that can block or restrict sharing of sensitive content regardless of labelling. D is wrong: labels do not follow copied text into new files. B is wrong: labels do not auto-apply to new documents unless a policy does so. C is wrong: a label does not encrypt a mailbox.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/sensitivity-labels",
+      "source_title": "Learn about sensitivity labels",
+      "source_quote": "\"Sensitivity labels from Microsoft Purview Information Protection let you classify and protect your organization's data, while making sure that user productivity and their ability to collaborate isn't hindered.\""
+    },
+    {
+      "id": "D4-PUR-002",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso wants a label to be applied automatically when a document contains a credit card number. A colleague proposes a manually applied label, and another proposes a DLP policy. What is the correct mechanism?",
+      "options": [
+        "A DLP policy, because DLP applies labels",
+        "An auto-labelling policy in Microsoft Purview, which applies a sensitivity label automatically when content matches a sensitive information type (such as a credit card number)",
+        "A retention policy, because retention applies labels",
+        "A manually applied label, because labels cannot be applied automatically"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: B. Purview auto-labelling policies apply a sensitivity label automatically when content matches a condition such as a sensitive information type. D is wrong: labels can be applied automatically. A is wrong: DLP policies detect and restrict sharing; they do not apply sensitivity labels. C is wrong: retention policies govern how long content is kept, not labelling.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/sensitivity-labels",
+      "source_title": "Learn about sensitivity labels",
+      "source_quote": "\"Sensitivity labels from Microsoft Purview Information Protection let you classify and protect your organization's data, while making sure that user productivity and their ability to collaborate isn't hindered.\""
+    },
+    {
+      "id": "D4-PUR-003",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso's DLP policy blocks sharing of documents containing Canadian SINs to external recipients. An employee shares a document with a SIN to a personal Gmail account and the policy does not block it. A colleague says DLP does not cover Gmail. What is the most likely cause?",
+      "options": [
+        "DLP only blocks internal sharing, never external sharing",
+        "DLP only works on documents that already have a sensitivity label",
+        "DLP does not cover Gmail, so the policy can never block it",
+        "The DLP policy scope or location does not cover the service the document was shared from, or the policy is in test mode with notifications only; DLP can block external sharing when the location and action are in scope and the policy is enforced"
+      ],
+      "correct_index": 3,
+      "explanation": "Correct: D. DLP policies act on the locations and actions in scope (Exchange, SharePoint, OneDrive, Teams, endpoints) and only enforce when the policy is on and not in test mode; if the sharing path or location is out of scope, or the policy is in test mode, the share is not blocked. C is wrong: DLP can block external sharing when in scope. A is wrong: DLP is specifically designed to control external sharing. B is wrong: DLP can detect sensitive information types without a label.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/dlp-learn-about-dlp",
+      "source_title": "Learn about data loss prevention",
+      "source_quote": "\"In Microsoft Purview, you implement data loss prevention by defining and applying DLP policies.\""
+    },
+    {
+      "id": "D4-PUR-004",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso wants to prevent users from pasting customer data from a managed app into an unmanaged personal app on their laptops. A colleague says DLP cannot control copy/paste. What is the correct capability?",
+      "options": [
+        "A sensitivity label, because labels block copy/paste on endpoints",
+        "A retention policy, because retention blocks copy/paste",
+        "DLP cannot control copy/paste, so the team must accept the risk",
+        "Endpoint DLP, which monitors and controls actions on managed devices (including copy, paste, print, and upload to unmanaged apps and cloud services) when the endpoint DLP policy is in scope"
+      ],
+      "correct_index": 3,
+      "explanation": "Correct: D. Endpoint DLP extends DLP to actions on managed Windows (and macOS) devices, including copying data to unmanaged apps, printing, and uploading to unapproved cloud services. C is wrong: endpoint DLP exists for exactly this. A is wrong: a label protects the file; it does not control copy/paste to unmanaged apps. B is wrong: retention governs how long content is kept.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/dlp-learn-about-dlp",
+      "source_title": "Learn about data loss prevention",
+      "source_quote": "\"In Microsoft Purview, you implement data loss prevention by defining and applying DLP policies.\""
+    },
+    {
+      "id": "D4-PUR-005",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso's insider risk policy flags a user who downloaded a large volume of files before resigning. A colleague says insider risk management automatically blocks the downloads. What does insider risk management actually do?",
+      "options": [
+        "It detects risky activity (such as large downloads before resignation) and surfaces it as an alert for review, with actions such as Adaptive Protection; it does not automatically block downloads by itself",
+        "It encrypts the user's files automatically when they resign",
+        "It deletes the user's account automatically when they are flagged",
+        "It automatically blocks all downloads by flagged users"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: A. Insider risk management detects and surfaces risky behaviour (for example, data exfiltration signals before resignation) as alerts for the insider risk team to review; it can trigger Adaptive Protection to tighten DLP controls, but it does not by itself block downloads or delete accounts. D is wrong: blocking is a DLP action, not an insider risk action. B and C are wrong: insider risk does not encrypt files or delete accounts.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/dlp-adaptive-protection-learn",
+      "source_title": "Learn about Adaptive Protection in data loss prevention",
+      "source_quote": "\"Adaptive Protection in Microsoft Purview integrates Microsoft Purview Insider Risk Management with Microsoft Purview Data Loss Prevention (DLP).\""
+    },
+    {
+      "id": "D4-PUR-006",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso enables Adaptive Protection in DLP and expects it to immediately apply the strictest DLP controls to all users. A colleague says Adaptive Protection works on a 120-day risk profile. What is the correct understanding?",
+      "options": [
+        "Adaptive Protection immediately applies the strictest controls to everyone",
+        "Adaptive Protection uses the insider risk management profile, which builds a risk picture over time (the guide describes a 120-day context), and dynamically adjusts DLP controls based on each user's risk level, rather than applying one static policy to everyone",
+        "Adaptive Protection only works for 120 days and then stops",
+        "Adaptive Protection replaces DLP policies entirely"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: B. Adaptive Protection in DLP dynamically adjusts DLP controls based on the user's risk level from insider risk management, which builds a risk profile over time (the Purview guide describes a 120-day context for the risk assessment); it does not immediately apply the strictest controls to everyone. A is wrong: the controls are risk-based and dynamic. C is wrong: 120 days is the risk-profile context, not a licence expiry. D is wrong: Adaptive Protection works with DLP policies; it does not replace them.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/insider-risk-management-adaptive-protection",
+      "source_title": "Help dynamically mitigate risks with Adaptive Protection",
+      "source_quote": "\"Insider Risk Management detects Elevated risk level users and preserves their deleted data for 120 days by using an automatically created data lifecycle management retention label policy.\""
+    },
+    {
+      "id": "D4-PUR-007",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso's retention policy deletes emails older than 7 years. A user deletes an email that is under a litigation hold. A colleague says the email is gone forever. What actually happens?",
+      "options": [
+        "The email is preserved under the hold: a litigation hold (or retention hold) preserves the content even when a user deletes it, so it remains discoverable and recoverable",
+        "The email is deleted but can be recovered from the Secure Score",
+        "The email is deleted after 30 days, because holds only delay deletion by 30 days",
+        "The email is deleted immediately, because a user deletion overrides a hold"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: A. A litigation hold or retention hold preserves content: when a user deletes an item under hold, it is retained (in the Recoverable Items folder / Preservation Hold library) and remains discoverable, rather than being permanently deleted. D is wrong: a hold overrides user deletion. B is wrong: the Secure Score is a posture metric, not a recovery store. C is wrong: holds preserve for the hold duration, not a fixed 30 days.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/retention",
+      "source_title": "Learn about retention policies and labels to retain or delete",
+      "source_quote": "\"Use a retention policy to assign the same retention settings for content at a site or mailbox level, and use a retention label to assign retention settings at an item level (folder, document, email).\""
+    },
+    {
+      "id": "D4-PUR-008",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso wants to keep Teams chat messages for 3 years for compliance, but users should be able to delete their own messages. A colleague says retention prevents users from deleting messages. What is the correct understanding?",
+      "options": [
+        "Retention prevents users from deleting their own messages",
+        "A retention policy preserves a copy of the messages for compliance even when a user deletes them; the user's delete removes their view, but the retained copy remains discoverable for the retention period",
+        "Retention only applies to email, not Teams messages",
+        "Retention deletes messages immediately when a user deletes them"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: B. Retention policies preserve content for the retention period: when a user deletes a Teams message under retention, their copy is removed but the retained copy remains for compliance and eDiscovery. A is wrong: retention preserves; it does not block the user's delete action in the app. C is wrong: retention policies cover Teams messages, SharePoint, OneDrive and Exchange. D is wrong: retention preserves, not deletes, on user action.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/retention",
+      "source_title": "Learn about retention policies and labels to retain or delete",
+      "source_quote": "\"Use a retention policy to assign the same retention settings for content at a site or mailbox level, and use a retention label to assign retention settings at an item level (folder, document, email).\""
+    },
+    {
+      "id": "D4-PUR-009",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso's data classification identifies a set of documents as containing credit card numbers, but the team cannot tell which documents are actually sensitive versus which merely mention the pattern. A colleague says sensitive information types are the only classification tool. What else should they use?",
+      "options": [
+        "A DLP policy, because DLP classifies content",
+        "Only sensitive information types, because nothing else classifies content",
+        "Trainable classifiers, which use machine learning to identify content that matches a category (such as resumes, source code, or specific document types) beyond simple pattern matching, alongside sensitive information types",
+        "The Secure Score, because it classifies documents"
+      ],
+      "correct_index": 2,
+      "explanation": "Correct: C. Purview data classification uses sensitive information types (pattern-based, such as credit card numbers) and trainable classifiers (machine-learning models that recognise categories such as resumes or source code) together; trainable classifiers handle the cases where a pattern alone is not enough. B is wrong: trainable classifiers are the complementary tool. D is wrong: the Secure Score measures cloud posture. A is wrong: DLP enforces policy on classified content; it is not itself the classifier.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/sensitivity-labels",
+      "source_title": "Learn about sensitivity labels",
+      "source_quote": "\"Sensitivity labels from Microsoft Purview Information Protection let you classify and protect your organization's data, while making sure that user productivity and their ability to collaborate isn't hindered.\""
+    },
+    {
+      "id": "D4-PUR-010",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso applies a sensitivity label that encrypts a document and restricts it to employees. A user shares the document with an external partner, and the partner cannot open it. A colleague says the label failed. What actually happened?",
+      "options": [
+        "The label worked as designed: encryption with employee-only access means the external partner cannot decrypt it; to share externally, the label's encryption settings (or a separate label) must allow the external recipient",
+        "The label only works inside the tenant, so it should not have encrypted the file at all",
+        "The partner needs a Sentinel licence to open labelled files",
+        "The label failed, because encryption should allow external partners to open the file"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: A. A sensitivity label with encryption and employee-only access enforces that access control wherever the file goes; the partner being unable to open it is the label working, not failing. To share externally, the label must be configured to allow the external recipient. D is wrong: the block is the intended behaviour. B is wrong: labels are designed to protect files outside the tenant. C is wrong: Sentinel licensing is unrelated to opening labelled files.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/sensitivity-labels",
+      "source_title": "Learn about sensitivity labels",
+      "source_quote": "\"Sensitivity labels from Microsoft Purview Information Protection let you classify and protect your organization's data, while making sure that user productivity and their ability to collaborate isn't hindered.\""
+    },
+    {
+      "id": "D4-PUR-011",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso's DLP policy is in test mode with notifications. Users receive a notification that their action would have been blocked, but the file is still shared. A colleague says the policy is broken. What is the correct explanation?",
+      "options": [
+        "The policy must be recreated, because test mode cannot be changed to enforce mode",
+        "The policy is broken, because test mode should block the action",
+        "Test mode (with notifications) simulates the policy and notifies users, but does not block the action; enforcement only happens when the policy is turned on (enforce mode)",
+        "Test mode only works for email, not for file sharing"
+      ],
+      "correct_index": 2,
+      "explanation": "Correct: C. DLP test mode with notifications shows users what would have been blocked without actually blocking it; enforcement requires the policy to be on. B is wrong: not blocking is exactly what test mode does. D is wrong: test mode applies across the policy's locations. A is wrong: a test-mode policy can be switched to enforce mode.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/dlp-learn-about-dlp",
+      "source_title": "Learn about data loss prevention",
+      "source_quote": "\"In Microsoft Purview, you implement data loss prevention by defining and applying DLP policies.\""
+    },
+    {
+      "id": "D4-PUR-012",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso wants to automatically label documents that contain a specific project codename and are shared externally. A colleague proposes a DLP policy to apply the label. What is the correct mechanism?",
+      "options": [
+        "An auto-labelling policy, which can apply a label based on content and sharing conditions; DLP enforces restrictions on sharing, it does not apply labels",
+        "A sensitivity label applied manually by each user, because automatic labelling cannot consider sharing",
+        "A DLP policy, because DLP applies sensitivity labels automatically",
+        "A retention policy, because retention applies labels"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: A. Auto-labelling policies apply a sensitivity label when content matches conditions (including sensitive information types and sharing context); DLP policies detect and restrict sharing but do not apply labels. C is wrong: DLP does not apply labels. D is wrong: retention governs how long content is kept. B is wrong: auto-labelling can consider conditions beyond manual application.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/sensitivity-labels",
+      "source_title": "Learn about sensitivity labels",
+      "source_quote": "\"Sensitivity labels from Microsoft Purview Information Protection let you classify and protect your organization's data, while making sure that user productivity and their ability to collaborate isn't hindered.\""
+    },
+    {
+      "id": "D4-PUR-013",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso's insider risk policy is configured, but no alerts are generated even though risky activity is happening. A colleague says insider risk policies alert immediately. What is the most likely cause?",
+      "options": [
+        "Insider risk policies alert immediately, so the policy must be deleted and recreated",
+        "Insider risk management needs time to build a baseline and the policy must be configured with the right triggers, data sources and permissions; alerts only fire when the policy's conditions are met and the relevant data is connected",
+        "Insider risk only works for email, not for file activity",
+        "Insider risk alerts are only visible in the Secure Score"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: B. Insider risk management detects risk through configured policies that need the right triggers, connectors (such as HR data, device signals, and Microsoft 365 audit data) and permissions; without those, or before a baseline is established, alerts do not fire. A is wrong: immediate alerting is not guaranteed. C is wrong: insider risk covers file, device and other activity, not just email. D is wrong: alerts appear in the insider risk management console, not the Secure Score.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/dlp-adaptive-protection-learn",
+      "source_title": "Learn about Adaptive Protection in data loss prevention",
+      "source_quote": "\"Adaptive Protection in Microsoft Purview integrates Microsoft Purview Insider Risk Management with Microsoft Purview Data Loss Prevention (DLP).\""
+    },
+    {
+      "id": "D4-PUR-014",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso wants to prevent the sharing of a document labelled 'Highly Confidential' to external recipients, even if a user tries to share it via a personal email account. Which combination of controls is correct?",
+      "options": [
+        "An insider risk policy, because insider risk blocks external sharing",
+        "A sensitivity label alone, because labels block all external sharing",
+        "A DLP policy that blocks external sharing of content with the 'Highly Confidential' label (or matching sensitive information), alongside the label's encryption, so both the label and the DLP policy enforce the boundary",
+        "A retention policy, because retention blocks external sharing"
+      ],
+      "correct_index": 2,
+      "explanation": "Correct: C. The label protects the file (encryption, access control), while a DLP policy blocks the sharing action to external recipients based on the label or the content; together they enforce the boundary even when the user tries a personal email account. B is wrong: a label alone does not block the sharing action. D is wrong: retention governs how long content is kept. A is wrong: insider risk detects and surfaces risk; it does not block sharing.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/dlp-learn-about-dlp",
+      "source_title": "Learn about data loss prevention",
+      "source_quote": "\"In Microsoft Purview, you implement data loss prevention by defining and applying DLP policies.\""
+    },
+    {
+      "id": "D4-PUR-015",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso's compliance team needs to find all documents containing a specific client's name across SharePoint, OneDrive and Exchange, for a legal request. A colleague says to search each service separately. What is the correct tool?",
+      "options": [
+        "Microsoft Purview eDiscovery (Content Search), which searches across Exchange, SharePoint, OneDrive and Teams from one place for legal and compliance requests",
+        "The Secure Score, because it searches content",
+        "A Sentinel hunting query, because it searches all Microsoft 365 content",
+        "Search each service separately, because there is no unified search"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: A. Purview eDiscovery (Content Search) searches across Exchange, SharePoint, OneDrive and Teams in one place, which is the tool for legal and compliance discovery. D is wrong: unified search exists. B is wrong: the Secure Score measures cloud posture. C is wrong: Sentinel hunting queries search Log Analytics tables, not Microsoft 365 content stores.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/retention",
+      "source_title": "Learn about retention policies and labels to retain or delete",
+      "source_quote": "\"Use a retention policy to assign the same retention settings for content at a site or mailbox level, and use a retention label to assign retention settings at an item level (folder, document, email).\""
+    },
+    {
+      "id": "D4-PUR-016",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso wants to know which sensitive information types are actually present in its data, to prioritise DLP policy creation. A colleague proposes guessing from the industry. What should they do instead?",
+      "options": [
+        "Check the Secure Score, because it lists sensitive information types",
+        "Create DLP policies first and check classification afterwards, because classification requires DLP",
+        "Guess from the industry, because classification data is not available",
+        "Use Purview data classification (content explorer and activity explorer) to see which sensitive information types and labels are present in the tenant's actual content, then build DLP policies around the real findings"
+      ],
+      "correct_index": 3,
+      "explanation": "Correct: D. Purview's data classification tools (content explorer, activity explorer) show which sensitive information types and labels exist in the tenant's real content, so DLP policies can be built around actual findings rather than guesses. C is wrong: the data is available. A is wrong: the Secure Score measures cloud posture. B is wrong: classification does not require DLP; it informs DLP.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/sensitivity-labels",
+      "source_title": "Learn about sensitivity labels",
+      "source_quote": "\"Sensitivity labels from Microsoft Purview Information Protection let you classify and protect your organization's data, while making sure that user productivity and their ability to collaborate isn't hindered.\""
+    },
+    {
+      "id": "D4-PUR-017",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso applies a retention label 'Keep 7 years' to a set of contracts. After 7 years, the contracts are automatically deleted. A user wants to keep one contract longer. A colleague says retention labels cannot be changed. What is the correct understanding?",
+      "options": [
+        "Retention labels cannot be changed, so the contract will be deleted",
+        "A retention label can be changed or removed (with appropriate permissions), and a disposition review can be configured so that content is reviewed before deletion rather than deleted automatically",
+        "Retention labels are permanent once applied, but the contract can be copied to bypass them",
+        "The contract can only be kept longer by disabling retention for the whole tenant"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: B. Retention labels can be changed or removed with the right permissions, and disposition review lets the team approve or extend retention before automatic deletion; the label is not immutable by default. A is wrong: labels are changeable. C is wrong: copying to bypass retention is not the supported approach and may violate policy. D is wrong: tenant-wide disablement is unnecessary.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/retention",
+      "source_title": "Learn about retention policies and labels to retain or delete",
+      "source_quote": "\"Use a retention policy to assign the same retention settings for content at a site or mailbox level, and use a retention label to assign retention settings at an item level (folder, document, email).\""
+    },
+    {
+      "id": "D4-PUR-018",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso's DLP policy blocks the sharing of credit card numbers in Teams messages. A user pastes a credit card number into a Teams chat and the message is sent. A colleague says DLP does not cover Teams. What is the most likely cause?",
+      "options": [
+        "DLP only covers email, never Teams",
+        "DLP only blocks file attachments, not text in messages",
+        "DLP does not cover Teams, so the policy can never block it",
+        "The DLP policy location does not include Teams chat, or the policy is in test mode; DLP covers Teams chat and channel messages when the Teams location is in scope and the policy is enforced"
+      ],
+      "correct_index": 3,
+      "explanation": "Correct: D. DLP policies cover Teams chat and channel messages when the Teams location is in scope and the policy is enforced; if the location is out of scope or the policy is in test mode, the message is not blocked. C and A are wrong: DLP does cover Teams. B is wrong: DLP can detect sensitive information in message text, not only attachments.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/dlp-learn-about-dlp",
+      "source_title": "Learn about data loss prevention",
+      "source_quote": "\"In Microsoft Purview, you implement data loss prevention by defining and applying DLP policies.\""
+    },
+    {
+      "id": "D4-PUR-019",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso wants to ensure that when a document is labelled 'Confidential', it is also retained for 7 years automatically. A colleague proposes a single policy that does both. What is the correct design?",
+      "options": [
+        "A single sensitivity label policy, because labels also control retention",
+        "A single DLP policy, because DLP controls both labelling and retention",
+        "Two policies: a sensitivity label (for protection) and a retention label or retention policy (for the 7-year retention); labelling and retention are separate controls that can be combined on the same content",
+        "A single insider risk policy, because it controls both labelling and retention"
+      ],
+      "correct_index": 2,
+      "explanation": "Correct: C. Sensitivity labels protect content (encryption, access, watermarking) while retention labels/policies govern how long it is kept; they are separate controls that can both apply to the same document. A is wrong: a label does not set retention. B is wrong: DLP enforces sharing restrictions; it does not set retention. D is wrong: insider risk detects risky behaviour; it does not label or retain content.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/sensitivity-labels",
+      "source_title": "Learn about sensitivity labels",
+      "source_quote": "\"Sensitivity labels from Microsoft Purview Information Protection let you classify and protect your organization's data, while making sure that user productivity and their ability to collaborate isn't hindered.\""
+    },
+    {
+      "id": "D4-PUR-020",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso's security team wants to use Purview to find over-shared sensitive documents (shared with 'anyone with the link'). A colleague says Purview cannot see sharing settings. What should they use?",
+      "options": [
+        "Purview cannot see sharing settings, so the team must check each document manually",
+        "Purview data classification and the content explorer, which can show labelled and sensitive content and its sharing context, alongside Defender for Cloud Apps / SharePoint sharing reports for over-sharing",
+        "The Secure Score, because it lists over-shared documents",
+        "A Sentinel analytics rule, because it detects over-sharing"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: B. Purview's data classification (content explorer) shows where sensitive and labelled content lives, and sharing context can be reviewed there and in SharePoint/Defender for Cloud Apps sharing reports; over-sharing is a data-governance finding, not a Sentinel detection. A is wrong: the data is visible in Purview. C is wrong: the Secure Score measures cloud posture. D is wrong: analytics rules detect threats in log data; they do not inventory sharing settings.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/sensitivity-labels",
+      "source_title": "Learn about sensitivity labels",
+      "source_quote": "\"Sensitivity labels from Microsoft Purview Information Protection let you classify and protect your organization's data, while making sure that user productivity and their ability to collaborate isn't hindered.\""
+    },
+    {
+      "id": "D4-PUR-021",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso wants to apply a sensitivity label to all documents in a specific SharePoint site, regardless of their content. A colleague says labels can only be applied by content matching. What is the correct mechanism?",
+      "options": [
+        "A retention policy, because retention applies labels to sites",
+        "Labels can only be applied by content matching, so site-wide labelling is impossible",
+        "A default label for the site (or a SharePoint site label policy), which applies the label to all documents in that site by default",
+        "A DLP policy, because DLP applies labels to sites"
+      ],
+      "correct_index": 2,
+      "explanation": "Correct: C. Purview supports default labels for a site or library (and auto-labelling by location), so all documents in a SharePoint site can carry the label by default. B is wrong: content matching is one mechanism, not the only one. D is wrong: DLP does not apply labels. A is wrong: retention governs how long content is kept.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/sensitivity-labels",
+      "source_title": "Learn about sensitivity labels",
+      "source_quote": "\"Sensitivity labels from Microsoft Purview Information Protection let you classify and protect your organization's data, while making sure that user productivity and their ability to collaborate isn't hindered.\""
+    },
+    {
+      "id": "D4-PUR-022",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso's insider risk team wants to investigate a user who may be exfiltrating data, but they do not want the user to know they are under investigation. A colleague says insider risk alerts are visible to the user. What is the correct understanding?",
+      "options": [
+        "Insider risk only works if the user consents to monitoring",
+        "Insider risk alerts are visible to the user being investigated",
+        "Insider risk management is designed so that investigations are conducted by the insider risk team without notifying the user; alerts and case details are visible to authorised reviewers, not to the subject",
+        "The user is notified automatically as soon as a policy matches"
+      ],
+      "correct_index": 2,
+      "explanation": "Correct: C. Insider risk management is a reviewer-driven capability: alerts and cases are visible to the authorised insider risk team, and the subject is not notified by the system. B and D are wrong: the system does not alert the subject. A is wrong: insider risk operates under the organisation's policy and legal basis; it does not require per-user consent to function.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/dlp-adaptive-protection-learn",
+      "source_title": "Learn about Adaptive Protection in data loss prevention",
+      "source_quote": "\"Adaptive Protection in Microsoft Purview integrates Microsoft Purview Insider Risk Management with Microsoft Purview Data Loss Prevention (DLP).\""
+    },
+    {
+      "id": "D4-PUR-023",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso wants to block users from uploading files containing source code to a personal cloud storage service from their managed laptops. A colleague says DLP cannot see what users upload. What is the correct capability?",
+      "options": [
+        "A sensitivity label, because labels block uploads",
+        "A retention policy, because retention blocks uploads",
+        "DLP cannot see uploads, so the team must accept the risk",
+        "Endpoint DLP, which monitors and can block uploads of sensitive content (including source code, detected by a trainable classifier or sensitive information type) from managed devices to unapproved cloud services"
+      ],
+      "correct_index": 3,
+      "explanation": "Correct: D. Endpoint DLP monitors device actions and can block uploads of content matching a policy (for example, source code recognised by a trainable classifier) to unapproved cloud services. C is wrong: endpoint DLP exists for this. A is wrong: a label protects the file; it does not block the upload action. B is wrong: retention governs how long content is kept.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/dlp-learn-about-dlp",
+      "source_title": "Learn about data loss prevention",
+      "source_quote": "\"In Microsoft Purview, you implement data loss prevention by defining and applying DLP policies.\""
+    },
+    {
+      "id": "D4-PUR-024",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso's DLP policy uses a sensitive information type for credit card numbers. A document contains a 16-digit number that is a product code, not a credit card, and DLP blocks it. A colleague says sensitive information types cannot be tuned. What should the team do?",
+      "options": [
+        "Delete the DLP policy, because false positives mean it is broken",
+        "Apply a sensitivity label instead, because labels never produce false positives",
+        "Accept the false positives, because sensitive information types cannot be tuned",
+        "Tune the sensitive information type (for example, with supporting evidence such as keywords or a checksum validation) or adjust the policy conditions, because SITs support confidence levels and supporting evidence to reduce false positives"
+      ],
+      "correct_index": 3,
+      "explanation": "Correct: D. Sensitive information types support confidence levels and supporting evidence (keywords, patterns, checksum validation for card numbers) that reduce false positives; the team can tune the SIT or the policy conditions rather than accepting the block. C is wrong: SITs are tunable. A is wrong: a false positive is a tuning problem, not a reason to delete the policy. B is wrong: labels are a different control and do not replace DLP detection.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/dlp-learn-about-dlp",
+      "source_title": "Learn about data loss prevention",
+      "source_quote": "\"In Microsoft Purview, you implement data loss prevention by defining and applying DLP policies.\""
+    },
+    {
+      "id": "D4-PUR-025",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso wants to ensure that Teams meeting recordings containing sensitive discussion are retained for 2 years and cannot be deleted early by participants. A colleague says Teams recordings cannot be retained. What is the correct design?",
+      "options": [
+        "Teams recordings cannot be retained, so the team must accept the risk",
+        "A retention policy covering Teams (including meeting recordings stored in OneDrive/SharePoint) that retains the recordings for 2 years; retention preserves the content even when a participant deletes it",
+        "A sensitivity label, because labels retain recordings",
+        "A DLP policy, because DLP retains recordings"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: B. Retention policies cover Teams content, including meeting recordings stored in OneDrive/SharePoint, and preserve them for the retention period even when a participant deletes the recording. A is wrong: Teams recordings are retainable. C is wrong: a label protects content; it does not set retention. D is wrong: DLP enforces sharing restrictions; it does not set retention.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/retention",
+      "source_title": "Learn about retention policies and labels to retain or delete",
+      "source_quote": "\"Use a retention policy to assign the same retention settings for content at a site or mailbox level, and use a retention label to assign retention settings at an item level (folder, document, email).\""
+    },
+    {
+      "id": "D4-PUR-026",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso's compliance officer wants to run a report showing how many documents are labelled 'Confidential' and how many contain credit card numbers. A colleague says this requires a custom script. What should they use?",
+      "options": [
+        "The Secure Score, because it reports label counts",
+        "A Sentinel workbook, because it is the only reporting tool for Purview",
+        "A custom script, because Purview has no reporting for labels or sensitive information",
+        "Purview data classification reporting (content explorer and the data classification dashboard), which shows label usage and sensitive information type counts across the tenant"
+      ],
+      "correct_index": 3,
+      "explanation": "Correct: D. Purview's data classification dashboard and content explorer report label usage and sensitive information type distribution across the tenant's content, without a custom script. C is wrong: the reporting is built in. A is wrong: the Secure Score measures cloud posture. B is wrong: Sentinel workbooks visualise Log Analytics data, not Purview classification.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/sensitivity-labels",
+      "source_title": "Learn about sensitivity labels",
+      "source_quote": "\"Sensitivity labels from Microsoft Purview Information Protection let you classify and protect your organization's data, while making sure that user productivity and their ability to collaborate isn't hindered.\""
+    },
+    {
+      "id": "D4-PUR-027",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso wants to prevent a user from emailing a document to an external address when the document is labelled 'Internal Only'. A colleague says DLP cannot read labels. What is the correct design?",
+      "options": [
+        "A retention policy, because retention blocks external email",
+        "An insider risk policy, because insider risk blocks external email",
+        "DLP cannot read labels, so the team must rely on the label's encryption alone",
+        "A DLP policy with a condition on the sensitivity label ('Internal Only'), which blocks external sharing of content carrying that label; DLP policies can use labels as a condition"
+      ],
+      "correct_index": 3,
+      "explanation": "Correct: D. DLP policies can use a sensitivity label as a condition, so content labelled 'Internal Only' can be blocked from external sharing; the label's encryption and the DLP policy work together. C is wrong: DLP can use labels as conditions. A is wrong: retention governs how long content is kept. B is wrong: insider risk detects risk; it does not block email.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/dlp-learn-about-dlp",
+      "source_title": "Learn about data loss prevention",
+      "source_quote": "\"In Microsoft Purview, you implement data loss prevention by defining and applying DLP policies.\""
+    },
+    {
+      "id": "D4-PUR-028",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso's HR team needs to ensure that employee records are kept for 7 years after termination and then deleted, with a review before deletion. A colleague says retention can only delete immediately or keep forever. What is the correct design?",
+      "options": [
+        "Retention can only delete immediately or keep forever, so the HR requirement cannot be met",
+        "A retention label with a 7-year retention period and disposition review, so the records are kept for 7 years, reviewed before deletion, and then deleted",
+        "A sensitivity label, because labels control retention periods",
+        "A DLP policy, because DLP controls retention periods"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: B. A retention label (or retention policy) can retain content for a defined period (7 years) and, with disposition review, require a reviewer to approve deletion before it happens; retention is neither immediate deletion nor forever. A is wrong: retention supports defined periods and review. C is wrong: labels protect content; they do not set retention. D is wrong: DLP enforces sharing restrictions; it does not set retention.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/retention",
+      "source_title": "Learn about retention policies and labels to retain or delete",
+      "source_quote": "\"Use a retention policy to assign the same retention settings for content at a site or mailbox level, and use a retention label to assign retention settings at an item level (folder, document, email).\""
+    },
+    {
+      "id": "D4-PUR-029",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso wants to detect when a user downloads an unusually large number of files from SharePoint in a short period, as a possible exfiltration signal. A colleague proposes a Sentinel analytics rule on SharePoint audit logs. What is the Purview-native way to surface this, and how does it relate to the Sentinel approach?",
+      "options": [
+        "A sensitivity label, because labels detect mass downloads",
+        "A retention policy, because retention detects mass downloads",
+        "There is no Purview-native way; only Sentinel can detect this",
+        "Insider risk management, which can detect anomalous exfiltration activity (such as mass downloads) from audit and device signals and surface it as an alert; a Sentinel analytics rule on the same audit data is a complementary detection, and the two can both exist"
+      ],
+      "correct_index": 3,
+      "explanation": "Correct: D. Insider risk management is the Purview-native capability for detecting anomalous exfiltration (mass downloads, unusual access) and surfacing it for review; a Sentinel analytics rule over the same audit data is a valid complementary detection. C is wrong: insider risk exists for this. A is wrong: labels protect files; they do not detect downloads. B is wrong: retention governs how long content is kept.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/dlp-adaptive-protection-learn",
+      "source_title": "Learn about Adaptive Protection in data loss prevention",
+      "source_quote": "\"Adaptive Protection in Microsoft Purview integrates Microsoft Purview Insider Risk Management with Microsoft Purview Data Loss Prevention (DLP).\""
+    },
+    {
+      "id": "D4-PUR-030",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso's DLP policy blocks sharing of documents with SINs, but the SOC notices that users are sharing the same content via screenshots in Teams. A colleague says DLP is broken. What is the correct understanding, and what is the gap?",
+      "options": [
+        "Screenshots are automatically blocked by sensitivity labels",
+        "DLP is broken, because it should block screenshots",
+        "DLP enforces policy on the content it can inspect (files, messages, email); a screenshot is an image of the content that DLP's text-based detection may not recognise, so the gap is a data-protection boundary that DLP alone cannot close, and the team should consider endpoint controls and user training alongside DLP",
+        "DLP can block screenshots, but only if the policy is in enforce mode for Teams"
+      ],
+      "correct_index": 2,
+      "explanation": "Correct: C. DLP detects sensitive information in the content it inspects; a screenshot converts text into an image that text-based detection may not recognise, so DLP alone cannot reliably block that path. The gap is a known boundary: endpoint DLP, information barriers, and user awareness complement the policy. B is wrong: DLP is not broken; the screenshot path is outside its inspection. D is wrong: enforce mode does not make DLP recognise screenshots. A is wrong: labels protect the file; they do not block screenshots.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/dlp-learn-about-dlp",
+      "source_title": "Learn about data loss prevention",
+      "source_quote": "\"In Microsoft Purview, you implement data loss prevention by defining and applying DLP policies.\""
+    },
+    {
+      "id": "D4-PUR-031",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso wants to ensure that when an employee leaves, their OneDrive files are retained for 90 days for handover and then deleted. A colleague says OneDrive retention cannot be configured. What is the correct design?",
+      "options": [
+        "A retention policy for OneDrive that retains the content for 90 days after the user leaves, after which the content is deleted; retention policies can cover OneDrive and apply after account deletion",
+        "A sensitivity label, because labels control OneDrive retention after departure",
+        "A DLP policy, because DLP controls OneDrive retention after departure",
+        "OneDrive retention cannot be configured, so the files are deleted immediately"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: A. Retention policies cover OneDrive and can retain a departed user's content for a defined period (90 days) before deletion, which supports handover. D is wrong: OneDrive retention is configurable. B is wrong: labels protect content; they do not set retention. C is wrong: DLP enforces sharing restrictions; it does not set retention.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/retention",
+      "source_title": "Learn about retention policies and labels to retain or delete",
+      "source_quote": "\"Use a retention policy to assign the same retention settings for content at a site or mailbox level, and use a retention label to assign retention settings at an item level (folder, document, email).\""
+    },
+    {
+      "id": "D4-PUR-032",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso's legal team needs to place a hold on all content related to a specific project, across email and SharePoint, without changing retention policies. A colleague says a hold requires a retention policy change. What is the correct mechanism?",
+      "options": [
+        "An eDiscovery hold (or litigation hold) in Purview, which preserves the relevant content across Exchange and SharePoint without changing the underlying retention policies",
+        "A sensitivity label, because labels place holds",
+        "A DLP policy, because DLP places holds",
+        "A hold requires a retention policy change, so the team must edit the policy"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: A. An eDiscovery hold (litigation hold) preserves content in place for the legal matter without changing retention policies; it is the mechanism for a targeted legal hold. D is wrong: a hold does not require a retention policy change. B is wrong: labels protect content; they do not place legal holds. C is wrong: DLP enforces sharing restrictions; it does not place holds.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/retention",
+      "source_title": "Learn about retention policies and labels to retain or delete",
+      "source_quote": "\"Use a retention policy to assign the same retention settings for content at a site or mailbox level, and use a retention label to assign retention settings at an item level (folder, document, email).\""
+    },
+    {
+      "id": "D4-PUR-033",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso wants to use Microsoft Purview to govern data used by AI agents (Copilot agents) so that sensitive data is not exposed through agent responses. A colleague says Purview does not cover AI. What is the correct capability?",
+      "options": [
+        "A Sentinel analytics rule, because it governs AI agents",
+        "Purview does not cover AI, so the team must accept the risk",
+        "Purview for AI (including Purview for Agent 365), which extends data security and governance to AI agents and Copilot, applying DLP, labelling and insider risk controls to agent interactions",
+        "The Secure Score, because it governs AI agents"
+      ],
+      "correct_index": 2,
+      "explanation": "Correct: C. Purview extends data security to AI through capabilities such as Purview for Agent 365, which applies DLP, sensitivity labelling and insider risk controls to AI agent interactions so sensitive data is not exposed through agent responses. B is wrong: Purview does cover AI governance. D is wrong: the Secure Score measures cloud posture. A is wrong: analytics rules detect threats in log data; they do not govern AI agents.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/ai-agent-365",
+      "source_title": "Use Microsoft Purview to manage data security and compliance for Microsoft Agent 365",
+      "source_quote": "\"Microsoft Purview Data Loss Prevention (DLP) helps you identify sensitive items across Microsoft 365 services and endpoints, monitor them, and helps protect against leakage of those items.\""
+    },
+    {
+      "id": "D4-PUR-034",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso enables Purview's secure-by-default deployment model and expects all DLP policies to be enforced immediately across all locations. A colleague says secure-by-default enables everything at once. What is the correct understanding?",
+      "options": [
+        "Secure-by-default disables all Purview controls by default",
+        "Secure-by-default enables all DLP policies immediately across all locations",
+        "Secure-by-default is a staged deployment model that introduces Purview controls progressively (for example, starting with monitoring and then enforcement), so the team should follow the staged rollout rather than expecting immediate full enforcement",
+        "Secure-by-default only applies to retention, not DLP"
+      ],
+      "correct_index": 2,
+      "explanation": "Correct: C. Purview's secure-by-default deployment model is a staged approach that rolls out controls progressively, letting the team monitor impact before enforcing; it does not switch everything on at once. B is wrong: immediate full enforcement is not the model. D is wrong: the model covers the Purview data-security rollout broadly. A is wrong: it progressively enables controls, not disables them.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/deploymentmodels/depmod-secure-by-default-step2",
+      "source_title": "Step 2: Address files with the highest sensitivity - Secure by default with Microsoft Purview",
+      "source_quote": "\"Service-side labels apply to existing files in OneDrive and SharePoint, and in transport for emails.\""
+    },
+    {
+      "id": "D4-PUR-035",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso's DLP policy is configured for Exchange, but a user shares a sensitive file from SharePoint and it is not blocked. A colleague says DLP policies apply to all locations automatically. What is the correct explanation?",
+      "options": [
+        "A DLP policy only enforces on the locations (Exchange, SharePoint, OneDrive, Teams, endpoints, etc.) that are included in its scope; if SharePoint is not in scope, the share is not blocked",
+        "DLP only works for Exchange, so SharePoint sharing can never be blocked",
+        "DLP only works for SharePoint, so Exchange is the wrong location",
+        "DLP policies apply to all locations automatically, so the policy must be broken"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: A. DLP policies enforce only on the locations in scope; the policy must include SharePoint (and the relevant workload) for the share to be blocked. D is wrong: locations are scoped per policy. B and C are wrong: DLP covers both Exchange and SharePoint when they are in scope.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/dlp-learn-about-dlp",
+      "source_title": "Learn about data loss prevention",
+      "source_quote": "\"In Microsoft Purview, you implement data loss prevention by defining and applying DLP policies.\""
+    },
+    {
+      "id": "D4-PUR-036",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso wants to classify documents that contain a specific internal project name, but the name is not a standard sensitive information type. A colleague says custom classification is impossible. What should they do?",
+      "options": [
+        "Use the Secure Score, because it creates custom classifications",
+        "Use a Sentinel analytics rule, because it classifies documents",
+        "Accept that custom classification is impossible",
+        "Create a custom sensitive information type (or a custom trainable classifier) in Purview that recognises the project name pattern, so DLP and auto-labelling can act on it"
+      ],
+      "correct_index": 3,
+      "explanation": "Correct: D. Purview supports custom sensitive information types (pattern-based, with keywords and validation) and custom trainable classifiers, so the team can classify content by an internal project name and then use it in DLP and auto-labelling. C is wrong: custom classification is supported. A is wrong: the Secure Score measures cloud posture. B is wrong: analytics rules detect threats in log data; they do not classify documents.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/sensitivity-labels",
+      "source_title": "Learn about sensitivity labels",
+      "source_quote": "\"Sensitivity labels from Microsoft Purview Information Protection let you classify and protect your organization's data, while making sure that user productivity and their ability to collaborate isn't hindered.\""
+    },
+    {
+      "id": "D4-PUR-037",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso's insider risk policy flags a user, and Adaptive Protection tightens the DLP controls for that user. A colleague says Adaptive Protection applies the same controls to everyone once any user is flagged. What is the correct understanding?",
+      "options": [
+        "Adaptive Protection only works for the flagged user for 24 hours and then resets",
+        "Adaptive Protection replaces the insider risk policy once it triggers",
+        "Adaptive Protection applies the strictest controls to everyone once any user is flagged",
+        "Adaptive Protection adjusts DLP controls per user based on that user's risk level from insider risk management, so a flagged user gets tighter controls while low-risk users keep normal controls"
+      ],
+      "correct_index": 3,
+      "explanation": "Correct: D. Adaptive Protection is per-user and risk-based: it dynamically adjusts DLP controls for a user according to their insider risk level, so a high-risk user faces tighter controls while others are unaffected. C is wrong: the adjustment is per-user, not tenant-wide. A is wrong: there is no 24-hour reset. B is wrong: Adaptive Protection consumes the insider risk signal; it does not replace the policy.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/dlp-adaptive-protection-learn",
+      "source_title": "Learn about Adaptive Protection in data loss prevention",
+      "source_quote": "\"Adaptive Protection in Microsoft Purview integrates Microsoft Purview Insider Risk Management with Microsoft Purview Data Loss Prevention (DLP).\""
+    },
+    {
+      "id": "D4-PUR-038",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso wants to ensure that a document labelled 'Confidential' cannot be opened by a user who is not in the finance group, even if the file is emailed to them. A colleague says labels cannot enforce group-based access. What is the correct design?",
+      "options": [
+        "Labels cannot enforce group-based access, so the team must rely on SharePoint permissions alone",
+        "A sensitivity label with encryption that grants access to a specific group (for example, finance), so only members of that group can decrypt and open the file wherever it goes",
+        "A DLP policy, because DLP enforces group-based file access",
+        "A retention policy, because retention enforces group-based file access"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: B. A sensitivity label with encryption can grant access to a defined group, so only members of that group can open the file even if it is emailed outside the original location. A is wrong: labels can enforce group-based access through encryption. C is wrong: DLP controls sharing actions; it does not grant file-level access. D is wrong: retention governs how long content is kept.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/sensitivity-labels",
+      "source_title": "Learn about sensitivity labels",
+      "source_quote": "\"Sensitivity labels from Microsoft Purview Information Protection let you classify and protect your organization's data, while making sure that user productivity and their ability to collaborate isn't hindered.\""
+    },
+    {
+      "id": "D4-PUR-039",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso's compliance team wants to audit who accessed a specific sensitive document and when. A colleague says Purview cannot audit document access. What should they use?",
+      "options": [
+        "Microsoft Purview Audit (unified audit log), which records user and admin activity including document access, so the team can search for access to that document",
+        "The Secure Score, because it audits document access",
+        "A Sentinel hunting query, because it audits document access",
+        "Purview cannot audit document access, so the team must accept the gap"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: A. The Microsoft Purview Audit log (unified audit log) records user and admin activity, including document access, and is searchable for who accessed a specific document and when. D is wrong: the audit capability exists. B is wrong: the Secure Score measures cloud posture. C is wrong: Sentinel hunting queries search Log Analytics tables, not the Purview audit log.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/retention",
+      "source_title": "Learn about retention policies and labels to retain or delete",
+      "source_quote": "\"Use a retention policy to assign the same retention settings for content at a site or mailbox level, and use a retention label to assign retention settings at an item level (folder, document, email).\""
+    },
+    {
+      "id": "D4-PUR-040",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso wants to apply a retention policy to all Microsoft 365 content, but the team is worried it will delete content that is under a legal hold. A colleague says retention policies override holds. What is the correct understanding?",
+      "options": [
+        "Retention policies override holds and will delete content under a legal hold",
+        "A legal or eDiscovery hold preserves content and takes precedence: content under hold is not deleted by a retention policy until the hold is released",
+        "Holds only delay deletion by 30 days, after which the retention policy deletes the content",
+        "Retention policies do not apply to content under hold because holds disable the policy entirely"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: B. A hold preserves content: when content is under a litigation or eDiscovery hold, a retention policy's deletion does not remove it; the content is preserved until the hold is released. A is wrong: holds take precedence over deletion. C is wrong: holds preserve for the hold duration, not a fixed 30 days. D is wrong: the policy still applies to other content; the hold only protects the held items.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/retention",
+      "source_title": "Learn about retention policies and labels to retain or delete",
+      "source_quote": "\"Use a retention policy to assign the same retention settings for content at a site or mailbox level, and use a retention label to assign retention settings at an item level (folder, document, email).\""
+    },
+    {
+      "id": "D4-PUR-041",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso's DLP policy blocks external sharing of files containing SINs. A user renames the file and changes the extension to .txt, and the share is blocked anyway. A colleague is surprised the rename did not bypass DLP. Why did DLP still catch it?",
+      "options": [
+        "The file was already labelled, so the label blocked it, not DLP",
+        "DLP blocks all external sharing regardless of content",
+        "DLP inspects the content, not the file name or extension, so renaming does not change the sensitive information the policy detects",
+        "DLP blocks all .txt files, so the extension change triggered a different rule"
+      ],
+      "correct_index": 2,
+      "explanation": "Correct: C. DLP detection is content-based: it inspects the file's content for sensitive information types, so renaming the file or changing its extension does not bypass the policy. D is wrong: DLP does not block all .txt files. A is wrong: the block is a DLP content detection, not a label action. B is wrong: DLP blocks based on policy conditions, not all external sharing.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/dlp-learn-about-dlp",
+      "source_title": "Learn about data loss prevention",
+      "source_quote": "\"In Microsoft Purview, you implement data loss prevention by defining and applying DLP policies.\""
+    },
+    {
+      "id": "D4-PUR-042",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso wants to use Purview to find and remediate oversharing of sensitive SharePoint sites (sites shared with everyone in the organisation). A colleague says this is a Defender for Cloud task. What is the correct Purview capability?",
+      "options": [
+        "A Sentinel playbook, because it remediates oversharing",
+        "Defender for Cloud, because Purview cannot see SharePoint sharing",
+        "Purview data governance (data classification and content explorer) to identify sensitive content in over-shared sites, combined with SharePoint sharing governance to remediate the sharing",
+        "The Secure Score, because it remediates oversharing"
+      ],
+      "correct_index": 2,
+      "explanation": "Correct: C. Purview's data classification and content explorer identify where sensitive content lives, including in over-shared SharePoint sites, and the sharing can be remediated through SharePoint governance; Defender for Cloud is a cloud posture tool, not a SharePoint sharing governance tool. B is wrong: Purview can see the content and its context. D is wrong: the Secure Score measures cloud posture. A is wrong: playbooks respond to Sentinel incidents; they do not remediate SharePoint sharing.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/sensitivity-labels",
+      "source_title": "Learn about sensitivity labels",
+      "source_quote": "\"Sensitivity labels from Microsoft Purview Information Protection let you classify and protect your organization's data, while making sure that user productivity and their ability to collaborate isn't hindered.\""
+    },
+    {
+      "id": "D4-PUR-043",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso enables a new Purview feature announced in the 'What's new in Microsoft Purview' page, but the feature does not appear in the portal. A colleague says the feature is broken. What is the most likely explanation?",
+      "options": [
+        "The feature is broken, so the team should open a support case immediately",
+        "New Purview features roll out progressively and may require a specific licence or be in preview for a subset of tenants, so the team should check the rollout status, licensing, and preview requirements on the What's new page",
+        "The feature only appears in the Sentinel portal, not Purview",
+        "The feature requires a GitHub repository to enable it"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: B. Microsoft Purview features roll out progressively and often require specific licences or preview enrolment; the What's new page documents availability, so the team should check rollout and licensing before assuming a fault. A is wrong: a missing feature is usually a rollout or licensing matter, not a break. C is wrong: Purview features appear in the Purview portal. D is wrong: GitHub is unrelated to Purview feature enablement.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/whats-new",
+      "source_title": "What's new in Microsoft Purview",
+      "source_quote": "\"Endpoint data loss prevention (DLP) can now monitor sensitive data transferred over FTP and SFTP and apply restrictive actions based on your organization's requirements.\""
+    },
+    {
+      "id": "D4-PUR-044",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-purview",
+      "difficulty": "hard",
+      "question": "Contoso's security team wants a single view of its data security posture: which sensitive data exists, where it lives, how it is labelled, and whether DLP is blocking exfiltration. A colleague says this requires four separate tools. What is the correct Purview capability?",
+      "options": [
+        "Microsoft Purview's data security posture view (data classification dashboard, content explorer, DLP and insider risk reports), which together show sensitive data, its location, labelling and DLP enforcement in one governance surface",
+        "The Secure Score, because it is the data security posture view",
+        "A Sentinel workbook, because it is the only unified view",
+        "Four separate tools, because Purview has no unified data security view"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: A. Purview's data classification dashboard, content explorer, and DLP/insider risk reporting together provide the data security posture view: what sensitive data exists, where it lives, how it is labelled, and whether DLP is enforcing. D is wrong: Purview provides this as a unified governance surface. B is wrong: the Secure Score measures cloud posture, not data security posture. C is wrong: Sentinel workbooks visualise Log Analytics data, not Purview classification.",
+      "source_url": "https://learn.microsoft.com/en-us/purview/sensitivity-labels",
+      "source_title": "Learn about sensitivity labels",
+      "source_quote": "\"Sensitivity labels from Microsoft Purview Information Protection let you classify and protect your organization's data, while making sure that user productivity and their ability to collaborate isn't hindered.\""
+    }
+  ]
+}

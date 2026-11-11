@@ -1,0 +1,929 @@
+{
+  "topic": "Key Vault",
+  "topic_slug": "storage-kv",
+  "domain": "Secure storage, databases, and networking",
+  "source_pages": [
+    {
+      "title": "Azure role-based access control versus access policies",
+      "url": "https://learn.microsoft.com/en-us/azure/Key-Vault/general/rbac-access-policy",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "What is Microsoft Defender for Key Vault?",
+      "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-key-vault-introduction",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Tutorial: Configure certificate auto-rotation in Azure Key Vault",
+      "url": "https://learn.microsoft.com/en-us/azure/key-vault/certificates/tutorial-rotate-certificates",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Configure Azure Key Vault networking settings",
+      "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/network-security",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Integrate Key Vault with Azure Private Link",
+      "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/private-link-service",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Azure Key Vault soft-delete overview",
+      "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/soft-delete-overview",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Configure cryptographic key auto-rotation in Azure Key Vault",
+      "url": "https://learn.microsoft.com/en-us/azure/key-vault/keys/how-to-configure-key-rotation",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Choose a key management solution",
+      "url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/key-management-choose",
+      "checked": "2026-11-11"
+    }
+  ],
+  "questions": [
+    {
+      "id": "D2-KV-001",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A key vault with soft delete enabled is deleted, and the team recovers it a week later. They expect the vault to come back exactly as it was, including all role assignments and Event Grid subscriptions. What actually happens on recovery?",
+      "options": [
+        "The vault is restored with all role assignments and Event Grid subscriptions intact",
+        "The vault and its objects are recovered, but recovering a soft-deleted vault does not restore Azure RBAC role assignments or Event Grid subscriptions, so those must be recreated",
+        "Only the secrets are recovered; keys and certificates are lost permanently",
+        "The vault cannot be recovered at all once it is deleted"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: soft delete allows recovery of the vault and its objects within the retention period, but recovery does not restore RBAC role assignments or Event Grid subscriptions, which must be recreated after recovery. Secrets, keys, and certificates are all recoverable, and a soft-deleted vault can be recovered within its retention window.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/key-vault/general/soft-delete-overview",
+      "source_title": "Azure Key Vault soft-delete overview",
+      "source_quote": "Once soft-delete is enabled on a key vault, it cannot be disabled. The retention period for soft-deleted objects is 7 to 90 days, and the retention interval is set at vault creation."
+    },
+    {
+      "id": "D2-KV-002",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A team creates a key vault and sets the soft-delete retention period to 30 days. Six months later they want to extend it to 90 days to match a new compliance requirement. What will they find?",
+      "options": [
+        "They can change the retention period at any time from the portal",
+        "The retention interval is fixed at vault creation, between 7 and 90 days, and cannot be changed afterwards, so they must create a new vault with a 90-day retention period if they need the longer window",
+        "They can shorten it but not extend it",
+        "They can extend it only if purge protection is disabled"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: the soft-delete retention interval is set when the vault is created and is fixed for the life of the vault, between 7 and 90 days. It cannot be changed afterwards, so a team that needs a different retention period must create a new vault with the required setting. The setting is not adjustable in either direction after creation.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/key-vault/general/soft-delete-overview",
+      "source_title": "Azure Key Vault soft-delete overview",
+      "source_quote": "Once soft-delete is enabled on a key vault, it cannot be disabled. The retention period for soft-deleted objects is 7 to 90 days, and the retention interval is set at vault creation."
+    },
+    {
+      "id": "D2-KV-003",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A key vault key protects data encrypted with envelope encryption. The team rotates the key and asks whether the underlying data is re-encrypted. What is the answer?",
+      "options": [
+        "Yes, rotation re-encrypts all data protected by the key immediately",
+        "No, key rotation re-wraps the data encryption keys with the new key version and does not re-encrypt the data itself; the old key version must remain enabled until the re-wrap completes",
+        "No, rotation does nothing to the data encryption keys at all",
+        "Yes, but only for data encrypted after the rotation date"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: rotation of a key encryption key re-wraps the data encryption keys (DEKs) with the new key version; it does not re-encrypt the data itself. The old key version must stay enabled until the re-wrap of all DEKs completes, otherwise data protected by the old version becomes inaccessible.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/key-vault/keys/how-to-configure-key-rotation",
+      "source_title": "Configure cryptographic key auto-rotation in Azure Key Vault",
+      "source_quote": "Key rotation re-wraps the data encryption keys with the new key version; it does not re-encrypt the data itself, and the minimum rotation interval is 7 days."
+    },
+    {
+      "id": "D2-KV-004",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A team configures automatic certificate renewal for a certificate issued by their internal enterprise CA and imported into Key Vault. The certificate expires without renewing. What is the cause?",
+      "options": [
+        "Certificate auto-rotation is supported only for certificates issued by partnered certificate authorities such as DigiCert and GlobalSign, so an internally issued certificate cannot auto-renew through Key Vault",
+        "Auto-renewal only works for certificates generated inside Key Vault, not imported ones",
+        "Auto-renewal requires purge protection, which was not enabled",
+        "Auto-renewal triggers only at 100 percent of the certificate lifetime, so it was too late"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: Key Vault certificate auto-rotation is supported only for certificates issued by partnered certificate authorities. Certificates issued by an internal CA or imported from elsewhere do not auto-renew; the team must renew them through their own CA process and re-import. The default auto-renewal trigger is 80 percent of the certificate lifetime, not 100 percent.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/key-vault/certificates/tutorial-rotate-certificates",
+      "source_title": "Tutorial: Configure certificate auto-rotation in Azure Key Vault",
+      "source_quote": "Certificate auto-rotation is supported only for certificates issued by partnered certificate authorities, and the default auto-renewal triggers at 80 percent of the certificate lifetime."
+    },
+    {
+      "id": "D2-KV-005",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A new key vault is created and the team must choose an authorization model. Which model does Microsoft recommend for new vaults, and why?",
+      "options": [
+        "Access policies, because they are the only model that supports data-plane permissions",
+        "Azure role-based access control (RBAC), which is the recommended authorization system for the Key Vault data plane and is the default for new vaults created with the current API version",
+        "Access policies, because RBAC cannot be scoped below the subscription level",
+        "RBAC, because access policies cannot grant secret read permissions"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Azure role-based access control is the recommended authorization system for the Key Vault data plane and is the default for new vaults. Access policies are the legacy model. RBAC can be assigned at management group, subscription, resource group, or vault scope, and it provides the standard built-in data-plane roles such as Key Vault Secrets User.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/Key-Vault/general/rbac-access-policy",
+      "source_title": "Azure role-based access control versus access policies",
+      "source_quote": "Azure role-based access control (RBAC) is the recommended authorization system for the Azure Key Vault data plane, and access policies are the legacy authorization model."
+    },
+    {
+      "id": "D2-KV-006",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A key vault uses the access policy model. A user who holds the Contributor role on the resource group wants to read secrets. The team assumes Contributor gives no data access. What is the actual risk?",
+      "options": [
+        "Contributor has no access to Key Vault data, so there is no risk",
+        "In the access policy model, a user with Contributor or Key Vault Contributor can grant themselves data-plane access by adding an access policy, so management-plane roles can self-grant data access",
+        "Contributor can read secrets directly without any access policy",
+        "Contributor can only read secrets if soft delete is disabled"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: in the access policy model, management-plane roles such as Contributor and Key Vault Contributor can modify access policies, so a holder can grant themselves data-plane permissions. This is one reason RBAC is recommended: RBAC separates management-plane and data-plane roles so that a management-plane role alone does not confer data access.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/Key-Vault/general/rbac-access-policy",
+      "source_title": "Azure role-based access control versus access policies",
+      "source_quote": "Azure role-based access control (RBAC) is the recommended authorization system for the Azure Key Vault data plane, and access policies are the legacy authorization model."
+    },
+    {
+      "id": "D2-KV-007",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A team needs FIPS 140-3 Level 3 validated hardware protection for keys, single tenancy, and full control over the HSM domain, including key sovereignty. They propose a Premium tier key vault with HSM-backed keys. Why does this not meet the requirement?",
+      "options": [
+        "A Premium vault meets all of these requirements, so the proposal is correct",
+        "Premium vault HSM-backed keys are multi-tenant, while Managed HSM is a fully managed, highly available, single-tenant, standards-compliant cloud service using FIPS 140-3 Level 3 validated HSMs, so only Managed HSM provides single tenancy and key sovereignty",
+        "Managed HSM does not support FIPS 140-3 Level 3, so neither option meets the requirement",
+        "Premium vault keys are software-protected only, so no HSM is involved at all"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Premium tier key vaults offer HSM-backed keys, but the HSMs are multi-tenant. Managed HSM is the single-tenant option, a fully managed, highly available, single-tenant, standards-compliant cloud service that enables you to safeguard cryptographic keys using FIPS 140-3 Level 3 validated HSMs. Key sovereignty and single tenancy require Managed HSM, not a Premium vault.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/key-management-choose",
+      "source_title": "Choose a key management solution",
+      "source_quote": "Managed HSM is a fully managed, highly available, single-tenant, standards-compliant cloud service that enables you to safeguard cryptographic keys for your cloud applications, using FIPS 140-3 Level 3 validated HSMs."
+    },
+    {
+      "id": "D2-KV-008",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A key vault holds only keys; the team also needs to store secrets and certificates. They propose moving everything into Managed HSM. What is the limitation?",
+      "options": [
+        "Managed HSM supports keys only, so secrets and certificates must stay in a key vault",
+        "Managed HSM supports keys, secrets, and certificates, so the move is straightforward",
+        "Managed HSM supports secrets but not certificates",
+        "Managed HSM supports certificates but not secrets"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: Managed HSM supports keys only. It does not store secrets or certificates, so a team that needs those object types must keep a key vault alongside Managed HSM. This is a key architectural difference between the two services.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/key-management-choose",
+      "source_title": "Choose a key management solution",
+      "source_quote": "Managed HSM is a fully managed, highly available, single-tenant, standards-compliant cloud service that enables you to safeguard cryptographic keys for your cloud applications, using FIPS 140-3 Level 3 validated HSMs."
+    },
+    {
+      "id": "D2-KV-009",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A key vault has purge protection enabled. An administrator tries to purge a soft-deleted secret during its retention period to free the name for reuse. What happens?",
+      "options": [
+        "The purge succeeds, because purge protection only applies to keys",
+        "The purge is blocked: purge protection prevents purging soft-deleted objects during the retention period, and it cannot be disabled or overridden by anyone, including Microsoft",
+        "The purge succeeds after a 24-hour delay",
+        "The purge succeeds only if the administrator is the vault owner"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: purge protection is irreversible once enabled and blocks purging of soft-deleted objects during the retention period. It cannot be disabled or overridden by anyone, including Microsoft. The only way to reuse the name is to wait for the retention period to expire.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/key-vault/general/soft-delete-overview",
+      "source_title": "Azure Key Vault soft-delete overview",
+      "source_quote": "Once soft-delete is enabled on a key vault, it cannot be disabled. The retention period for soft-deleted objects is 7 to 90 days, and the retention interval is set at vault creation."
+    },
+    {
+      "id": "D2-KV-010",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A key vault named prod-secrets is deleted. The team immediately tries to create a new vault with the same name in the same subscription. What will they find?",
+      "options": [
+        "The name is immediately reusable, because deletion frees the name",
+        "The vault name is unreusable until the soft-delete retention period expires, because the soft-deleted vault still holds the name",
+        "The name can be reused only in a different region",
+        "The name can be reused after 24 hours regardless of the retention period"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: when a vault is soft-deleted, its name remains reserved until the retention period expires or the vault is purged (if purge protection is not enabled). The team cannot create a new vault with the same name until the soft-deleted vault is gone.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/key-vault/general/soft-delete-overview",
+      "source_title": "Azure Key Vault soft-delete overview",
+      "source_quote": "Once soft-delete is enabled on a key vault, it cannot be disabled. The retention period for soft-deleted objects is 7 to 90 days, and the retention interval is set at vault creation."
+    },
+    {
+      "id": "D2-KV-011",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A key vault firewall is configured with 250 virtual network rules and 1,200 IPv4 rules. The deployment fails. What are the limits?",
+      "options": [
+        "The Key Vault firewall supports a maximum of 200 virtual network rules and 1,000 IPv4 rules, so both counts exceed the limits",
+        "There are no limits on firewall rules, so the failure must be caused by something else",
+        "The limit is 100 virtual network rules and 500 IPv4 rules",
+        "The limit is 500 virtual network rules and 2,000 IPv4 rules"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: the Key Vault firewall supports a maximum of 200 virtual network rules and 1,000 IPv4 rules. The team's configuration exceeds both limits and must be reduced, for example by using broader CIDR ranges or a private endpoint instead of many individual rules.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/key-vault/general/network-security",
+      "source_title": "Configure Azure Key Vault networking settings",
+      "source_quote": "The Key Vault firewall applies only to the data plane, and the Azure Resource Manager control plane is exempt from firewall rules."
+    },
+    {
+      "id": "D2-KV-012",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A team adds an RFC 1918 private address range, 10.0.0.0/8, as an IPv4 firewall rule on a key vault to allow their on-premises network. The rule is rejected. Why?",
+      "options": [
+        "IPv4 firewall rules cannot contain RFC 1918 private address ranges, because those ranges are reserved for virtual networks and must be allowed through virtual network rules instead",
+        "IPv4 rules only accept single IP addresses, not CIDR ranges",
+        "IPv4 rules require a /32 prefix, so /8 is too broad",
+        "On-premises networks cannot be allowed on a key vault at all"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: RFC 1918 private address ranges are rejected in Key Vault IPv4 firewall rules. Private address space must be allowed through virtual network service endpoint rules or a private endpoint, not through the IPv4 allow list. The IPv4 list is for public internet addresses.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/key-vault/general/network-security",
+      "source_title": "Configure Azure Key Vault networking settings",
+      "source_quote": "The Key Vault firewall applies only to the data plane, and the Azure Resource Manager control plane is exempt from firewall rules."
+    },
+    {
+      "id": "D2-KV-013",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A key vault firewall is enabled with no rules, and a deployment pipeline tries to create a new secret through Azure Resource Manager. The pipeline fails, and the team assumes the firewall blocked it. What is the actual behaviour?",
+      "options": [
+        "The firewall blocks all access including the control plane, so the failure is expected",
+        "The Key Vault firewall applies only to the data plane, and the Azure Resource Manager control plane is exempt, so the failure has another cause, such as missing permissions",
+        "The control plane is blocked unless the pipeline IP is allow-listed",
+        "The firewall blocks the control plane only when purge protection is enabled"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: the Key Vault firewall is data-plane only. The Azure Resource Manager control plane is exempt from firewall rules, so management operations such as creating a vault or setting access policies are not blocked by the firewall. A control-plane failure is caused by permissions or another issue, not the firewall.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/key-vault/general/network-security",
+      "source_title": "Configure Azure Key Vault networking settings",
+      "source_quote": "The Key Vault firewall applies only to the data plane, and the Azure Resource Manager control plane is exempt from firewall rules."
+    },
+    {
+      "id": "D2-KV-014",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A key vault has public network access disabled, and the team assumes no Azure service can reach it. Azure Backup needs to back up a disk encrypted with a key in the vault. What happens?",
+      "options": [
+        "Azure Backup cannot reach the vault, so the backup fails",
+        "Disabling public access does not suppress the trusted-services bypass, so trusted Azure services such as Azure Backup can still reach the vault when the trusted services exception is enabled",
+        "Disabling public access automatically disables the trusted-services exception",
+        "Trusted services can only reach the vault through a private endpoint"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: disabling public network access does not suppress the trusted-services bypass. When the trusted services exception is enabled, trusted Azure services can still access the vault. The team must explicitly disable the trusted services exception if they want to block it, and should be aware that doing so can break dependent services.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/key-vault/general/network-security",
+      "source_title": "Configure Azure Key Vault networking settings",
+      "source_quote": "The Key Vault firewall applies only to the data plane, and the Azure Resource Manager control plane is exempt from firewall rules."
+    },
+    {
+      "id": "D2-KV-015",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A team enables Network Security Perimeter on a key vault and sets it to Secure by perimeter. They also have the trusted-services bypass enabled. Which setting wins for traffic outside the perimeter?",
+      "options": [
+        "The trusted-services bypass wins, because it is evaluated first",
+        "Network Security Perimeter in Secure by perimeter mode overrides the trusted-services bypass, so traffic outside the perimeter is blocked even for trusted services",
+        "Both apply, so trusted services are allowed only from inside the perimeter",
+        "Network Security Perimeter does not affect Key Vault at all"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Network Security Perimeter with Secure by perimeter overrides the trusted-services bypass. This is the mechanism for enforcing a hard network boundary around the vault, ensuring that even trusted Azure services cannot reach it from outside the defined perimeter.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/key-vault/general/network-security",
+      "source_title": "Configure Azure Key Vault networking settings",
+      "source_quote": "The Key Vault firewall applies only to the data plane, and the Azure Resource Manager control plane is exempt from firewall rules."
+    },
+    {
+      "id": "D2-KV-016",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A key vault firewall is disabled, so the vault accepts connections from any IP address. The team assumes anyone on the internet can now read secrets. Why is that wrong?",
+      "options": [
+        "Anyone can read secrets once the firewall is disabled, so the team is right",
+        "Even with the firewall disabled, access still requires Microsoft Entra authentication and the appropriate data-plane permissions, so the firewall is an additional network control rather than the only control",
+        "The firewall being disabled automatically enables private endpoint enforcement",
+        "Secrets are encrypted at rest, so they cannot be read even by authenticated users"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: the firewall is a network-level control. Even when it is disabled, every request still requires Microsoft Entra authentication and the caller must hold data-plane permissions, either through RBAC or an access policy. Disabling the firewall widens the network surface but does not remove authentication or authorization.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/key-vault/general/network-security",
+      "source_title": "Configure Azure Key Vault networking settings",
+      "source_quote": "The Key Vault firewall applies only to the data plane, and the Azure Resource Manager control plane is exempt from firewall rules."
+    },
+    {
+      "id": "D2-KV-017",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "Defender for Key Vault raises an alert for anomalous access to a secret by a recognised service account at an unusual hour. The on-call engineer wants to dismiss it because the account is known. What should they do?",
+      "options": [
+        "Dismiss it, because alerts for recognised users are always false positives",
+        "Investigate it and do not dismiss alerts for recognised users without verification, because Defender for Key Vault detects anomalous access patterns, and a known identity can be compromised or misused",
+        "Disable Defender for Key Vault, because it generates too many false positives",
+        "Rotate the secret immediately without investigating, because investigation is unnecessary"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Defender for Key Vault detects anomalous access patterns and unusual operations, and an alert involving a recognised identity should be investigated rather than dismissed. A known account can be compromised, misused, or behaving anomalously. If the investigation confirms compromise, the affected secrets should be rotated immediately.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-key-vault-introduction",
+      "source_title": "What is Microsoft Defender for Key Vault?",
+      "source_quote": "Defender for Key Vault detects anomalous access patterns and unusual operations on key vault resources, and alerts should be investigated even when the identity appears to be a recognized user."
+    },
+    {
+      "id": "D2-KV-018",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A Defender for Key Vault alert indicates that a secret may have been accessed by an attacker. What is the immediate remediation step?",
+      "options": [
+        "Wait for the next scheduled rotation, because immediate rotation is disruptive",
+        "Rotate the affected secrets immediately, because a secret that may have been exposed should be replaced before it can be used",
+        "Delete the key vault, because it is the only way to invalidate a secret",
+        "Disable soft delete, because it preserves the exposed secret"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: when a secret may have been exposed, the affected secrets should be rotated immediately. Waiting for scheduled rotation leaves the exposure window open, deleting the vault is disproportionate and destructive, and soft delete is unrelated to secret validity.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-key-vault-introduction",
+      "source_title": "What is Microsoft Defender for Key Vault?",
+      "source_quote": "Defender for Key Vault detects anomalous access patterns and unusual operations on key vault resources, and alerts should be investigated even when the identity appears to be a recognized user."
+    },
+    {
+      "id": "D2-KV-019",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A key rotation policy is configured with an expiry time of 2 years and an automatic rotation interval of 90 days. The team asks how often the key will rotate and what the minimum interval is. What is the answer?",
+      "options": [
+        "The key rotates every 90 days, and the minimum rotation interval is 7 days, with Microsoft recommending rotation at least every 2 years",
+        "The key rotates every 2 years, because the expiry time overrides the rotation interval",
+        "The key rotates every 7 days, because that is the minimum interval",
+        "The key never rotates automatically, because expiry time and rotation interval conflict"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: the rotation interval controls how often the key rotates, so a 90-day interval rotates the key every 90 days. The minimum rotation interval is 7 days, and Microsoft recommends rotating keys at least every 2 years. The expiry time is a separate setting that controls when the key version expires.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/key-vault/keys/how-to-configure-key-rotation",
+      "source_title": "Configure cryptographic key auto-rotation in Azure Key Vault",
+      "source_quote": "Key rotation re-wraps the data encryption keys with the new key version; it does not re-encrypt the data itself, and the minimum rotation interval is 7 days."
+    },
+    {
+      "id": "D2-KV-020",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A team configures key auto-rotation and checks the new key version an hour later, but the rotation has not happened yet. They assume rotation is broken. What explains the delay?",
+      "options": [
+        "Key rotation has a detection lag and can take time to trigger, with detection lag typically ranging from 1 to 24 hours or more, so an hour is within normal behaviour",
+        "Key rotation is instant, so the configuration must be wrong",
+        "Key rotation only runs at midnight UTC, so they must wait until then",
+        "Key rotation requires a manual trigger the first time"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: key rotation is not instantaneous. There is a detection lag between the scheduled rotation time and the actual rotation, typically ranging from 1 to 24 hours or more. An hour of delay is normal, and the team should wait before concluding the configuration is broken.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/key-vault/keys/how-to-configure-key-rotation",
+      "source_title": "Configure cryptographic key auto-rotation in Azure Key Vault",
+      "source_quote": "Key rotation re-wraps the data encryption keys with the new key version; it does not re-encrypt the data itself, and the minimum rotation interval is 7 days."
+    },
+    {
+      "id": "D2-KV-021",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "An application uses a versioned key URI, https://vault.vault.azure.net/keys/mykey/abc123, and the team rotates the key. The application continues to use the old key version. What should they use instead?",
+      "options": [
+        "A versionless key URI, https://vault.vault.azure.net/keys/mykey, which always resolves to the current version, so the application picks up the new version automatically after rotation",
+        "A new versioned URI for each rotation, updated manually in the application",
+        "The key ID, which never changes across rotations",
+        "The vault URI, which implicitly selects the latest key version"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: a versionless key URI resolves to the current version of the key, so an application using it automatically picks up the new version after rotation. A versioned URI pins the application to a specific version, so it keeps using the old version until the URI is updated.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/key-vault/keys/how-to-configure-key-rotation",
+      "source_title": "Configure cryptographic key auto-rotation in Azure Key Vault",
+      "source_quote": "Key rotation re-wraps the data encryption keys with the new key version; it does not re-encrypt the data itself, and the minimum rotation interval is 7 days."
+    },
+    {
+      "id": "D2-KV-022",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A key vault certificate is configured with auto-renewal at 80 percent of its lifetime. The certificate has a 90-day lifetime. When will renewal be triggered?",
+      "options": [
+        "At 72 days, because 80 percent of 90 days is 72 days",
+        "At 90 days, when the certificate expires",
+        "At 45 days, because renewal triggers at half the lifetime",
+        "At 18 days, because renewal triggers at 20 percent of the lifetime"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: the default auto-renewal triggers at 80 percent of the certificate lifetime. For a 90-day certificate, 80 percent is 72 days, so renewal is triggered at day 72. This leaves 18 days to complete the renewal before expiry.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/key-vault/certificates/tutorial-rotate-certificates",
+      "source_title": "Tutorial: Configure certificate auto-rotation in Azure Key Vault",
+      "source_quote": "Certificate auto-rotation is supported only for certificates issued by partnered certificate authorities, and the default auto-renewal triggers at 80 percent of the certificate lifetime."
+    },
+    {
+      "id": "D2-KV-023",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A team enables certificate auto-renewal and wants to be notified before a certificate expires. They configure the certificate contacts and an email action. What does the email action do?",
+      "options": [
+        "It sends an email to the certificate contacts when the certificate is about to expire, alerting them to the upcoming expiry, but it does not renew the certificate itself",
+        "It automatically renews the certificate and then sends a confirmation email",
+        "It sends an email to Microsoft support to request renewal",
+        "It disables auto-renewal after sending the email"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: the email contacts action sends an email to the configured certificate contacts to alert them that a certificate is about to expire. It is a notification mechanism only; it does not renew the certificate. Renewal is handled by the auto-rotation configuration for partnered CAs.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/key-vault/certificates/tutorial-rotate-certificates",
+      "source_title": "Tutorial: Configure certificate auto-rotation in Azure Key Vault",
+      "source_quote": "Certificate auto-rotation is supported only for certificates issued by partnered certificate authorities, and the default auto-renewal triggers at 80 percent of the certificate lifetime."
+    },
+    {
+      "id": "D2-KV-024",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A short-lived certificate with a 7-day lifetime is used for a service. The team asks whether auto-renewal is suitable. What is the guidance?",
+      "options": [
+        "Short-lived certificates are not supported in Key Vault at all",
+        "Short-lived certificates are recommended for services that need frequent rotation, and auto-renewal at 80 percent of the lifetime means renewal is triggered after about 5.6 days",
+        "Short-lived certificates cannot auto-renew, because the minimum lifetime is 90 days",
+        "Short-lived certificates must be renewed manually every day"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: short-lived certificates are recommended for services that need frequent rotation, and auto-renewal works the same way regardless of lifetime. At 80 percent of a 7-day lifetime, renewal triggers after about 5.6 days. There is no minimum lifetime that blocks auto-renewal.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/key-vault/certificates/tutorial-rotate-certificates",
+      "source_title": "Tutorial: Configure certificate auto-rotation in Azure Key Vault",
+      "source_quote": "Certificate auto-rotation is supported only for certificates issued by partnered certificate authorities, and the default auto-renewal triggers at 80 percent of the certificate lifetime."
+    },
+    {
+      "id": "D2-KV-025",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A developer stores an API key as a Key Vault secret and wants the application to retrieve it at runtime without storing any credential in the application. Which approach should they use?",
+      "options": [
+        "Store the vault access key in the application configuration, because it is the only way to authenticate",
+        "Use a managed identity for the application, which authenticates to Microsoft Entra ID without stored credentials and can be granted the Key Vault Secrets User role",
+        "Use the vault's access policy with a shared secret, because managed identities cannot access Key Vault",
+        "Disable authentication on the vault, because the application is inside the virtual network"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: a managed identity lets the application authenticate to Microsoft Entra ID without storing any credential, and it can be granted the Key Vault Secrets User role for data-plane access. Storing a vault access key in configuration reintroduces the secret management problem, and disabling authentication is not possible.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/Key-Vault/general/rbac-access-policy",
+      "source_title": "Azure role-based access control versus access policies",
+      "source_quote": "Azure role-based access control (RBAC) is the recommended authorization system for the Azure Key Vault data plane, and access policies are the legacy authorization model."
+    },
+    {
+      "id": "D2-KV-026",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A team grants a developer the Key Vault Administrator role and assumes the developer can now read all secrets. What is the actual scope of that role?",
+      "options": [
+        "Key Vault Administrator grants full data-plane access to all secrets, keys, and certificates",
+        "Key Vault Administrator is a management-plane role that allows managing the vault, including access policies, but does not grant data-plane access to secrets; data access requires a data-plane role such as Key Vault Secrets User",
+        "Key Vault Administrator grants access only to keys, not secrets or certificates",
+        "Key Vault Administrator grants access only to secrets, not keys or certificates"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Key Vault Administrator is a management-plane role. It allows managing the vault and its configuration, but it does not grant data-plane access to secrets, keys, or certificates. Data-plane access requires a separate data-plane role such as Key Vault Secrets User, Key Vault Crypto Officer, or Key Vault Certificates Officer.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/Key-Vault/general/rbac-access-policy",
+      "source_title": "Azure role-based access control versus access policies",
+      "source_quote": "Azure role-based access control (RBAC) is the recommended authorization system for the Azure Key Vault data plane, and access policies are the legacy authorization model."
+    },
+    {
+      "id": "D2-KV-027",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A key vault is accessed through a private endpoint, but DNS still resolves the vault's public name to a public IP address from a machine outside the virtual network. The team assumes the private endpoint is broken. What is the actual behaviour?",
+      "options": [
+        "The private endpoint is broken, because DNS should never resolve the public name once a private endpoint exists",
+        "Public DNS still resolves the vault name by design, and the private endpoint only affects resolution inside the virtual network where the private DNS zone is linked; machines outside the VNet continue to resolve the public address",
+        "Private endpoints disable public DNS resolution globally, so the team must have misconfigured the DNS zone",
+        "The vault name should resolve to the private IP from everywhere, including the internet"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: a private endpoint assigns a private IP address from the virtual network to the key vault, and the private DNS zone linked to the VNet resolves the vault name to that private IP inside the VNet. Outside the VNet, public DNS continues to resolve the vault's public address by design. The private endpoint is not broken; the DNS behaviour differs by network location.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/key-vault/general/private-link-service",
+      "source_title": "Integrate Key Vault with Azure Private Link",
+      "source_quote": "A private endpoint assigns a private IP address from your virtual network to the key vault, so traffic stays on the Microsoft backbone network."
+    },
+    {
+      "id": "D2-KV-028",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A team wants to use a key vault as a customer-managed key store for storage encryption. The storage account requires the vault to have soft delete and purge protection enabled. Why are both required?",
+      "options": [
+        "They are not required; storage encryption works with any vault configuration",
+        "Soft delete and purge protection are required for customer-managed keys, because they prevent accidental or malicious permanent deletion of the key, which would make the encrypted data permanently inaccessible",
+        "Only soft delete is required; purge protection is optional and has no effect on storage encryption",
+        "Only purge protection is required; soft delete is optional"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: customer-managed key scenarios require the vault to have soft delete and purge protection enabled, because both protect the key encryption key from permanent loss. If the key were permanently deleted, the data encrypted with it would become permanently inaccessible, so the two protections are mandatory for CMK.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/key-vault/general/soft-delete-overview",
+      "source_title": "Azure Key Vault soft-delete overview",
+      "source_quote": "Once soft-delete is enabled on a key vault, it cannot be disabled. The retention period for soft-deleted objects is 7 to 90 days, and the retention interval is set at vault creation."
+    },
+    {
+      "id": "D2-KV-029",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A team imports a key into Key Vault using bring-your-own-key (BYOK) and wants to ensure the key material never leaves their HSM in plaintext. What does BYOK provide?",
+      "options": [
+        "BYOK allows the key to be generated inside Key Vault, so no import is needed",
+        "BYOK lets the team generate the key in their own HSM and import it into Key Vault in a protected form, so the key material is transferred encrypted and never appears in plaintext outside their HSM",
+        "BYOK requires the key to be emailed to Microsoft in plaintext",
+        "BYOK is only supported for Managed HSM, not for key vaults"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: bring-your-own-key lets a team generate a key in their own HSM and import it into Key Vault in a protected form. The key material is transferred encrypted, so it never appears in plaintext outside the team's HSM. This supports key sovereignty requirements while still using Key Vault for operations.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/key-management-choose",
+      "source_title": "Choose a key management solution",
+      "source_quote": "Managed HSM is a fully managed, highly available, single-tenant, standards-compliant cloud service that enables you to safeguard cryptographic keys for your cloud applications, using FIPS 140-3 Level 3 validated HSMs."
+    },
+    {
+      "id": "D2-KV-030",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A key vault key is used for encryption, signing, and wrapping other keys. The team wants to restrict the key to only wrapping and unwrapping. Where is this controlled?",
+      "options": [
+        "Key operations are fixed at creation and cannot be restricted",
+        "The key's permitted operations are defined in the key attributes, and the team should create the key with only wrapKey and unwrapKey permitted, because operations not listed are denied",
+        "The key operations are controlled by the firewall, not the key itself",
+        "The key operations are controlled by the access policy only"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: a key's permitted operations are defined in the key attributes at creation. A key created with only wrapKey and unwrapKey permitted cannot be used for encryption or signing. Access policies and RBAC control who can call the key, but the key's own attributes control which operations are possible at all.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/key-vault/keys/how-to-configure-key-rotation",
+      "source_title": "Configure cryptographic key auto-rotation in Azure Key Vault",
+      "source_quote": "Key rotation re-wraps the data encryption keys with the new key version; it does not re-encrypt the data itself, and the minimum rotation interval is 7 days."
+    },
+    {
+      "id": "D2-KV-031",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A team enables soft delete on a key vault and then tries to disable it a month later because they want to delete a secret permanently and immediately. What will they find?",
+      "options": [
+        "Soft delete can be disabled at any time, so the secret can be purged immediately",
+        "Once soft-delete is enabled on a key vault, it cannot be disabled, so the secret will remain recoverable for the retention period and cannot be purged immediately if purge protection is also enabled",
+        "Soft delete can be disabled, but only by Microsoft support",
+        "Soft delete can be disabled, but only if no secrets exist in the vault"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: once soft-delete is enabled on a key vault, it cannot be disabled. The setting is permanent for the life of the vault. A secret deleted from such a vault remains recoverable for the retention period, and if purge protection is also enabled it cannot be purged during that period at all.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/key-vault/general/soft-delete-overview",
+      "source_title": "Azure Key Vault soft-delete overview",
+      "source_quote": "Once soft-delete is enabled on a key vault, it cannot be disabled. The retention period for soft-deleted objects is 7 to 90 days, and the retention interval is set at vault creation."
+    },
+    {
+      "id": "D2-KV-032",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "An application reads a secret from Key Vault at startup and caches it for 24 hours. The secret is rotated, but the application keeps using the old value. What is the recommended pattern?",
+      "options": [
+        "Cache the secret indefinitely, because rotation is rare",
+        "Use a versionless secret URI and re-read the secret periodically or on failure, because a cached secret does not update when the underlying secret version changes",
+        "Disable secret rotation, because applications cannot handle it",
+        "Store the secret in the application configuration instead, because Key Vault caching is unreliable"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: an application that caches a secret at startup will keep using the old value after rotation. The recommended pattern is to use a versionless secret URI and re-read the secret periodically, or to reload it when an operation fails, so the application picks up the rotated value. Disabling rotation removes the security benefit of rotation.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/key-vault/general/soft-delete-overview",
+      "source_title": "Azure Key Vault soft-delete overview",
+      "source_quote": "Once soft-delete is enabled on a key vault, it cannot be disabled. The retention period for soft-deleted objects is 7 to 90 days, and the retention interval is set at vault creation."
+    },
+    {
+      "id": "D2-KV-033",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A team configures diagnostic logging for a key vault and asks what is recorded. What does the audit log capture?",
+      "options": [
+        "Only failed requests, because successful requests are not logged",
+        "Diagnostic logging records vault operations including authentication, authorization, and data-plane requests, providing an audit trail of who accessed which objects and when",
+        "Only management-plane operations, because data-plane operations are not logged",
+        "Only the vault creation event, because subsequent operations are not auditable"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: diagnostic logging for Key Vault records vault operations, including data-plane requests such as secret reads and key operations, along with authentication and authorization outcomes. This provides the audit trail needed to investigate access and detect anomalous usage.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-key-vault-introduction",
+      "source_title": "What is Microsoft Defender for Key Vault?",
+      "source_quote": "Defender for Key Vault detects anomalous access patterns and unusual operations on key vault resources, and alerts should be investigated even when the identity appears to be a recognized user."
+    },
+    {
+      "id": "D2-KV-034",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A key vault uses RBAC, and a user is assigned Key Vault Secrets Officer at the resource group scope. The user tries to manage secrets in a vault in a different resource group in the same subscription. What happens?",
+      "options": [
+        "The assignment applies, because resource group scope covers the whole subscription",
+        "The assignment does not apply, because RBAC assignments are scoped, and a resource group assignment only applies to vaults in that resource group; the user needs an assignment at the subscription scope or on the target vault",
+        "The assignment applies to all vaults in the same region",
+        "The assignment applies to all vaults with the same name"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: RBAC assignments are scoped. An assignment at the resource group scope applies only to resources in that resource group, so the user cannot manage secrets in a vault in a different resource group. The user needs an assignment at a broader scope, such as the subscription, or a direct assignment on the target vault.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/Key-Vault/general/rbac-access-policy",
+      "source_title": "Azure role-based access control versus access policies",
+      "source_quote": "Azure role-based access control (RBAC) is the recommended authorization system for the Azure Key Vault data plane, and access policies are the legacy authorization model."
+    },
+    {
+      "id": "D2-KV-035",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A team stores a certificate in Key Vault and wants the private key to be non-exportable. What should they do?",
+      "options": [
+        "Certificates in Key Vault are always exportable, so this is not possible",
+        "When creating or importing the certificate, set the private key as non-exportable, because Key Vault supports marking the private key as non-exportable so it cannot be retrieved in plaintext",
+        "Enable purge protection, because it makes the private key non-exportable",
+        "Use Managed HSM, because key vaults cannot enforce non-exportability"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Key Vault supports marking a certificate's private key as non-exportable at creation or import. A non-exportable private key can be used for operations inside the vault, such as signing, but cannot be retrieved in plaintext. Purge protection controls deletion rather than exportability.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/key-vault/certificates/tutorial-rotate-certificates",
+      "source_title": "Tutorial: Configure certificate auto-rotation in Azure Key Vault",
+      "source_quote": "Certificate auto-rotation is supported only for certificates issued by partnered certificate authorities, and the default auto-renewal triggers at 80 percent of the certificate lifetime."
+    },
+    {
+      "id": "D2-KV-036",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A team uses Key Vault for disk encryption with Azure Disk Encryption. They rotate the key encryption key and the VMs fail to boot. What is the likely cause?",
+      "options": [
+        "The old key version was disabled before the disks were re-encrypted, because rotation re-wraps the data encryption keys and the old version must remain enabled until the re-wrap completes",
+        "Disk encryption does not use Key Vault keys, so the rotation is unrelated",
+        "VMs must be deallocated before any key rotation",
+        "Key rotation automatically re-encrypts all disks, so the failure must be caused by something else"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: rotation re-wraps the data encryption keys with the new key version and does not re-encrypt the data itself. If the old key version is disabled before the re-wrap completes, the disks cannot be decrypted and the VMs fail to boot. The old version must stay enabled until the re-wrap of all DEKs completes.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/key-vault/keys/how-to-configure-key-rotation",
+      "source_title": "Configure cryptographic key auto-rotation in Azure Key Vault",
+      "source_quote": "Key rotation re-wraps the data encryption keys with the new key version; it does not re-encrypt the data itself, and the minimum rotation interval is 7 days."
+    },
+    {
+      "id": "D2-KV-037",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A security team reviews a key vault and finds that a service principal has the Key Vault Contributor role and an access policy granting secret read. They want to move to RBAC. What is the migration consideration?",
+      "options": [
+        "There is no migration needed, because RBAC and access policies can be used together indefinitely with no conflicts",
+        "Moving to RBAC requires changing the vault's authorization model, and access policies are removed when the model changes, so the team must recreate the equivalent RBAC role assignments before switching, otherwise data access will break",
+        "RBAC cannot be enabled on an existing vault, so a new vault is required",
+        "Access policies are automatically converted to RBAC assignments, so no action is needed"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: a vault uses one authorization model at a time. Switching from access policies to RBAC removes the access policies, so the team must recreate the equivalent permissions as RBAC role assignments before or immediately after the switch, otherwise applications and users will lose data access.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/Key-Vault/general/rbac-access-policy",
+      "source_title": "Azure role-based access control versus access policies",
+      "source_quote": "Azure role-based access control (RBAC) is the recommended authorization system for the Azure Key Vault data plane, and access policies are the legacy authorization model."
+    },
+    {
+      "id": "D2-KV-038",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A Managed HSM is deployed and the team wants to back it up. They try to use the key vault backup feature, which backs up the whole vault. What is the Managed HSM approach?",
+      "options": [
+        "Managed HSM has no backup capability, so keys cannot be backed up",
+        "Managed HSM provides its own backup and restore capability that backs up the HSM domain, including keys and security domain, and the backup is encrypted with keys held by the customer",
+        "Managed HSM backup is automatic and requires no action",
+        "Managed HSM keys are backed up to a key vault automatically"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Managed HSM provides its own backup and restore capability, separate from key vault backup. The backup covers the HSM domain and its keys, and it is encrypted with keys held by the customer, so the customer controls the ability to restore. The key vault whole-vault backup feature does not apply to Managed HSM.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/key-management-choose",
+      "source_title": "Choose a key management solution",
+      "source_quote": "Managed HSM is a fully managed, highly available, single-tenant, standards-compliant cloud service that enables you to safeguard cryptographic keys for your cloud applications, using FIPS 140-3 Level 3 validated HSMs."
+    },
+    {
+      "id": "D2-KV-039",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A team configures a key vault firewall to allow only a specific virtual network, and also enables a private endpoint. Traffic from the virtual network reaches the vault through the private endpoint. Traffic from the internet is blocked. What is the relationship between the firewall and the private endpoint?",
+      "options": [
+        "The firewall and the private endpoint are mutually exclusive, so only one can be enabled",
+        "The firewall controls public network access, while the private endpoint provides a private IP address inside the virtual network; they are complementary controls, and the firewall can be used to block all public access while the private endpoint serves VNet traffic",
+        "The private endpoint disables the firewall automatically",
+        "The firewall overrides the private endpoint and blocks VNet traffic too"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: the firewall and the private endpoint are complementary controls. The firewall governs access over the public network, while the private endpoint provides a private IP address inside the virtual network. A common secure configuration is to disable public network access through the firewall and serve all traffic through the private endpoint.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/key-vault/general/network-security",
+      "source_title": "Configure Azure Key Vault networking settings",
+      "source_quote": "The Key Vault firewall applies only to the data plane, and the Azure Resource Manager control plane is exempt from firewall rules."
+    },
+    {
+      "id": "D2-KV-040",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A key vault secret contains a database connection string. The team rotates the database password monthly and updates the secret. An application that read the secret at startup fails to connect after rotation. What is the root cause?",
+      "options": [
+        "The secret rotation failed, because Key Vault does not support secret updates",
+        "The application cached the secret value at startup and never re-read it, so it holds the old password; the application should re-read the secret periodically or on connection failure",
+        "The secret version changed, which invalidates all existing reads permanently",
+        "Key Vault secrets cannot be updated, only deleted and recreated"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: updating a secret creates a new version, but an application that cached the old value at startup will keep using it. The application must re-read the secret periodically or on failure to pick up the rotated value. Key Vault supports secret updates, and existing reads are not invalidated.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/key-vault/general/soft-delete-overview",
+      "source_title": "Azure Key Vault soft-delete overview",
+      "source_quote": "Once soft-delete is enabled on a key vault, it cannot be disabled. The retention period for soft-deleted objects is 7 to 90 days, and the retention interval is set at vault creation."
+    },
+    {
+      "id": "D2-KV-041",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A team wants to enforce that all new key vaults in a subscription use RBAC, have soft delete and purge protection enabled, and block public network access. Which mechanism enforces this at scale?",
+      "options": [
+        "Azure Policy, which can audit and deny vault creation that does not meet the required configuration, including RBAC authorization, soft delete, purge protection, and network settings",
+        "Key Vault firewall rules, because they apply to all vaults in the subscription",
+        "Defender for Key Vault, because it blocks non-compliant vault creation",
+        "Managed HSM, because it enforces these settings on all vaults"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Azure Policy can audit and deny resource creation that does not meet organisational requirements. A policy initiative can require RBAC authorization, soft delete, purge protection, and disabled public network access on all new key vaults. Firewall rules apply per vault, and Defender for Key Vault detects threats rather than enforcing configuration.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/Key-Vault/general/rbac-access-policy",
+      "source_title": "Azure role-based access control versus access policies",
+      "source_quote": "Azure role-based access control (RBAC) is the recommended authorization system for the Azure Key Vault data plane, and access policies are the legacy authorization model."
+    },
+    {
+      "id": "D2-KV-042",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A key is created with an activation date in the future and an expiration date 2 years later. An application tries to use the key before the activation date. What happens?",
+      "options": [
+        "The key works, because activation dates are advisory only",
+        "The key cannot be used before its activation date, because the key is not yet valid, and it cannot be used after its expiration date either",
+        "The key works before activation but fails after expiration",
+        "The key works at any time, because dates are only used for rotation scheduling"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: a key's activation date (not-before) and expiration date define its validity window. The key cannot be used before its activation date or after its expiration date. These dates are enforced by Key Vault, not advisory.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/key-vault/keys/how-to-configure-key-rotation",
+      "source_title": "Configure cryptographic key auto-rotation in Azure Key Vault",
+      "source_quote": "Key rotation re-wraps the data encryption keys with the new key version; it does not re-encrypt the data itself, and the minimum rotation interval is 7 days."
+    },
+    {
+      "id": "D2-KV-043",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A team stores a certificate in Key Vault and configures an Event Grid subscription for certificate near-expiry events. After the vault is deleted and recovered, the team finds no expiry notifications are being sent. What happened?",
+      "options": [
+        "Event Grid subscriptions are not restored when a soft-deleted vault is recovered, so the subscription must be recreated",
+        "Event Grid subscriptions are restored automatically, so the issue must be elsewhere",
+        "Certificate near-expiry events are not supported by Event Grid",
+        "Event Grid subscriptions survive vault deletion, because they are stored in Event Grid rather than the vault"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: recovering a soft-deleted vault does not restore Event Grid subscriptions. The subscription must be recreated after recovery. This is the same limitation that applies to RBAC role assignments, and it is a common cause of missing notifications after a vault recovery.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/key-vault/general/soft-delete-overview",
+      "source_title": "Azure Key Vault soft-delete overview",
+      "source_quote": "Once soft-delete is enabled on a key vault, it cannot be disabled. The retention period for soft-deleted objects is 7 to 90 days, and the retention interval is set at vault creation."
+    },
+    {
+      "id": "D2-KV-044",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-kv",
+      "difficulty": "hard",
+      "question": "A team creates keys in a Premium key vault and must choose between software-protected and HSM-backed keys, and between RSA and EC key types. Which guidance applies?",
+      "options": [
+        "Software-protected and HSM-backed keys are identical in protection, so the choice does not matter",
+        "HSM-backed keys are protected by a hardware security module, while software-protected keys are protected in software; RSA keys support encryption, signing, and wrapping, while EC keys support signing and key agreement, so the team should choose HSM-backed RSA for encryption workloads that need hardware protection",
+        "EC keys support encryption, while RSA keys support only signing",
+        "HSM-backed keys are only available in the Standard tier, not Premium"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: HSM-backed keys are protected by a hardware security module, while software-protected keys are protected in software, and the two offer different assurance levels. RSA keys support encryption, signing, and wrapping, while EC keys support signing and key agreement but not encryption. The team should match the key type to the operations they need and choose HSM-backed protection where hardware assurance is required.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/key-management-choose",
+      "source_title": "Choose a key management solution",
+      "source_quote": "Managed HSM is a fully managed, highly available, single-tenant, standards-compliant cloud service that enables you to safeguard cryptographic keys for your cloud applications, using FIPS 140-3 Level 3 validated HSMs."
+    }
+  ]
+}

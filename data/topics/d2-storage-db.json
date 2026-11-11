@@ -1,0 +1,939 @@
+{
+  "topic": "SQL and Cosmos DB security",
+  "topic_slug": "storage-db",
+  "domain": "Secure storage, databases, and networking",
+  "source_pages": [
+    {
+      "title": "Auditing for Azure SQL Database",
+      "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/auditing-overview",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Use Microsoft Entra authentication with SQL",
+      "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/authentication-mfa-ssms-overview?view=azuresql",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Configure firewall settings for Azure SQL Database",
+      "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/firewall-configure?view=azuresql-db",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Configure IP firewall in Azure Cosmos DB",
+      "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/how-to-configure-firewall",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Azure Cosmos DB for NoSQL frequently asked questions",
+      "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/faq",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Enable vulnerability assessment for Azure SQL",
+      "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/sql-azure-vulnerability-assessment-enable",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Encryption at rest in Azure",
+      "url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/encryption-atrest",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Dynamic data masking",
+      "url": "https://learn.microsoft.com/en-us/sql/relational-databases/security/dynamic-data-masking",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Design security with Microsoft Defender for SQL and Storage",
+      "url": "https://learn.microsoft.com/en-us/training/modules/design-solutions-secure-organization-data/6-design-security-defender-sql-storage",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Design and implement data encryption",
+      "url": "https://learn.microsoft.com/en-us/training/modules/implement-data-security-compliance/2-design-implement-data-encryption",
+      "checked": "2026-11-11"
+    }
+  ],
+  "questions": [
+    {
+      "id": "D2-DB-001",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A new Azure SQL Database is created. The team asks whether Transparent Data Encryption is enabled. What is the answer?",
+      "options": [
+        "TDE is disabled by default and must be enabled manually for each database",
+        "TDE is enabled by default on new databases, and it encrypts the database, its transaction log, and its backups",
+        "TDE is only available on the Hyperscale tier",
+        "TDE encrypts only the database files, not the log or backups"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Transparent Data Encryption is enabled by default on new Azure SQL Databases. It encrypts the database, its transaction log, and its backups, so data is protected at rest without any action from the team. TDE is available across tiers, not only Hyperscale.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/encryption-atrest",
+      "source_title": "Encryption at rest in Azure",
+      "source_quote": "Transparent Data Encryption encrypts the database, its transaction log, and its backups, and customer-managed keys in Azure Key Vault give you control over the key."
+    },
+    {
+      "id": "D2-DB-002",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team wants customer-managed keys for TDE so they control the key lifecycle. What key type and storage are required?",
+      "options": [
+        "Any symmetric key stored in the database itself",
+        "Customer-managed TDE protectors are RSA or RSA-HSM keys of 2048 or 3072 bits stored in Azure Key Vault or Managed HSM",
+        "Any key stored in Azure Storage, because Key Vault is not supported for TDE",
+        "Only 1024-bit RSA keys, because larger keys are not supported"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: customer-managed TDE protectors are RSA or RSA-HSM keys of 2048 or 3072 bits, stored in Azure Key Vault or Managed HSM. The key vault must have soft delete and purge protection enabled. Symmetric keys stored in the database are not TDE protectors.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/encryption-atrest",
+      "source_title": "Encryption at rest in Azure",
+      "source_quote": "Transparent Data Encryption encrypts the database, its transaction log, and its backups, and customer-managed keys in Azure Key Vault give you control over the key."
+    },
+    {
+      "id": "D2-DB-003",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team uses Always Encrypted for a column containing national ID numbers, and needs to search for exact matches and join on the column. Which encryption type should they use, and what is the trade-off?",
+      "options": [
+        "Randomized encryption, because it supports equality searches and joins",
+        "Deterministic encryption, because it supports equality searches and joins, but it is weaker than randomized encryption because the same plaintext always produces the same ciphertext",
+        "Randomized encryption, because deterministic encryption does not support any search",
+        "Neither, because Always Encrypted columns cannot be searched at all"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: deterministic encryption supports equality searches and joins, because the same plaintext always encrypts to the same ciphertext. The trade-off is that deterministic encryption is weaker than randomized encryption, because an attacker can infer when two values are equal. Randomized encryption is stronger but does not support searching.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/implement-data-security-compliance/2-design-implement-data-encryption",
+      "source_title": "Design and implement data encryption",
+      "source_quote": "Always Encrypted keeps the encryption keys with the client, so the database engine never sees plaintext, and deterministic encryption supports equality searches while randomized encryption does not."
+    },
+    {
+      "id": "D2-DB-004",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team uses Always Encrypted with randomized encryption on a column and tries to run a LIKE query with a wildcard. What happens?",
+      "options": [
+        "The query works, because randomized encryption supports LIKE",
+        "The query fails, because deterministic encryption does not support LIKE or range queries, and randomized encryption does not support searching at all",
+        "The query works, because the database engine decrypts the column before filtering",
+        "The query returns all rows, because the filter is ignored"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Always Encrypted columns cannot be used with LIKE or range queries when encrypted deterministically, and randomized encryption does not support searching at all. The database engine never sees plaintext, so it cannot evaluate a LIKE pattern against encrypted values. The application must retrieve the data and filter it client-side, or use a different design.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/implement-data-security-compliance/2-design-implement-data-encryption",
+      "source_title": "Design and implement data encryption",
+      "source_quote": "Always Encrypted keeps the encryption keys with the client, so the database engine never sees plaintext, and deterministic encryption supports equality searches while randomized encryption does not."
+    },
+    {
+      "id": "D2-DB-005",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team asks how Always Encrypted, TDE, and TLS relate to each other. Are they alternatives, or do they work together?",
+      "options": [
+        "They are alternatives, and only one should be used at a time",
+        "They are complementary layers: TDE encrypts data at rest, TLS encrypts data in transit, and Always Encrypted keeps data encrypted in memory and in use, with the keys held by the client so the engine never sees plaintext",
+        "Always Encrypted replaces TDE and TLS, because it covers all three states",
+        "TDE and TLS are sufficient, and Always Encrypted adds no protection"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Always Encrypted, TDE, and TLS are complementary layers that protect data in different states. TDE encrypts data at rest, TLS encrypts data in transit, and Always Encrypted keeps data encrypted in use, with the encryption keys held by the client so the database engine never sees plaintext. Using all three provides defence in depth.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/implement-data-security-compliance/2-design-implement-data-encryption",
+      "source_title": "Design and implement data encryption",
+      "source_quote": "Always Encrypted keeps the encryption keys with the client, so the database engine never sees plaintext, and deterministic encryption supports equality searches while randomized encryption does not."
+    },
+    {
+      "id": "D2-DB-006",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A server-level firewall rule allows 203.0.113.0/24, and a database-level firewall rule allows a single IP in that range. A client from that IP connects to the database. Which rules apply?",
+      "options": [
+        "Only the server-level rule applies, because server-level rules override database-level rules",
+        "Both apply, and the client must be allowed by either a server-level or a database-level rule to connect; database-level rules are configured with T-SQL and apply only to that database",
+        "Only the database-level rule applies, because database-level rules override server-level rules",
+        "Neither applies, because firewall rules cannot overlap"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: server-level firewall rules apply to all databases on the server, while database-level firewall rules are configured with T-SQL and apply only to that database. A client needs to be allowed by either a server-level or a database-level rule. The two levels are complementary rather than one overriding the other.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/firewall-configure?view=azuresql-db",
+      "source_title": "Configure firewall settings for Azure SQL Database",
+      "source_quote": "Server-level firewall rules apply to all databases on the server, with a maximum of 256 rules, and the Allow Azure services rule counts as one rule."
+    },
+    {
+      "id": "D2-DB-007",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A server has 250 server-level firewall rules and the team tries to add 10 more. What is the limit, and what counts toward it?",
+      "options": [
+        "There is no limit, so the team can add as many as they want",
+        "Server-level firewall rules have a maximum of 256, and the Allow Azure services rule counts as one rule, so the team can add at most 6 more rules",
+        "The maximum is 100 rules, so the team is already over the limit",
+        "The maximum is 1,000 rules, so the team can add all 10"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: server-level firewall rules have a maximum of 256 rules, and the Allow Azure services rule (0.0.0.0) counts as one rule toward that limit. With 250 rules already configured, the team can add at most 6 more. Database-level firewall rules have their own separate limits.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/firewall-configure?view=azuresql-db",
+      "source_title": "Configure firewall settings for Azure SQL Database",
+      "source_quote": "Server-level firewall rules apply to all databases on the server, with a maximum of 256 rules, and the Allow Azure services rule counts as one rule."
+    },
+    {
+      "id": "D2-DB-008",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team enables the Allow Azure services firewall rule (0.0.0.0) so that an Azure App Service can connect to their SQL database. What is the security implication?",
+      "options": [
+        "Only their own App Service can connect, because the rule is scoped to their subscription",
+        "The rule allows all Azure services to connect, including services in other customers' subscriptions, because AllowAllWindowsAzureIps permits traffic from any Azure IP address",
+        "The rule only allows services in the same resource group",
+        "The rule only allows services in the same virtual network"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: the Allow Azure services rule (0.0.0.0, AllowAllWindowsAzureIps) allows all Azure services to connect, including services in other customers' subscriptions. It is not scoped to the team's subscription or resource group. The team should prefer a private endpoint or a specific firewall rule for their App Service instead.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/firewall-configure?view=azuresql-db",
+      "source_title": "Configure firewall settings for Azure SQL Database",
+      "source_quote": "Server-level firewall rules apply to all databases on the server, with a maximum of 256 rules, and the Allow Azure services rule counts as one rule."
+    },
+    {
+      "id": "D2-DB-009",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team configures auditing for an Azure SQL Database to write to a storage account. During a period of very high activity, some audit events are missing. What explains this?",
+      "options": [
+        "Auditing is broken, because it should never drop events",
+        "Auditing may drop events under very high activity, because the audit pipeline cannot keep up with the volume, so some events are lost during extreme load",
+        "Auditing only records failed queries, so successful queries are not logged",
+        "Auditing writes to storage only once a day, so events are delayed rather than dropped"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: auditing writes events to a storage account, Log Analytics, or Event Hub, but under very high activity some audit events may be dropped because the pipeline cannot keep up. This is a documented limitation, and teams that need complete audit coverage should use Log Analytics or Event Hub, which handle high volume better.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/auditing-overview",
+      "source_title": "Auditing for Azure SQL Database",
+      "source_quote": "Auditing writes events to a storage account, Log Analytics, or Event Hub, and under very high activity some audit events may be dropped."
+    },
+    {
+      "id": "D2-DB-010",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team enables auditing and finds that statements are truncated in the audit log. What is the truncation limit, and what does it affect?",
+      "options": [
+        "Statements are truncated at 4,000 characters, so long queries are cut off in the audit record",
+        "Statements are never truncated, so the team must be looking at a different log",
+        "Statements are truncated at 1,000 characters",
+        "Statements are truncated at 8,000 characters"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: audit records truncate the statement text at 4,000 characters. Long queries are cut off in the audit log, so the team cannot rely on the audit record for the full text of very long statements. This is a documented limitation of SQL auditing.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/auditing-overview",
+      "source_title": "Auditing for Azure SQL Database",
+      "source_quote": "Auditing writes events to a storage account, Log Analytics, or Event Hub, and under very high activity some audit events may be dropped."
+    },
+    {
+      "id": "D2-DB-011",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team enables auditing on an Azure SQL Database and expects temporary tables in tempdb to be audited. What will they find?",
+      "options": [
+        "Tempdb and temporary tables are not audited, so operations on temporary tables do not appear in the audit log",
+        "Tempdb is audited the same as user databases",
+        "Temporary tables are audited only if they are created in the user database",
+        "Tempdb is audited only for failed queries"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: tempdb and temporary tables are not audited. Operations on temporary tables do not appear in the audit log, because auditing covers user database activity rather than tempdb. Teams that need to audit temporary table usage must use a different mechanism.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/auditing-overview",
+      "source_title": "Auditing for Azure SQL Database",
+      "source_quote": "Auditing writes events to a storage account, Log Analytics, or Event Hub, and under very high activity some audit events may be dropped."
+    },
+    {
+      "id": "D2-DB-012",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team uses Azure Synapse dedicated SQL pools and configures auditing with a custom action group. What will they find?",
+      "options": [
+        "Custom action groups are fully supported in Synapse dedicated SQL pools",
+        "Synapse dedicated SQL pools support only the default action groups for auditing, so custom action groups cannot be used",
+        "Synapse does not support auditing at all",
+        "Synapse supports custom action groups, but only for failed queries"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Azure Synapse dedicated SQL pools support only the default action groups for auditing. Custom action groups, which are available for Azure SQL Database, cannot be used in Synapse pools. The team must use the default action groups for their Synapse auditing.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/auditing-overview",
+      "source_title": "Auditing for Azure SQL Database",
+      "source_quote": "Auditing writes events to a storage account, Log Analytics, or Event Hub, and under very high activity some audit events may be dropped."
+    },
+    {
+      "id": "D2-DB-013",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team applies dynamic data masking to a column containing credit card numbers, using the default masking function. A user with the db_owner role queries the column. What do they see?",
+      "options": [
+        "The masked value, because masking applies to everyone",
+        "The full unmasked value, because dynamic data masking does not apply to administrators or members of the db_owner role",
+        "The masked value, because db_owner is not an administrator",
+        "A null value, because the query is blocked"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: dynamic data masking limits exposure of sensitive data to non-privileged users, and it does not apply to administrators or members of the db_owner role. A db_owner sees the full unmasked value. Masking is a presentation-layer control for non-privileged users, not a substitute for encryption or access control.",
+      "source_url": "https://learn.microsoft.com/en-us/sql/relational-databases/security/dynamic-data-masking",
+      "source_title": "Dynamic data masking",
+      "source_quote": "Dynamic data masking limits exposure of sensitive data to non-privileged users, and does not apply to administrators or members of the db_owner role."
+    },
+    {
+      "id": "D2-DB-014",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team applies dynamic data masking to an email column and a non-privileged user runs a query that selects all rows and groups by the masked email. What can the user infer?",
+      "options": [
+        "Nothing, because masking prevents all inference",
+        "The user can infer the underlying values through exhaustive queries, because dynamic data masking does not prevent inference by querying the masked data repeatedly, and it is not a substitute for encryption",
+        "The user sees the full email addresses, because grouping bypasses masking",
+        "The query is blocked, because masking does not allow grouping"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: dynamic data masking limits exposure of sensitive data to non-privileged users, but it does not prevent a determined user from inferring the underlying values through exhaustive queries. Masking is a presentation-layer control, not encryption, and it should be combined with other controls for sensitive data.",
+      "source_url": "https://learn.microsoft.com/en-us/sql/relational-databases/security/dynamic-data-masking",
+      "source_title": "Dynamic data masking",
+      "source_quote": "Dynamic data masking limits exposure of sensitive data to non-privileged users, and does not apply to administrators or members of the db_owner role."
+    },
+    {
+      "id": "D2-DB-015",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team wants to grant a user the ability to see unmasked data in a specific column, without making them a database owner. How can they do this?",
+      "options": [
+        "They cannot, because only db_owner can see unmasked data",
+        "Grant the user the UNMASK permission, which allows them to see unmasked data in columns protected by dynamic data masking",
+        "Remove the masking function from the column, because UNMASK does not exist",
+        "Grant the user the sysadmin role, because that is the only way"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: the UNMASK permission allows a user to see unmasked data in columns protected by dynamic data masking, without making them a database owner or administrator. This provides granular control over who can see sensitive data, and it is the recommended way to grant exceptions.",
+      "source_url": "https://learn.microsoft.com/en-us/sql/relational-databases/security/dynamic-data-masking",
+      "source_title": "Dynamic data masking",
+      "source_quote": "Dynamic data masking limits exposure of sensitive data to non-privileged users, and does not apply to administrators or members of the db_owner role."
+    },
+    {
+      "id": "D2-DB-016",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team applies dynamic data masking with the partial masking function to a phone number column, showing the first 2 and last 2 digits. A non-privileged user queries the column. What do they see?",
+      "options": [
+        "The full phone number, because partial masking does not work on phone numbers",
+        "A partially masked value showing only the first 2 and last 2 digits, with the middle digits replaced, because the partial function exposes a prefix and suffix while masking the middle",
+        "A fully masked value, because partial masking is the same as default masking",
+        "A null value, because the query is blocked"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: the partial masking function exposes a specified prefix and suffix while masking the middle characters. For a phone number with the first 2 and last 2 digits exposed, the user sees those digits with the middle replaced by masking characters. This is useful when the start and end of a value are needed for identification but the middle is sensitive.",
+      "source_url": "https://learn.microsoft.com/en-us/sql/relational-databases/security/dynamic-data-masking",
+      "source_title": "Dynamic data masking",
+      "source_quote": "Dynamic data masking limits exposure of sensitive data to non-privileged users, and does not apply to administrators or members of the db_owner role."
+    },
+    {
+      "id": "D2-DB-017",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team configures row-level security with a filter predicate on a sales table, so each salesperson sees only their own rows. A salesperson tries to update a row belonging to another salesperson. What happens?",
+      "options": [
+        "The update succeeds, because filter predicates only affect reads",
+        "The update is blocked, because a block predicate prevents the modification, while a filter predicate controls which rows are visible; the team needs a block predicate to prevent updates to other salespeople's rows",
+        "The update succeeds, because row-level security does not apply to updates",
+        "The update is allowed, but the row is hidden from the salesperson afterwards"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: row-level security has two predicate types. A filter predicate controls which rows are visible in reads, while a block predicate prevents modifications to rows that do not satisfy the predicate. A filter predicate alone does not block updates, so the team needs a block predicate to prevent a salesperson from updating another salesperson's rows.",
+      "source_url": "https://learn.microsoft.com/en-us/sql/relational-databases/security/dynamic-data-masking",
+      "source_title": "Dynamic data masking",
+      "source_quote": "Dynamic data masking limits exposure of sensitive data to non-privileged users, and does not apply to administrators or members of the db_owner role."
+    },
+    {
+      "id": "D2-DB-018",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team enables Microsoft Entra authentication for Azure SQL and wants to use Conditional Access and MFA for database access. What does Entra authentication provide?",
+      "options": [
+        "Entra authentication does not support Conditional Access or MFA for SQL",
+        "Microsoft Entra authentication for Azure SQL enables Conditional Access and multi-factor authentication, and managed identities eliminate stored passwords, so database access can be protected by the same identity controls as other Azure resources",
+        "Entra authentication supports MFA but not Conditional Access",
+        "Entra authentication supports Conditional Access but not MFA"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Microsoft Entra authentication for Azure SQL enables Conditional Access and multi-factor authentication, and managed identities eliminate stored passwords. This lets the team apply the same identity controls to database access as to other Azure resources, rather than relying on SQL logins with passwords.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/authentication-mfa-ssms-overview?view=azuresql",
+      "source_title": "Use Microsoft Entra authentication with SQL",
+      "source_quote": "Microsoft Entra authentication for Azure SQL enables Conditional Access and multi-factor authentication, and managed identities eliminate stored passwords."
+    },
+    {
+      "id": "D2-DB-019",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team enables Entra-only authentication on an Azure SQL logical server. What happens to SQL authentication?",
+      "options": [
+        "SQL authentication continues to work alongside Entra authentication",
+        "Entra-only authentication disables SQL authentication entirely, so only Microsoft Entra identities can connect",
+        "SQL authentication is disabled only for new logins, and existing SQL logins continue to work",
+        "Entra-only authentication has no effect on SQL authentication"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: enabling Entra-only authentication on a logical server disables SQL authentication entirely. Only Microsoft Entra identities can connect, and SQL logins are blocked. This is the strongest authentication posture for Azure SQL, and it removes the password-based attack surface.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/authentication-mfa-ssms-overview?view=azuresql",
+      "source_title": "Use Microsoft Entra authentication with SQL",
+      "source_quote": "Microsoft Entra authentication for Azure SQL enables Conditional Access and multi-factor authentication, and managed identities eliminate stored passwords."
+    },
+    {
+      "id": "D2-DB-020",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team uses Microsoft Entra authentication for Azure SQL and asks whether it integrates with Azure RBAC for database permissions. What is the answer?",
+      "options": [
+        "Yes, Azure RBAC controls database permissions directly",
+        "No, Entra authentication for SQL does not integrate with Azure RBAC, and database permissions are granted through T-SQL, such as CREATE USER and ALTER ROLE, rather than through Azure role assignments",
+        "Yes, but only for server-level permissions, not database-level",
+        "No, because Entra authentication does not work with Azure SQL at all"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Microsoft Entra authentication for Azure SQL does not integrate with Azure RBAC for database permissions. Entra authentication controls who can connect, but database permissions such as SELECT, INSERT, and EXECUTE are granted through T-SQL, using CREATE USER and role membership. Azure RBAC controls management-plane access to the server, not data-plane permissions inside the database.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/authentication-mfa-ssms-overview?view=azuresql",
+      "source_title": "Use Microsoft Entra authentication with SQL",
+      "source_quote": "Microsoft Entra authentication for Azure SQL enables Conditional Access and multi-factor authentication, and managed identities eliminate stored passwords."
+    },
+    {
+      "id": "D2-DB-021",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team enables vulnerability assessment with express configuration for an Azure SQL Database. They ask whether they need to provide a storage account. What is the answer?",
+      "options": [
+        "Yes, a storage account is required, because scan results must be stored there",
+        "No, vulnerability assessment express configuration uses Microsoft-managed storage, so no customer storage account is required",
+        "Yes, but only for the first scan; subsequent scans use Microsoft-managed storage",
+        "No, because express configuration does not store scan results at all"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: vulnerability assessment express configuration uses Microsoft-managed storage, so no customer storage account is required. This is the key difference from classic configuration, which requires the customer to provide a storage account for scan results. Express configuration simplifies setup by removing the storage dependency.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/sql-azure-vulnerability-assessment-enable",
+      "source_title": "Enable vulnerability assessment for Azure SQL",
+      "source_quote": "Vulnerability assessment express configuration uses Microsoft-managed storage, so no customer storage account is required, and baselines and scan history are not migrated from classic configuration."
+    },
+    {
+      "id": "D2-DB-022",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team migrates from classic vulnerability assessment to express configuration. They expect their baselines and scan history to carry over. What happens?",
+      "options": [
+        "Baselines and scan history are migrated automatically",
+        "Baselines and scan history are not migrated from classic configuration to express configuration, so the team must recreate their baselines and will lose the previous scan history",
+        "Baselines are migrated, but scan history is not",
+        "Scan history is migrated, but baselines are not"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: when migrating from classic to express vulnerability assessment configuration, baselines and scan history are not migrated. The team must recreate their baselines in express configuration, and the previous scan history is lost. This is a migration consideration that should be planned for.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/sql-azure-vulnerability-assessment-enable",
+      "source_title": "Enable vulnerability assessment for Azure SQL",
+      "source_quote": "Vulnerability assessment express configuration uses Microsoft-managed storage, so no customer storage account is required, and baselines and scan history are not migrated from classic configuration."
+    },
+    {
+      "id": "D2-DB-023",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team enables vulnerability assessment express configuration and approves a baseline. When does the baseline take effect?",
+      "options": [
+        "The baseline takes effect on the next scheduled scan, because approval is queued",
+        "Baseline approval is immediate in express configuration, while in classic configuration the baseline takes effect on the next scan",
+        "The baseline takes effect after 24 hours in both configurations",
+        "The baseline never takes effect, because express configuration does not support baselines"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: in express configuration, baseline approval is immediate, so the approved baseline takes effect right away. In classic configuration, the baseline takes effect on the next scan. This is one of the operational differences between the two configurations.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/sql-azure-vulnerability-assessment-enable",
+      "source_title": "Enable vulnerability assessment for Azure SQL",
+      "source_quote": "Vulnerability assessment express configuration uses Microsoft-managed storage, so no customer storage account is required, and baselines and scan history are not migrated from classic configuration."
+    },
+    {
+      "id": "D2-DB-024",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team enables vulnerability assessment express configuration for a SQL Managed Instance. What identity requirement applies?",
+      "options": [
+        "No identity is required, because express configuration does not use a managed identity",
+        "Managed Instance express configuration requires a system-assigned managed identity, because the instance needs an identity to access the Microsoft-managed storage",
+        "Managed Instance express configuration requires a user-assigned managed identity only",
+        "Managed Instance express configuration requires a service principal, not a managed identity"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: for SQL Managed Instance, express vulnerability assessment configuration requires a system-assigned managed identity. The instance needs the identity to access the Microsoft-managed storage where scan results are held. Without the system-assigned identity, express configuration cannot be enabled on a managed instance.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/sql-azure-vulnerability-assessment-enable",
+      "source_title": "Enable vulnerability assessment for Azure SQL",
+      "source_quote": "Vulnerability assessment express configuration uses Microsoft-managed storage, so no customer storage account is required, and baselines and scan history are not migrated from classic configuration."
+    },
+    {
+      "id": "D2-DB-025",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A Cosmos DB account has an IP firewall that allows only the corporate office IP range. A client from an allowed IP connects without a token and is denied. The client assumes the firewall is blocking them. What is the actual requirement?",
+      "options": [
+        "The firewall is blocking them, because the IP is not in the allowed range",
+        "Cosmos DB IP firewall rules require a token for access, so the client must present a valid authorization token even from an allowed IP; the firewall controls which IPs can connect, but authentication is still required",
+        "IP firewall rules do not require authentication, so the denial must be caused by something else",
+        "The client needs a private endpoint, because IP firewall rules do not work without one"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Cosmos DB IP firewall rules require a token for access. The firewall controls which IP addresses can reach the account, but every request must still present a valid authorization token, either a primary key or an Entra token. An allowed IP without a token is denied, and the denial is an authentication failure rather than a firewall block.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/cosmos-db/how-to-configure-firewall",
+      "source_title": "Configure IP firewall in Azure Cosmos DB",
+      "source_quote": "Cosmos DB IP firewall rules require a token for access, and changes to the firewall can take up to 15 minutes to propagate."
+    },
+    {
+      "id": "D2-DB-026",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team updates the Cosmos DB IP firewall to allow a new office IP range. The new office tries to connect immediately and is still blocked. How long can the change take to propagate?",
+      "options": [
+        "Changes take effect instantly, so the block must be caused by something else",
+        "Changes to the Cosmos DB firewall can take up to 15 minutes to propagate, so the team should wait before concluding the change failed",
+        "Changes take up to 24 hours to propagate",
+        "Changes require a Cosmos DB account restart, which takes several hours"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: changes to the Cosmos DB IP firewall can take up to 15 minutes to propagate. A client that tries to connect immediately after the change may still be blocked until the propagation completes. The team should wait up to 15 minutes before troubleshooting further.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/cosmos-db/how-to-configure-firewall",
+      "source_title": "Configure IP firewall in Azure Cosmos DB",
+      "source_quote": "Cosmos DB IP firewall rules require a token for access, and changes to the firewall can take up to 15 minutes to propagate."
+    },
+    {
+      "id": "D2-DB-027",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A Cosmos DB account has public network access set to Disabled and an IP firewall rule that allows 0.0.0.0. A client from an Azure VM tries to connect. What happens?",
+      "options": [
+        "The client can connect, because 0.0.0.0 allows all Azure services",
+        "The client is blocked, because publicNetworkAccess Disabled takes precedence over the IP firewall rules, and the account is only accessible through a private endpoint",
+        "The client can connect, because the IP firewall rule overrides the public network access setting",
+        "The client can connect if the VM is in the same region as the Cosmos DB account"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: when publicNetworkAccess is set to Disabled, it takes precedence over the IP firewall rules. The account is only accessible through a private endpoint, and the 0.0.0.0 firewall rule does not grant access. The team must use a private endpoint for access when public network access is disabled.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/cosmos-db/how-to-configure-firewall",
+      "source_title": "Configure IP firewall in Azure Cosmos DB",
+      "source_quote": "Cosmos DB IP firewall rules require a token for access, and changes to the firewall can take up to 15 minutes to propagate."
+    },
+    {
+      "id": "D2-DB-028",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A Cosmos DB account has an IP firewall rule for 0.0.0.0, described as accept connections from Azure datacenters. A team in another customer's Azure subscription tries to connect with a valid key. What happens?",
+      "options": [
+        "They are blocked, because the rule only allows the team's own subscription",
+        "They can connect, because 0.0.0.0 accepts connections from Azure datacenters, which includes all Azure customers, not just the team's own subscription",
+        "They are blocked, because the rule requires a private endpoint",
+        "They can connect only if they are in the same region"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: the 0.0.0.0 rule in Cosmos DB accepts connections from Azure datacenters, which includes all Azure services and customers, not just the team's own subscription. A valid key from another customer's Azure VM would be accepted. The team should use a specific IP range or a private endpoint if they want to restrict access to their own environment.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/cosmos-db/how-to-configure-firewall",
+      "source_title": "Configure IP firewall in Azure Cosmos DB",
+      "source_quote": "Cosmos DB IP firewall rules require a token for access, and changes to the firewall can take up to 15 minutes to propagate."
+    },
+    {
+      "id": "D2-DB-029",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A user is assigned the DocumentDB Account Contributor role on a Cosmos DB account and tries to read documents in a container. What happens?",
+      "options": [
+        "The user can read documents, because DocumentDB Account Contributor grants data access",
+        "The user cannot read documents, because control-plane roles such as DocumentDB Account Contributor grant no data access, and native data-plane roles are required to read or write data",
+        "The user can read documents only if they also have the Reader role",
+        "The user can read documents, because all Cosmos DB roles grant data access"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: control-plane roles such as DocumentDB Account Contributor grant management-plane access to the account, but no data access. Reading or writing documents requires a native data-plane role, such as the built-in Data Reader or Data Contributor roles. This separation is a common source of confusion when a user can manage the account but cannot read its data.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/faq",
+      "source_title": "Azure Cosmos DB for NoSQL frequently asked questions",
+      "source_quote": "Control-plane roles such as DocumentDB Account Contributor grant no data access, and native data-plane roles are required to read or write data."
+    },
+    {
+      "id": "D2-DB-030",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A user is assigned the Cosmos DB Built-in Data Reader role and tries to read documents and query the change feed. What can they do?",
+      "options": [
+        "They can read documents, query, and access the change feed, because the Built-in Data Reader role grants read, query, and change feed access",
+        "They can read documents but cannot query or access the change feed",
+        "They can query but cannot read individual documents",
+        "They cannot do any of these, because Data Reader is a control-plane role"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: the Cosmos DB Built-in Data Reader role grants read, query, and change feed access. It allows the user to read documents, run queries, and consume the change feed, but not to create, update, or delete data. For write access, the Built-in Data Contributor role is required.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/faq",
+      "source_title": "Azure Cosmos DB for NoSQL frequently asked questions",
+      "source_quote": "Control-plane roles such as DocumentDB Account Contributor grant no data access, and native data-plane roles are required to read or write data."
+    },
+    {
+      "id": "D2-DB-031",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A user is assigned the Cosmos DB Built-in Data Contributor role. What additional permissions does this grant over the Data Reader role?",
+      "options": [
+        "No additional permissions, because the two roles are identical",
+        "The Built-in Data Contributor role adds create, upsert, replace, and delete permissions to the read, query, and change feed access granted by Data Reader",
+        "The Built-in Data Contributor role grants only delete permission, not create or update",
+        "The Built-in Data Contributor role grants account management permissions, not data permissions"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: the Cosmos DB Built-in Data Contributor role includes the read, query, and change feed access of the Data Reader role, plus create, upsert, replace, and delete permissions. This makes it the write-capable data-plane role, while Data Reader is read-only.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/faq",
+      "source_title": "Azure Cosmos DB for NoSQL frequently asked questions",
+      "source_quote": "Control-plane roles such as DocumentDB Account Contributor grant no data access, and native data-plane roles are required to read or write data."
+    },
+    {
+      "id": "D2-DB-032",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team disables local authentication on a Cosmos DB account. What is the effect on applications that use the primary key?",
+      "options": [
+        "Applications using the primary key continue to work, because local authentication only affects the portal",
+        "Disabling local authentication enforces Entra-only keyless access, so applications using the primary key are blocked and must migrate to Microsoft Entra authentication",
+        "Disabling local authentication has no effect, because the primary key is not local authentication",
+        "Applications using the primary key are blocked, but only for writes; reads continue to work"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: disabling local authentication on a Cosmos DB account enforces Entra-only keyless access. Applications that authenticate with the primary key are blocked and must migrate to Microsoft Entra authentication, using a managed identity or another Entra credential. This removes the shared-key attack surface.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/faq",
+      "source_title": "Azure Cosmos DB for NoSQL frequently asked questions",
+      "source_quote": "Control-plane roles such as DocumentDB Account Contributor grant no data access, and native data-plane roles are required to read or write data."
+    },
+    {
+      "id": "D2-DB-033",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team enables Defender for Cosmos DB and asks which Defender plan it belongs to. What is the answer?",
+      "options": [
+        "Defender for Cosmos DB is part of Defender for Storage",
+        "Defender for Cosmos DB is a separate plan under Defender for Databases, distinct from Defender for SQL and Defender for Storage",
+        "Defender for Cosmos DB is part of Defender for Key Vault",
+        "Defender for Cosmos DB is included in the free tier with no plan required"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Defender for Cosmos DB is a separate plan under Defender for Databases, distinct from Defender for SQL and Defender for Storage. Each database type has its own Defender plan, and enabling one does not enable the others. The team must enable the Cosmos DB plan specifically for their Cosmos DB accounts.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/design-solutions-secure-organization-data/6-design-security-defender-sql-storage",
+      "source_title": "Design security with Microsoft Defender for SQL and Storage",
+      "source_quote": "Microsoft Defender for SQL provides vulnerability assessment and threat detection for Azure SQL Database, and it is part of the Defender for Databases plan."
+    },
+    {
+      "id": "D2-DB-034",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team configures TDE with a customer-managed key and then disables the key in Key Vault. What happens to the SQL database?",
+      "options": [
+        "Nothing, because the database caches the key indefinitely",
+        "The database becomes inaccessible, because disabling the key encryption key makes the database unavailable until the key is re-enabled, and the database cannot decrypt its data without the key",
+        "The database automatically falls back to a service-managed key",
+        "The database is deleted, because the key is disabled"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: disabling the customer-managed TDE protector key makes the database inaccessible. The database cannot decrypt its data without the key, so queries fail until the key is re-enabled. The database does not fall back to a service-managed key, and the data is not deleted.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/encryption-atrest",
+      "source_title": "Encryption at rest in Azure",
+      "source_quote": "Transparent Data Encryption encrypts the database, its transaction log, and its backups, and customer-managed keys in Azure Key Vault give you control over the key."
+    },
+    {
+      "id": "D2-DB-035",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team uses Always Encrypted and rotates the column encryption key. They assume the data must be re-encrypted. What actually happens?",
+      "options": [
+        "The data must be re-encrypted, because the column encryption key directly encrypts the data",
+        "The column master key is rotated and the column encryption keys are re-wrapped, but the data itself does not need to be re-encrypted, because Always Encrypted uses envelope encryption with a column encryption key wrapped by the column master key",
+        "The data is re-encrypted automatically in the background, and the rotation completes immediately",
+        "The rotation fails, because column encryption keys cannot be rotated"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Always Encrypted uses envelope encryption. The column encryption key encrypts the data, and the column master key wraps the column encryption key. Rotating the column master key re-wraps the column encryption keys, but the data itself does not need to be re-encrypted. This is the same envelope pattern used by TDE and storage encryption.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/implement-data-security-compliance/2-design-implement-data-encryption",
+      "source_title": "Design and implement data encryption",
+      "source_quote": "Always Encrypted keeps the encryption keys with the client, so the database engine never sees plaintext, and deterministic encryption supports equality searches while randomized encryption does not."
+    },
+    {
+      "id": "D2-DB-036",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team configures an Azure SQL Database firewall to allow only a private endpoint, and also enables the Allow Azure services rule for a Logic App. The Logic App is in another customer's subscription. Can it connect?",
+      "options": [
+        "No, because the private endpoint blocks all other access",
+        "Yes, because the Allow Azure services rule allows all Azure services, including those in other customers' subscriptions, to connect",
+        "No, because Logic Apps cannot connect to SQL Database at all",
+        "Yes, but only if the Logic App is in the same virtual network"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: the Allow Azure services rule (0.0.0.0) allows all Azure services to connect, including services in other customers' subscriptions. The team should not enable this rule if they want to restrict access to their own services. A private endpoint or a specific firewall rule for their own Logic App is the more secure option.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/firewall-configure?view=azuresql-db",
+      "source_title": "Configure firewall settings for Azure SQL Database",
+      "source_quote": "Server-level firewall rules apply to all databases on the server, with a maximum of 256 rules, and the Allow Azure services rule counts as one rule."
+    },
+    {
+      "id": "D2-DB-037",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team enables SQL auditing to Log Analytics and wants to alert on failed logins. They find that failed logins are not in the audit log. What is the cause?",
+      "options": [
+        "Failed logins are never audited, because auditing only records successful queries",
+        "Failed logins are recorded in the audit log, but the team may be looking at the wrong action group, because auditing records specific action groups and failed logins require the FAILED_DATABASE_AUTHENTICATION_GROUP or BATCH_COMPLETED_GROUP to be included",
+        "Auditing does not support Log Analytics, so the events are lost",
+        "Failed logins are recorded only in the storage account, not in Log Analytics"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: auditing records events based on the configured action groups. Failed logins are captured when the appropriate action group, such as FAILED_DATABASE_AUTHENTICATION_GROUP, is included. If the team configured only the default action groups without the authentication group, failed logins will not appear. The team should review their action group configuration.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/auditing-overview",
+      "source_title": "Auditing for Azure SQL Database",
+      "source_quote": "Auditing writes events to a storage account, Log Analytics, or Event Hub, and under very high activity some audit events may be dropped."
+    },
+    {
+      "id": "D2-DB-038",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team applies dynamic data masking to a column and a privileged user with the UNMASK permission queries it. What do they see?",
+      "options": [
+        "The masked value, because UNMASK only applies to administrators",
+        "The full unmasked value, because the UNMASK permission allows the user to see unmasked data in masked columns",
+        "A null value, because the query is blocked for users with UNMASK",
+        "The masked value, because UNMASK must be granted at the server level"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: the UNMASK permission allows a user to see the full unmasked value in columns protected by dynamic data masking. This provides a granular exception without making the user a database owner. The permission can be granted at the database level, and it applies to the specific user who holds it.",
+      "source_url": "https://learn.microsoft.com/en-us/sql/relational-databases/security/dynamic-data-masking",
+      "source_title": "Dynamic data masking",
+      "source_quote": "Dynamic data masking limits exposure of sensitive data to non-privileged users, and does not apply to administrators or members of the db_owner role."
+    },
+    {
+      "id": "D2-DB-039",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team uses Microsoft Entra authentication for SQL and creates a contained database user for an Entra group. A member of the group tries to connect and is denied. What is the likely cause?",
+      "options": [
+        "Contained database users cannot be created for Entra groups, only for individual users",
+        "The group member needs to be added to the group in Entra ID, and the contained user must be created for the group, because a contained database user for a group allows any member of that group to connect, but only if the group membership is current",
+        "Entra groups cannot be used for SQL authentication at all",
+        "The contained user must be created in the master database, not the user database"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: a contained database user can be created for a Microsoft Entra group, and any member of that group can connect. If a member is denied, the likely cause is that the membership is not current, the user is not actually in the group, or the contained user was created for a different group. The team should verify the group membership in Entra ID.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/authentication-mfa-ssms-overview?view=azuresql",
+      "source_title": "Use Microsoft Entra authentication with SQL",
+      "source_quote": "Microsoft Entra authentication for Azure SQL enables Conditional Access and multi-factor authentication, and managed identities eliminate stored passwords."
+    },
+    {
+      "id": "D2-DB-040",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team enables Defender for SQL and receives an alert for a SQL injection attempt. They ask whether Defender for SQL blocks the attack. What is the answer?",
+      "options": [
+        "Defender for SQL blocks the attack in real time, because it is a firewall",
+        "Defender for SQL provides threat detection and alerts on anomalous activity such as SQL injection attempts, but it does not block the attack in real time; blocking requires a WAF or application-level controls",
+        "Defender for SQL does not detect SQL injection, so the alert must be a false positive",
+        "Defender for SQL blocks the attack only if the database is in the Hyperscale tier"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Microsoft Defender for SQL provides vulnerability assessment and threat detection, and it alerts on anomalous activity such as SQL injection attempts. It is a detection service, not a blocking firewall. Blocking SQL injection in real time requires a Web Application Firewall or application-level input validation.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/design-solutions-secure-organization-data/6-design-security-defender-sql-storage",
+      "source_title": "Design security with Microsoft Defender for SQL and Storage",
+      "source_quote": "Microsoft Defender for SQL provides vulnerability assessment and threat detection for Azure SQL Database, and it is part of the Defender for Databases plan."
+    },
+    {
+      "id": "D2-DB-041",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team configures a Cosmos DB account with a firewall that allows a specific IP range and also enables a private endpoint. A client from the allowed IP range connects through the public endpoint and is denied. What is the cause?",
+      "options": [
+        "The private endpoint disables the firewall, so the client should use the private endpoint",
+        "The client is denied because the IP firewall rule applies to the public endpoint, and the client must be in the allowed range, but if publicNetworkAccess is Disabled, the public endpoint is blocked regardless of the firewall rules",
+        "The client is denied because Cosmos DB does not support both a firewall and a private endpoint",
+        "The client is denied because the firewall rule only applies to the private endpoint"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: when a private endpoint is configured and publicNetworkAccess is Disabled, the public endpoint is blocked regardless of the IP firewall rules. The firewall rules apply to the public endpoint, but publicNetworkAccess Disabled takes precedence. The client must connect through the private endpoint instead.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/cosmos-db/how-to-configure-firewall",
+      "source_title": "Configure IP firewall in Azure Cosmos DB",
+      "source_quote": "Cosmos DB IP firewall rules require a token for access, and changes to the firewall can take up to 15 minutes to propagate."
+    },
+    {
+      "id": "D2-DB-042",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team wants to use Always Encrypted with secure enclaves so they can run range queries on encrypted columns. What is required?",
+      "options": [
+        "Nothing, because secure enclaves are enabled by default",
+        "Always Encrypted with secure enclaves requires a VBS enclave, and the database must support enclaves, because range queries on encrypted data require computation inside a secure enclave where the data can be decrypted in memory without exposing it to the database engine",
+        "Secure enclaves are only available for deterministic encryption, not randomized",
+        "Secure enclaves require the database to be in the Hyperscale tier only"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Always Encrypted with secure enclaves allows rich computations such as range queries on encrypted columns, because the computation happens inside a secure enclave where the data can be decrypted in memory without being exposed to the database engine. This requires a VBS enclave and a database that supports enclaves. Without enclaves, randomized encryption does not support range queries.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/implement-data-security-compliance/2-design-implement-data-encryption",
+      "source_title": "Design and implement data encryption",
+      "source_quote": "Always Encrypted keeps the encryption keys with the client, so the database engine never sees plaintext, and deterministic encryption supports equality searches while randomized encryption does not."
+    },
+    {
+      "id": "D2-DB-043",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team configures TDE on a SQL Managed Instance and wants to use a customer-managed key stored in a Managed HSM. Is this supported?",
+      "options": [
+        "No, because Managed HSM cannot hold TDE protector keys",
+        "Yes, customer-managed TDE protectors can be RSA or RSA-HSM keys stored in Azure Key Vault or Managed HSM, so a Managed HSM key is supported",
+        "No, because TDE on Managed Instance only supports service-managed keys",
+        "Yes, but only if the Managed HSM is in the same region as the instance"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: customer-managed TDE protectors are RSA or RSA-HSM keys of 2048 or 3072 bits stored in Azure Key Vault or Managed HSM. A Managed HSM key is supported for TDE on both Azure SQL Database and SQL Managed Instance. The key vault or HSM must have soft delete and purge protection enabled.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/encryption-atrest",
+      "source_title": "Encryption at rest in Azure",
+      "source_quote": "Transparent Data Encryption encrypts the database, its transaction log, and its backups, and customer-managed keys in Azure Key Vault give you control over the key."
+    },
+    {
+      "id": "D2-DB-044",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-db",
+      "difficulty": "hard",
+      "question": "A team manages a SQL Managed Instance and tries to configure server-level firewall rules in the portal, as they did for Azure SQL Database. What will they find?",
+      "options": [
+        "Server-level firewall rules work the same way on Managed Instance as on SQL Database",
+        "SQL Managed Instance does not use server-level firewall rules; network access is controlled through network security groups on the dedicated subnet, and the instance is deployed inside a virtual network with no public endpoint by default",
+        "Managed Instance firewall rules are configured with T-SQL only, not the portal",
+        "Managed Instance has no network controls at all, because it is always private"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: SQL Managed Instance is deployed inside a virtual network and does not use the server-level firewall rules that Azure SQL Database uses. Network access to a managed instance is controlled through network security groups on the dedicated subnet, and the instance has no public endpoint by default. This is a key architectural difference between the two deployment options.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/firewall-configure?view=azuresql-db",
+      "source_title": "Configure firewall settings for Azure SQL Database",
+      "source_quote": "Server-level firewall rules apply to all databases on the server, with a maximum of 256 rules, and the Allow Azure services rule counts as one rule."
+    }
+  ]
+}

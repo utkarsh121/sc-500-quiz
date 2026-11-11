@@ -1,0 +1,919 @@
+{
+  "topic": "Network security core",
+  "topic_slug": "network-core",
+  "domain": "Secure storage, databases, and networking",
+  "source_pages": [
+    {
+      "title": "What is Azure Bastion?",
+      "url": "https://learn.microsoft.com/en-us/azure/bastion/bastion-overview",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Azure Firewall FAQ",
+      "url": "https://learn.microsoft.com/en-us/azure/firewall/firewall-faq",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Integrate Key Vault with Azure Private Link",
+      "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/private-link-service",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Azure DDoS Protection overview",
+      "url": "https://learn.microsoft.com/en-us/azure/networking/design-guide/ddos",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Security admin rules in Azure Virtual Network Manager",
+      "url": "https://learn.microsoft.com/en-us/azure/virtual-network-manager/concept-security-admins",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Network security groups overview",
+      "url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview",
+      "checked": "2026-11-11"
+    }
+  ],
+  "questions": [
+    {
+      "id": "D2-NET-001",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A virtual machine has a network security group on its subnet that allows inbound RDP, and a network security group on its NIC that denies inbound RDP. A user tries to connect over RDP. What happens?",
+      "options": [
+        "The connection succeeds, because the subnet NSG is evaluated first and allows it",
+        "The connection is denied, because inbound traffic is evaluated by the subnet NSG first and then the NIC NSG, and the NIC NSG deny blocks it",
+        "The connection succeeds, because NIC NSGs are only evaluated for outbound traffic",
+        "The connection is denied, because subnet NSGs always override NIC NSGs"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: for inbound traffic, the subnet network security group is evaluated first, then the NIC network security group. The subnet rule allows RDP, but the NIC rule denies it, so the connection is denied. Both NSGs must allow the traffic for it to reach the VM. For outbound traffic the order is reversed: NIC first, then subnet.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview",
+      "source_title": "Network security groups overview",
+      "source_quote": "Network security groups filter network traffic using five-tuple information, rules are evaluated in priority order with the lowest number first, and the first matching rule wins."
+    },
+    {
+      "id": "D2-NET-002",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A virtual machine sends outbound traffic to the internet. The NIC network security group allows it, but the subnet network security group denies it. What happens?",
+      "options": [
+        "The traffic is allowed, because the NIC NSG is evaluated first and allows it",
+        "The traffic is denied, because outbound traffic is evaluated by the NIC NSG first and then the subnet NSG, and the subnet NSG deny blocks it",
+        "The traffic is allowed, because subnet NSGs only apply to inbound traffic",
+        "The traffic is denied, because NIC NSGs are not evaluated for outbound traffic"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: for outbound traffic, the NIC network security group is evaluated first, then the subnet network security group. The NIC rule allows the traffic, but the subnet rule denies it, so the traffic is blocked. Both NSGs must allow outbound traffic for it to leave the VM.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview",
+      "source_title": "Network security groups overview",
+      "source_quote": "Network security groups filter network traffic using five-tuple information, rules are evaluated in priority order with the lowest number first, and the first matching rule wins."
+    },
+    {
+      "id": "D2-NET-003",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A network security group has two rules: priority 100 allows inbound traffic from 203.0.113.0/24 on port 443, and priority 200 denies inbound traffic from 203.0.113.5 on port 443. A client at 203.0.113.5 connects on port 443. What happens?",
+      "options": [
+        "The connection is denied, because the deny rule matches the specific client",
+        "The connection is allowed, because rules are evaluated in priority order with the lowest number first and the first matching rule wins, so the priority 100 allow rule applies before the priority 200 deny",
+        "The connection is denied, because deny rules always take precedence over allow rules",
+        "The connection is allowed only if the client uses HTTPS"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: NSG rules are evaluated in priority order, lowest number first, and the first matching rule wins. The priority 100 allow rule matches the client's traffic, so it is applied before the priority 200 deny rule is ever evaluated. Specificity does not override priority; the lowest priority number wins.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview",
+      "source_title": "Network security groups overview",
+      "source_quote": "Network security groups filter network traffic using five-tuple information, rules are evaluated in priority order with the lowest number first, and the first matching rule wins."
+    },
+    {
+      "id": "D2-NET-004",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A team removes a network security group rule that was allowing inbound traffic on port 3389. An existing RDP session that was established before the removal is still active. What happens to it?",
+      "options": [
+        "The session is terminated immediately, because removing a rule drops existing connections",
+        "The session continues, because NSGs are stateful and removing a rule does not affect existing connections",
+        "The session is terminated after 5 minutes, because NSGs have a connection timeout",
+        "The session continues only if the VM is rebooted"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: network security groups are stateful, and removing a rule does not affect existing connections. An RDP session established before the rule was removed continues until it is closed by the user or the application. The rule change only affects new connections.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview",
+      "source_title": "Network security groups overview",
+      "source_quote": "Network security groups filter network traffic using five-tuple information, rules are evaluated in priority order with the lowest number first, and the first matching rule wins."
+    },
+    {
+      "id": "D2-NET-005",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A network security group has only custom rules configured. A VM in the subnet tries to reach another VM in the same virtual network. What happens?",
+      "options": [
+        "The traffic is blocked, because no custom rule allows it",
+        "The traffic is allowed, because the default rule 65000 AllowVNet permits traffic within the virtual network, and default rules cannot be removed, only overridden by a lower-priority custom rule",
+        "The traffic is blocked, because intra-VNet traffic requires an explicit allow rule",
+        "The traffic is allowed only if the VMs are in the same subnet"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: every NSG includes default rules that cannot be removed, including rule 65000 AllowVNet, which permits traffic within the virtual network. Custom rules can override the defaults only if they have a lower priority number. Without a custom deny rule, intra-VNet traffic is allowed by the default rule.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview",
+      "source_title": "Network security groups overview",
+      "source_quote": "Network security groups filter network traffic using five-tuple information, rules are evaluated in priority order with the lowest number first, and the first matching rule wins."
+    },
+    {
+      "id": "D2-NET-006",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A team wants to block all internet-bound traffic from a subnet, but allow traffic to Azure services. They add a custom deny rule for the Internet service tag at priority 100. What happens to traffic destined for Azure Storage?",
+      "options": [
+        "It is blocked, because the Internet service tag includes Azure Storage",
+        "It is allowed, because the Internet service tag does not include Azure service traffic, and the default rule 65001 AllowInternet is overridden by the custom deny, but traffic to Azure services uses the AzureCloud service tag rather than Internet",
+        "It is blocked, because all outbound traffic is blocked by the custom rule",
+        "It is allowed only if a private endpoint is used"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: the Internet service tag represents traffic to the public internet, and it does not include traffic to Azure services, which are covered by service tags such as AzureCloud and Storage. The custom deny for Internet blocks internet-bound traffic but does not block traffic to Azure services, which is evaluated against the relevant service tag rules.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview",
+      "source_title": "Network security groups overview",
+      "source_quote": "Network security groups filter network traffic using five-tuple information, rules are evaluated in priority order with the lowest number first, and the first matching rule wins."
+    },
+    {
+      "id": "D2-NET-007",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A network security group rule uses the VirtualNetwork service tag as the source. The team asks what this covers. What is the answer?",
+      "options": [
+        "Only the virtual network the NSG is attached to",
+        "All virtual networks in the subscription, including peered virtual networks, because the VirtualNetwork service tag represents the virtual network address space including peered VNets",
+        "Only the subnet the NSG is attached to",
+        "All IP addresses in the Azure region"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: the VirtualNetwork service tag represents the virtual network address space, including the VNet the NSG is attached to and any peered virtual networks. It is broader than a single subnet and narrower than the whole region, and it is the standard way to allow intra-VNet and peered-VNet traffic.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview",
+      "source_title": "Network security groups overview",
+      "source_quote": "Network security groups filter network traffic using five-tuple information, rules are evaluated in priority order with the lowest number first, and the first matching rule wins."
+    },
+    {
+      "id": "D2-NET-008",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A team creates an NSG rule with multiple source IP addresses and multiple destination ports in a single rule. They then try to add two service tags and two application security groups to the same rule. What will they find?",
+      "options": [
+        "All of these are supported in a single rule",
+        "Augmented security rules allow multiple IP addresses and ports in one rule, but a single rule cannot contain multiple service tags or multiple application security groups",
+        "Multiple service tags are allowed, but multiple ASGs are not",
+        "Multiple ASGs are allowed, but multiple service tags are not"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: augmented security rules allow multiple source or destination IP addresses and multiple ports in a single rule, but a single rule cannot contain multiple service tags or multiple application security groups. The team must create separate rules if they need to reference multiple service tags or ASGs.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview",
+      "source_title": "Network security groups overview",
+      "source_quote": "Network security groups filter network traffic using five-tuple information, rules are evaluated in priority order with the lowest number first, and the first matching rule wins."
+    },
+    {
+      "id": "D2-NET-009",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A team uses application security groups to group VMs by role, and attaches an ASG to a VM's network interface. They then try to attach the same ASG to a subnet. What happens?",
+      "options": [
+        "The ASG can be attached to the subnet, because ASGs work at both levels",
+        "An application security group is attached to a network interface, not to a subnet, so the team must attach it to the NICs of the VMs in that role",
+        "The ASG can be attached to the subnet, but only if no NSG is attached to the subnet",
+        "ASGs cannot be attached to anything; they are only used in Azure Policy"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: application security groups are attached to network interfaces, not to subnets. An NSG rule references an ASG as a source or destination, and the rule applies to the NICs that have that ASG attached. Attaching an ASG to a subnet is not supported.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview",
+      "source_title": "Network security groups overview",
+      "source_quote": "Network security groups filter network traffic using five-tuple information, rules are evaluated in priority order with the lowest number first, and the first matching rule wins."
+    },
+    {
+      "id": "D2-NET-010",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A VM needs to reach the Azure Instance Metadata Service at 169.254.169.254 and the Azure platform DNS at 168.63.129.16. The team adds an NSG deny rule for all outbound traffic. Will these platform services still work?",
+      "options": [
+        "No, because the deny rule blocks all outbound traffic including platform IPs",
+        "Yes, because the platform IP addresses 168.63.129.16 and 169.254.169.254 are not subject to NSG rules unless they are targeted by the AzurePlatformDNS, AzurePlatformIMDS, or AzurePlatformLKM service tags",
+        "No, because platform services require an explicit allow rule",
+        "Yes, but only if the VM has a public IP address"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: the Azure platform IP addresses 168.63.129.16 and 169.254.169.254 are not subject to NSG rules, unless they are targeted by the AzurePlatformDNS, AzurePlatformIMDS, or AzurePlatformLKM service tags. A broad deny rule does not block these platform services, which is why metadata and platform DNS continue to work.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview",
+      "source_title": "Network security groups overview",
+      "source_quote": "Network security groups filter network traffic using five-tuple information, rules are evaluated in priority order with the lowest number first, and the first matching rule wins."
+    },
+    {
+      "id": "D2-NET-011",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A subscription created in 2024 has a VM that needs to send email directly over SMTP port 25 to an external mail server. The connection fails. What is the cause?",
+      "options": [
+        "Port 25 is blocked by the NSG default rules",
+        "Outbound port 25 is blocked for subscriptions created after 15 November 2017, and the team must use an SMTP relay, typically on port 587, instead of direct SMTP delivery",
+        "Port 25 is blocked only for VMs without a public IP address",
+        "Port 25 requires an Azure Firewall, because NSGs cannot allow it"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: outbound SMTP on port 25 is blocked for Azure subscriptions created after 15 November 2017, as an anti-spam measure. The team must use an SMTP relay service, typically on port 587 with authentication, rather than sending email directly over port 25. This block is applied at the platform level, not by the NSG.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview",
+      "source_title": "Network security groups overview",
+      "source_quote": "Network security groups filter network traffic using five-tuple information, rules are evaluated in priority order with the lowest number first, and the first matching rule wins."
+    },
+    {
+      "id": "D2-NET-012",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A team has been using NSG flow logs for traffic analysis. They receive a notice that NSG flow logs will retire. What should they migrate to, and when?",
+      "options": [
+        "NSG flow logs retire on 30 September 2027, and the team should migrate to VNet flow logs, which replace NSG flow logs",
+        "NSG flow logs never retire, so no action is needed",
+        "NSG flow logs retire on 30 September 2027, and the team should migrate to Azure Firewall logs",
+        "NSG flow logs retire immediately, and there is no replacement"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: NSG flow logs retire on 30 September 2027, and Microsoft recommends migrating to VNet flow logs, which provide the same traffic analysis capability at the virtual network level. The team should plan the migration before the retirement date.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview",
+      "source_title": "Network security groups overview",
+      "source_quote": "Network security groups filter network traffic using five-tuple information, rules are evaluated in priority order with the lowest number first, and the first matching rule wins."
+    },
+    {
+      "id": "D2-NET-013",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A security admin rule in Virtual Network Manager is configured as Allow with priority 100, and an NSG rule on the subnet denies the same traffic. What happens?",
+      "options": [
+        "The traffic is denied, because the NSG rule overrides the security admin rule",
+        "The traffic is allowed through the security admin rule and then continues to NSG evaluation, where the NSG deny blocks it, because an Allow security admin rule continues to NSG evaluation while an Always Allow rule terminates evaluation",
+        "The traffic is allowed, because security admin rules always override NSGs",
+        "The traffic is denied, because security admin rules are evaluated after NSGs"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: security admin rules are evaluated before NSGs. An Allow rule permits the traffic to continue to NSG evaluation, where the NSG deny blocks it. An Always Allow rule would terminate evaluation and allow the traffic regardless of the NSG. The distinction between Allow and Always Allow is the key to this scenario.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/virtual-network-manager/concept-security-admins",
+      "source_title": "Security admin rules in Azure Virtual Network Manager",
+      "source_quote": "Security admin rules are evaluated before network security groups, and an Always Allow rule terminates evaluation while an Allow rule continues to NSG evaluation."
+    },
+    {
+      "id": "D2-NET-014",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A security admin rule in Virtual Network Manager is configured as Always Allow with priority 100, and an NSG rule denies the same traffic. What happens?",
+      "options": [
+        "The traffic is denied, because the NSG rule overrides it",
+        "The traffic is allowed, because an Always Allow security admin rule terminates evaluation and the NSG is never consulted",
+        "The traffic is denied, because Always Allow only applies to inbound traffic",
+        "The traffic is allowed only if the NSG rule has a higher priority number"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: an Always Allow security admin rule terminates evaluation, so the traffic is allowed and the NSG is never consulted. This is the difference from a plain Allow rule, which continues to NSG evaluation. Always Allow and Deny are the terminating actions in security admin rules.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/virtual-network-manager/concept-security-admins",
+      "source_title": "Security admin rules in Azure Virtual Network Manager",
+      "source_quote": "Security admin rules are evaluated before network security groups, and an Always Allow rule terminates evaluation while an Allow rule continues to NSG evaluation."
+    },
+    {
+      "id": "D2-NET-015",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A security admin rule in Virtual Network Manager is configured as Deny with priority 100. An NSG rule allows the same traffic. What happens?",
+      "options": [
+        "The traffic is allowed, because the NSG rule overrides the security admin rule",
+        "The traffic is denied, because security admin rules are evaluated before NSGs and a Deny rule terminates evaluation",
+        "The traffic is allowed, because Deny rules in Virtual Network Manager are advisory only",
+        "The traffic is denied only if the NSG rule has a lower priority number"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: security admin rules are evaluated before network security groups, and a Deny rule terminates evaluation. The traffic is denied regardless of the NSG allow rule. This is how central security policy can enforce a block that no local NSG can override.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/virtual-network-manager/concept-security-admins",
+      "source_title": "Security admin rules in Azure Virtual Network Manager",
+      "source_quote": "Security admin rules are evaluated before network security groups, and an Always Allow rule terminates evaluation while an Allow rule continues to NSG evaluation."
+    },
+    {
+      "id": "D2-NET-016",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A team creates a security admin configuration in Virtual Network Manager for the East US region. They try to create a second security admin configuration for the same region. What happens?",
+      "options": [
+        "Both configurations apply, because multiple configurations per region are supported",
+        "Only one security admin configuration can be applied per region, so the second configuration cannot be created for East US",
+        "Multiple configurations are allowed, but only the first one is evaluated",
+        "Multiple configurations are allowed if they are in different resource groups"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: only one security admin configuration can be applied per region. The team cannot create a second security admin configuration for East US. They must add their rules to the existing configuration for that region.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/virtual-network-manager/concept-security-admins",
+      "source_title": "Security admin rules in Azure Virtual Network Manager",
+      "source_quote": "Security admin rules are evaluated before network security groups, and an Always Allow rule terminates evaluation while an Allow rule continues to NSG evaluation."
+    },
+    {
+      "id": "D2-NET-017",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A team applies a security admin rule and expects it to take effect immediately on all virtual networks. The rule does not appear to be enforced for several minutes. What explains the delay?",
+      "options": [
+        "Security admin rules are applied with eventual consistency, so there is a delay before the rules are enforced on all virtual networks",
+        "Security admin rules are applied instantly, so the delay must be caused by something else",
+        "Security admin rules require a VM reboot to take effect",
+        "Security admin rules are only applied during maintenance windows"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: security admin rules are applied with eventual consistency, so there is a delay between configuring a rule and its enforcement on all virtual networks. The team should allow time for the rules to propagate before concluding the configuration failed.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/virtual-network-manager/concept-security-admins",
+      "source_title": "Security admin rules in Azure Virtual Network Manager",
+      "source_quote": "Security admin rules are evaluated before network security groups, and an Always Allow rule terminates evaluation while an Allow rule continues to NSG evaluation."
+    },
+    {
+      "id": "D2-NET-018",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A security admin rule targets a network group containing 50 virtual networks. A private endpoint in one of those VNets needs to be reached, but the rule blocks the traffic. What is the behaviour for private endpoints?",
+      "options": [
+        "Security admin rules apply to private endpoints the same as any other resource",
+        "Security admin rules do not apply to private endpoints, so traffic to a private endpoint is not blocked by a security admin rule",
+        "Security admin rules apply to private endpoints only if the rule priority is below 100",
+        "Security admin rules block private endpoints only for inbound traffic"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: security admin rules do not apply to private endpoints. Traffic to a private endpoint is not evaluated against security admin rules, so the rule does not block it. This is a documented exception, and it means private endpoint traffic is governed by the private endpoint's own network policies rather than the security admin rules.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/virtual-network-manager/concept-security-admins",
+      "source_title": "Security admin rules in Azure Virtual Network Manager",
+      "source_quote": "Security admin rules are evaluated before network security groups, and an Always Allow rule terminates evaluation while an Allow rule continues to NSG evaluation."
+    },
+    {
+      "id": "D2-NET-019",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "An Azure Firewall has a DNAT rule that forwards port 3389 to a VM, a network rule that allows outbound traffic on port 443, and an application rule that allows *.microsoft.com. A packet arrives for port 3389. Which rule type is evaluated first?",
+      "options": [
+        "Application rules are evaluated first",
+        "Network rules are evaluated first",
+        "DNAT rules are evaluated first, then network rules, then application rules, and all rules are terminating",
+        "Rules are evaluated in parallel, so all three apply at once"
+      ],
+      "correct_index": 2,
+      "explanation": "Correct: Azure Firewall rules are processed in order: DNAT rules first, then network rules, then application rules, and all rules are terminating, meaning the first matching rule decides the outcome and evaluation stops. A packet for port 3389 is evaluated against the DNAT rules first.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/firewall/firewall-faq",
+      "source_title": "Azure Firewall FAQ",
+      "source_quote": "Azure Firewall rules are processed in order: DNAT rules first, then network rules, then application rules, and all rules are terminating."
+    },
+    {
+      "id": "D2-NET-020",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A team configures an Azure Firewall network rule to allow outbound traffic on port 443 and an application rule to deny *.contoso.com. A user tries to reach https://www.contoso.com. What happens?",
+      "options": [
+        "The traffic is allowed, because the network rule allows port 443",
+        "The traffic is denied, because the network rule allows the connection at the transport layer, but the application rule then evaluates the FQDN and denies it, since rules are processed DNAT, then network, then application",
+        "The traffic is allowed, because application rules are evaluated before network rules",
+        "The traffic is denied, because network rules cannot allow port 443 when an application rule exists"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Azure Firewall evaluates rules in order: DNAT, then network, then application. The network rule allows the TCP connection on port 443, but the application rule then evaluates the HTTP request and denies the FQDN. The application rule is the one that blocks the request, because it is evaluated after the network rule.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/firewall/firewall-faq",
+      "source_title": "Azure Firewall FAQ",
+      "source_quote": "Azure Firewall rules are processed in order: DNAT rules first, then network rules, then application rules, and all rules are terminating."
+    },
+    {
+      "id": "D2-NET-021",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A team deploys Azure Firewall in a virtual network and creates a subnet named AzureFirewallSubnet with a /28 prefix. The deployment fails. What is the minimum subnet size?",
+      "options": [
+        "/28 is the minimum, so the failure must be caused by something else",
+        "AzureFirewallSubnet requires a minimum of /26, so a /28 is too small",
+        "AzureFirewallSubnet requires a minimum of /24",
+        "AzureFirewallSubnet requires a minimum of /27"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: the AzureFirewallSubnet requires a minimum of /26 address space. A /28 subnet is too small and the deployment fails. The team must use a /26 or larger subnet for the firewall.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/firewall/firewall-faq",
+      "source_title": "Azure Firewall FAQ",
+      "source_quote": "Azure Firewall rules are processed in order: DNAT rules first, then network rules, then application rules, and all rules are terminating."
+    },
+    {
+      "id": "D2-NET-022",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A team attaches a network security group to the AzureFirewallSubnet to filter traffic to the firewall. What happens?",
+      "options": [
+        "The NSG filters traffic normally, because NSGs work on any subnet",
+        "Network security groups are disabled on the AzureFirewallSubnet, so the NSG has no effect and the firewall manages its own traffic",
+        "The NSG blocks all traffic to the firewall, because the subnet does not allow NSGs",
+        "The NSG is required on the AzureFirewallSubnet for the firewall to work"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: network security groups are disabled on the AzureFirewallSubnet. An NSG attached to that subnet has no effect, because the firewall manages its own traffic and the subnet is reserved for the firewall. The team should not attach an NSG to the AzureFirewallSubnet.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/firewall/firewall-faq",
+      "source_title": "Azure Firewall FAQ",
+      "source_quote": "Azure Firewall rules are processed in order: DNAT rules first, then network rules, then application rules, and all rules are terminating."
+    },
+    {
+      "id": "D2-NET-023",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A team deploys an Azure Firewall in a virtual network in resource group A, and wants to use a public IP address in resource group B. Is this supported?",
+      "options": [
+        "No, the firewall and its public IP must be in the same resource group",
+        "The firewall and its virtual network must be in the same resource group, but the public IP address can be in a different resource group",
+        "The firewall, VNet, and public IP must all be in the same resource group",
+        "The public IP must be in the same region but can be in any resource group, while the firewall and VNet can be in different resource groups"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: the Azure Firewall and its virtual network must be in the same resource group, but the public IP address associated with the firewall can be in a different resource group. This is a common point of confusion, because the firewall and VNet are tightly coupled but the public IP is not.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/firewall/firewall-faq",
+      "source_title": "Azure Firewall FAQ",
+      "source_quote": "Azure Firewall rules are processed in order: DNAT rules first, then network rules, then application rules, and all rules are terminating."
+    },
+    {
+      "id": "D2-NET-024",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A team enables forced tunneling on an Azure Firewall so that all internet-bound traffic goes through an on-premises firewall. They use the Basic SKU. Is forced tunneling supported?",
+      "options": [
+        "No, forced tunneling is only supported on Premium",
+        "Yes, Azure Firewall Basic supports forced tunneling, so the configuration is valid",
+        "No, forced tunneling is not supported on any Azure Firewall SKU",
+        "Yes, but only if the firewall is deployed in a secured virtual hub"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Azure Firewall Basic supports forced tunneling, which routes internet-bound traffic through an on-premises firewall or NVA. Forced tunneling is available on the Basic SKU, while IDPS and TLS inspection are Premium-only features.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/firewall/firewall-faq",
+      "source_title": "Azure Firewall FAQ",
+      "source_quote": "Azure Firewall rules are processed in order: DNAT rules first, then network rules, then application rules, and all rules are terminating."
+    },
+    {
+      "id": "D2-NET-025",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A team wants intrusion detection and prevention and TLS inspection on their Azure Firewall. They deploy the Standard SKU. What will they find?",
+      "options": [
+        "Both features are available on Standard",
+        "IDPS and TLS inspection are Premium-only features, so the Standard SKU does not provide them and the team must use Premium",
+        "IDPS is available on Standard but TLS inspection is Premium-only",
+        "TLS inspection is available on Standard but IDPS is Premium-only"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: intrusion detection and prevention (IDPS) and TLS inspection are Premium-only features of Azure Firewall. The Standard SKU does not provide them. The team must deploy the Premium SKU if they need IDPS or TLS inspection.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/firewall/firewall-faq",
+      "source_title": "Azure Firewall FAQ",
+      "source_quote": "Azure Firewall rules are processed in order: DNAT rules first, then network rules, then application rules, and all rules are terminating."
+    },
+    {
+      "id": "D2-NET-026",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A team configures a threat intelligence allowlist on Azure Firewall to exclude a specific FQDN from threat intelligence blocking. What does the allowlist do?",
+      "options": [
+        "It blocks the FQDN, because the allowlist is a block list",
+        "The threat intelligence allowlist can exclude an FQDN or IP address from threat intelligence blocking, so traffic to that destination is allowed even if threat intelligence would otherwise block it",
+        "The allowlist has no effect on threat intelligence, because threat intelligence cannot be overridden",
+        "The allowlist only applies to DNAT rules, not to threat intelligence"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: the threat intelligence allowlist can exclude an FQDN or IP address from threat intelligence blocking. Traffic to an allow-listed destination is permitted even if threat intelligence would otherwise block it. This is useful for destinations that are falsely flagged by threat intelligence.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/firewall/firewall-faq",
+      "source_title": "Azure Firewall FAQ",
+      "source_quote": "Azure Firewall rules are processed in order: DNAT rules first, then network rules, then application rules, and all rules are terminating."
+    },
+    {
+      "id": "D2-NET-027",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A team pings a destination through Azure Firewall using TCP ping and receives a response. They assume the destination is reachable. What is the actual behaviour?",
+      "options": [
+        "The response proves the destination is reachable, because TCP ping tests end-to-end connectivity",
+        "A TCP ping is answered by the firewall itself, not by the destination, so a response does not prove the destination is reachable",
+        "TCP ping is blocked by Azure Firewall, so no response should be received",
+        "TCP ping tests the firewall's public IP, not the destination"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: when a TCP ping is sent through Azure Firewall, the firewall itself answers the ping rather than forwarding it to the destination. A response therefore does not prove the destination is reachable. The team should test connectivity with an actual application request instead.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/firewall/firewall-faq",
+      "source_title": "Azure Firewall FAQ",
+      "source_quote": "Azure Firewall rules are processed in order: DNAT rules first, then network rules, then application rules, and all rules are terminating."
+    },
+    {
+      "id": "D2-NET-028",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A team stops and starts an Azure Firewall and finds that its private IP address has changed. Is this expected?",
+      "options": [
+        "No, the private IP address never changes",
+        "Yes, stopping and starting an Azure Firewall may change its private IP address, so the team should not rely on the private IP remaining stable across a stop and start",
+        "Yes, but only if the firewall is in a secured virtual hub",
+        "No, the private IP changes only when the firewall is deleted and recreated"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: stopping and starting an Azure Firewall may change its private IP address. The team should not hard-code the firewall's private IP address in their routing or configuration, because it can change across a stop and start. Use the firewall's name or a stable reference instead.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/firewall/firewall-faq",
+      "source_title": "Azure Firewall FAQ",
+      "source_quote": "Azure Firewall rules are processed in order: DNAT rules first, then network rules, then application rules, and all rules are terminating."
+    },
+    {
+      "id": "D2-NET-029",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A team deploys Azure Firewall in a virtual network and later wants to enable availability zones. What is required?",
+      "options": [
+        "Availability zones can be enabled on any existing firewall deployment",
+        "Availability zones are reconfigurable only if the firewall is deployed in a virtual network rather than a secured hub, and the region supports availability zones, and the public IP addresses share the same zones",
+        "Availability zones cannot be enabled after deployment under any circumstances",
+        "Availability zones require the Premium SKU"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: availability zones on Azure Firewall are reconfigurable only if the firewall is deployed in a virtual network rather than a secured hub, and the region supports availability zones, and the public IP addresses share the same zones. A firewall in a secured hub cannot have its zone configuration changed in the same way.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/firewall/firewall-faq",
+      "source_title": "Azure Firewall FAQ",
+      "source_quote": "Azure Firewall rules are processed in order: DNAT rules first, then network rules, then application rules, and all rules are terminating."
+    },
+    {
+      "id": "D2-NET-030",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A team manages Azure Firewall rules across 10 subscriptions and wants a central place to define and enforce rules. What should they use?",
+      "options": [
+        "A separate firewall in each subscription, because rules cannot be centralised",
+        "Firewall Policy, which centralises firewall rules across multiple subscriptions and supports a hierarchy of policies, so rules can be defined once and applied to many firewalls",
+        "Network security groups, because they centralise firewall rules",
+        "Azure Policy, because it replaces Firewall Policy"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Azure Firewall Policy centralises firewall rules across multiple subscriptions and supports a hierarchy of policies. Rules can be defined in a parent policy and inherited by child policies, so the team can enforce consistent rules across many firewalls from one place.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/firewall/firewall-faq",
+      "source_title": "Azure Firewall FAQ",
+      "source_quote": "Azure Firewall rules are processed in order: DNAT rules first, then network rules, then application rules, and all rules are terminating."
+    },
+    {
+      "id": "D2-NET-031",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A VM in a private subnet needs to reach the internet for patching. The team configures Azure Firewall as the default route and the VM's outbound traffic is translated to the firewall's public IP. What is this process called?",
+      "options": [
+        "DNAT, because the firewall translates the destination address",
+        "SNAT, because the firewall translates the VM's private IP address to the firewall's public IP address for outbound traffic",
+        "Private Link, because the traffic stays on the backbone",
+        "Forced tunneling, because the traffic is forced through the firewall"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: source network address translation (SNAT) translates the VM's private IP address to the firewall's public IP address for outbound traffic. DNAT translates the destination address for inbound traffic. SNAT is what allows a VM in a private subnet to reach the internet through the firewall.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/firewall/firewall-faq",
+      "source_title": "Azure Firewall FAQ",
+      "source_quote": "Azure Firewall rules are processed in order: DNAT rules first, then network rules, then application rules, and all rules are terminating."
+    },
+    {
+      "id": "D2-NET-032",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A team creates a Private Link service to expose their own service behind a Standard Load Balancer to consumers in other virtual networks. A consumer requests access. What must happen before the consumer can connect?",
+      "options": [
+        "Nothing, because Private Link services are open to all consumers by default",
+        "The service owner must approve the private endpoint connection, because a private endpoint connection to a Private Link service requires owner approval before it becomes active",
+        "The consumer must create a public IP address, because Private Link requires one",
+        "The consumer must peer their VNet with the service VNet, because Private Link does not work without peering"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: a Private Link service exposes a service behind a Standard Load Balancer, and a consumer connects through a private endpoint. The private endpoint connection starts in a Pending state and requires the service owner to approve it before it becomes active. This approval step gives the owner control over who can consume the service.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/key-vault/general/private-link-service",
+      "source_title": "Integrate Key Vault with Azure Private Link",
+      "source_quote": "A private endpoint assigns a private IP address from your virtual network to the resource, so traffic stays on the Microsoft backbone network."
+    },
+    {
+      "id": "D2-NET-033",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A private endpoint connection shows a status of Pending. The consumer can see the endpoint but cannot reach the service. What does Pending mean?",
+      "options": [
+        "The endpoint is ready and the consumer can connect, so the issue must be elsewhere",
+        "Pending means the connection is awaiting approval from the service owner, and the endpoint cannot be used until it is approved",
+        "Pending means the endpoint failed to deploy and must be recreated",
+        "Pending means the endpoint is approved but the DNS has not propagated yet"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: a private endpoint connection in Pending status is awaiting approval from the service owner. The endpoint cannot be used until the owner approves it. Once approved, the status changes to Approved and the endpoint becomes usable. Rejected means the owner declined the connection.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/key-vault/general/private-link-service",
+      "source_title": "Integrate Key Vault with Azure Private Link",
+      "source_quote": "A private endpoint assigns a private IP address from your virtual network to the resource, so traffic stays on the Microsoft backbone network."
+    },
+    {
+      "id": "D2-NET-034",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A private endpoint is created in a virtual network in East US for a storage account in West Europe. The deployment fails. What is the rule?",
+      "options": [
+        "The private endpoint and the virtual network must be in the same region, so the endpoint must be created in a VNet in the same region as the resource it connects to",
+        "Private endpoints can be in any region, so the failure must be caused by something else",
+        "Private endpoints must be in the same resource group as the resource",
+        "Private endpoints must be in the same subscription as the resource"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: the private endpoint and the virtual network must be in the same region. A private endpoint in East US cannot connect to a resource in West Europe if the endpoint's VNet is in East US. The team must create the endpoint in a VNet in the same region as the resource, or use a different connectivity approach.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/key-vault/general/private-link-service",
+      "source_title": "Integrate Key Vault with Azure Private Link",
+      "source_quote": "A private endpoint assigns a private IP address from your virtual network to the resource, so traffic stays on the Microsoft backbone network."
+    },
+    {
+      "id": "D2-NET-035",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A team accesses a storage account from a virtual network through a service endpoint. The team asks whether the storage account is reached by its public IP address or a private IP address. What is the answer?",
+      "options": [
+        "Service endpoints assign a private IP address to the storage account, so it is reached by private IP",
+        "Service endpoints still target the storage account's public IP address, but the traffic travels over the Azure backbone network rather than the public internet",
+        "Service endpoints require a VPN, because they do not use IP addresses at all",
+        "Service endpoints are the same as private endpoints, so the storage account is reached by private IP"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: service endpoints still target the resource's public IP address, but the traffic from the virtual network to the resource travels over the Azure backbone network rather than the public internet. This is the key difference from a private endpoint, which assigns a private IP address inside the virtual network.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/key-vault/general/private-link-service",
+      "source_title": "Integrate Key Vault with Azure Private Link",
+      "source_quote": "A private endpoint assigns a private IP address from your virtual network to the resource, so traffic stays on the Microsoft backbone network."
+    },
+    {
+      "id": "D2-NET-036",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A company enables DDoS Network Protection on a virtual network. They ask whether the free infrastructure protection is still active. What is the answer?",
+      "options": [
+        "No, enabling Network Protection disables the free infrastructure protection",
+        "Yes, the free infrastructure protection is the baseline that is always active, and DDoS Network Protection is a paid plan that adds adaptive tuning, analytics, SLA, Rapid Response, and cost protection on top of it",
+        "No, because the two are mutually exclusive",
+        "Yes, but only for virtual machines, not for other resources"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: the free infrastructure protection is the baseline DDoS protection that is always active for Azure resources. DDoS Network Protection is a paid plan that adds adaptive tuning, analytics, a service level agreement, Rapid Response support, and cost protection on top of the baseline. Enabling Network Protection does not disable the baseline.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/networking/design-guide/ddos",
+      "source_title": "Azure DDoS Protection overview",
+      "source_quote": "Azure DDoS Protection protects at layer 3 (network) and layer 4 (transport); for web applications, protection at layer 7 requires a WAF offering."
+    },
+    {
+      "id": "D2-NET-037",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A team is hit by a layer 7 HTTP flood against a web application. They have DDoS Network Protection enabled. Why is the attack not mitigated?",
+      "options": [
+        "DDoS Network Protection is disabled, because the attack is layer 7",
+        "DDoS Protection operates at layers 3 and 4, and layer 7 HTTP floods require a Web Application Firewall, which can rate-limit and block HTTP floods",
+        "DDoS Network Protection only protects virtual machines, not web applications",
+        "DDoS Network Protection requires an Azure Firewall to inspect HTTP traffic"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Azure DDoS Protection protects at layer 3 (network) and layer 4 (transport). A layer 7 HTTP flood, which sends a high volume of apparently valid HTTP requests, requires a Web Application Firewall, which can rate-limit and block HTTP floods. DDoS Network Protection alone does not inspect HTTP request content.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/networking/design-guide/ddos",
+      "source_title": "Azure DDoS Protection overview",
+      "source_quote": "Azure DDoS Protection protects at layer 3 (network) and layer 4 (transport); for web applications, protection at layer 7 requires a WAF offering."
+    },
+    {
+      "id": "D2-NET-038",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A team wants to give a vendor RDP access to a VM without assigning a public IP address to the VM and without opening RDP to the internet. Which service provides this, and how?",
+      "options": [
+        "Azure VPN Gateway, because it provides RDP over a VPN tunnel",
+        "Azure Bastion, which provides secure RDP and SSH connectivity to virtual machines over TLS on port 443, without requiring a public IP address on the virtual machines",
+        "Azure Firewall, because it provides RDP access to VMs",
+        "Just-in-time VM access, because it replaces Bastion entirely"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Azure Bastion provides secure RDP and SSH connectivity to virtual machines over TLS on port 443, without requiring a public IP address on the VMs. The vendor connects through the Azure portal or a Bastion host, and the VM remains private. VPN Gateway requires a VPN client and tunnel, while Bastion works through the browser or a native client.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/bastion/bastion-overview",
+      "source_title": "What is Azure Bastion?",
+      "source_quote": "Azure Bastion provides secure RDP and SSH connectivity to virtual machines over TLS on port 443, without requiring a public IP address on the virtual machines."
+    },
+    {
+      "id": "D2-NET-039",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A team deploys Azure Bastion Developer SKU for a small test environment. They ask what the limitations are. What should they know?",
+      "options": [
+        "The Developer SKU is a free tier that uses shared infrastructure, supports connecting to one virtual machine at a time, and is available in select regions, so it is suitable for testing but not for production use",
+        "The Developer SKU has no limitations and is identical to Standard",
+        "The Developer SKU requires a public IP on every VM",
+        "The Developer SKU supports session recording, which Standard does not"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: the Azure Bastion Developer SKU is a free tier that uses shared infrastructure, supports connecting to one virtual machine at a time, and is available in select regions. It is intended for testing and small environments, not for production. For production features such as native client support, file transfer, and session recording, the Standard or Premium SKU is required.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/bastion/bastion-overview",
+      "source_title": "What is Azure Bastion?",
+      "source_quote": "Azure Bastion provides secure RDP and SSH connectivity to virtual machines over TLS on port 443, without requiring a public IP address on the virtual machines."
+    },
+    {
+      "id": "D2-NET-040",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A team uses Azure Bastion Basic and wants to connect using their native RDP client and transfer files to the VM. What will they find?",
+      "options": [
+        "Basic supports native client connections and file transfer",
+        "Basic supports only portal browser connections, while Standard adds native client support, shareable links, IP-based connections, custom ports, and file transfer, so the team must upgrade to Standard",
+        "Basic supports file transfer but not native client connections",
+        "Basic supports native client connections but not file transfer"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Azure Bastion Basic supports only connections through the Azure portal browser. Standard adds native client support, shareable links, IP-based connections, custom ports, and file transfer. The team must upgrade to Standard for native client and file transfer capabilities.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/bastion/bastion-overview",
+      "source_title": "What is Azure Bastion?",
+      "source_quote": "Azure Bastion provides secure RDP and SSH connectivity to virtual machines over TLS on port 443, without requiring a public IP address on the virtual machines."
+    },
+    {
+      "id": "D2-NET-041",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A team needs session recording for compliance on their Bastion connections. Which SKU provides this, and what else does it add?",
+      "options": [
+        "Standard, because it includes session recording",
+        "Premium, which adds session recording and private-only deployment on top of the Standard features",
+        "Basic, because session recording is a basic feature",
+        "Developer, because it is the only SKU with session recording"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Azure Bastion Premium adds session recording and private-only deployment on top of the Standard features. Session recording captures the RDP or SSH session for compliance and auditing. Standard does not include session recording, so the team must use Premium.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/bastion/bastion-overview",
+      "source_title": "What is Azure Bastion?",
+      "source_quote": "Azure Bastion provides secure RDP and SSH connectivity to virtual machines over TLS on port 443, without requiring a public IP address on the virtual machines."
+    },
+    {
+      "id": "D2-NET-042",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A team deploys one Azure Bastion host in a hub virtual network and has virtual machines in peered spoke virtual networks. Can they use the single Bastion host to reach the spoke VMs?",
+      "options": [
+        "No, each VNet needs its own Bastion host",
+        "Yes, one Bastion deployment can serve virtual machines in peered virtual networks, because Bastion works across VNet peering",
+        "No, because Bastion only works in the VNet where it is deployed",
+        "Yes, but only if the spoke VNets are in the same region and the Bastion is Premium"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: one Azure Bastion deployment can serve virtual machines in peered virtual networks. Bastion works across VNet peering, so a single Bastion host in a hub VNet can provide RDP and SSH access to VMs in spoke VNets. Each VNet does not need its own Bastion host.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/bastion/bastion-overview",
+      "source_title": "What is Azure Bastion?",
+      "source_quote": "Azure Bastion provides secure RDP and SSH connectivity to virtual machines over TLS on port 443, without requiring a public IP address on the virtual machines."
+    },
+    {
+      "id": "D2-NET-043",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A team configures a Firewall Policy with a parent policy and a child policy. A rule exists in both the parent and the child with conflicting actions. Which rule wins?",
+      "options": [
+        "The child policy rule wins, because child policies override parent policies",
+        "The parent policy rule wins, because Firewall Policy supports a hierarchy where parent policies take precedence over child policies",
+        "Both rules apply, so the traffic is evaluated against both",
+        "Neither rule applies, because conflicting rules cancel each other out"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Firewall Policy supports a hierarchy of policies, where a parent policy takes precedence over a child policy. If a rule exists in both with conflicting actions, the parent policy's rule wins. This lets central teams enforce rules that local teams cannot override.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/firewall/firewall-faq",
+      "source_title": "Azure Firewall FAQ",
+      "source_quote": "Azure Firewall rules are processed in order: DNAT rules first, then network rules, then application rules, and all rules are terminating."
+    },
+    {
+      "id": "D2-NET-044",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-core",
+      "difficulty": "hard",
+      "question": "A team wants to segment a virtual network so that web servers can talk to application servers, but application servers cannot initiate connections to web servers. Which NSG approach achieves this?",
+      "options": [
+        "A single NSG on the subnet with a rule allowing all traffic, because segmentation is automatic",
+        "Separate NSGs on the web and application subnets, with the application subnet NSG denying outbound traffic to the web subnet while allowing inbound traffic from the web subnet, because NSGs are stateful and outbound rules control initiation",
+        "A single NSG on the web subnet only, because application servers do not need an NSG",
+        "An Azure Firewall, because NSGs cannot control direction of initiation"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: network segmentation is achieved with separate NSGs on each subnet. The application subnet NSG denies outbound traffic to the web subnet, which prevents application servers from initiating connections to web servers, while allowing inbound traffic from the web subnet, which lets web servers initiate connections to application servers. NSGs are stateful, so return traffic for an allowed connection is permitted.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview",
+      "source_title": "Network security groups overview",
+      "source_quote": "Network security groups filter network traffic using five-tuple information, rules are evaluated in priority order with the lowest number first, and the first matching rule wins."
+    }
+  ]
+}

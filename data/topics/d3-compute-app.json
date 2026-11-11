@@ -1,0 +1,919 @@
+{
+  "topic": "App Service / Functions / Logic Apps: authentication, Managed Identity, network isolation, Key Vault references, Logic Apps connectors/security",
+  "topic_slug": "compute-app",
+  "domain": "Secure compute",
+  "source_pages": [
+    {
+      "title": "Secure your Azure App Service deployment",
+      "url": "https://learn.microsoft.com/en-us/azure/app-service/overview-security",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Integrate your app with an Azure virtual network",
+      "url": "https://learn.microsoft.com/en-us/azure/app-service/overview-vnet-integration",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Baseline Highly Available Zone-Redundant App Services Web Application",
+      "url": "https://learn.microsoft.com/en-us/azure/architecture/web-apps/app-service/architectures/baseline-zone-redundant",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Configure connections to remote services in Azure Functions",
+      "url": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-identity-based-connections-tutorial",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Secure access and data in workflows - Azure Logic Apps",
+      "url": "https://learn.microsoft.com/en-us/azure/logic-apps/logic-apps-securing-a-logic-app",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Implement security controls for Function and Logic apps",
+      "url": "https://learn.microsoft.com/en-us/training/modules/implement-security-controls-function-logic-apps/6-summary",
+      "checked": "2026-11-11"
+    }
+  ],
+  "questions": [
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the Learn pattern is system-assigned managed identity plus Key Vault Secrets User on the vault, with the secret consumed as a Key Vault reference (@Microsoft.KeyVault(...)); the app identity reads the secret at runtime while human contributors have no vault access. A is wrong: Key Vault access policies are the legacy model and granting Secrets Officer to humans gives them the secret. C is wrong: disabling the identity removes the only secretless path and forces secrets back into app settings. D is wrong: the master key is for Functions ADMIN authorisation, not Key Vault access.",
+      "id": "D3-APP-001",
+      "options": [
+        "Use the Functions master key as the Key Vault secret, so the app and the developers share one credential",
+        "Grant the developers Key Vault Secrets Officer through access policies and let the app read the secret with the developers credentials",
+        "Enable the apps system-assigned managed identity, grant it Key Vault Secrets User on the vault, and consume the secret as a Key Vault reference, so app Contributors still cannot read the vault secret",
+        "Disable the managed identity and store the secret in an app setting, because only app settings are hidden from Contributors"
+      ],
+      "question": "An App Service apps contributors can see a database secret stored as a plain app setting. The team moves the secret to Key Vault, but a developer argues anyone who is a Contributor on the app can still read it, so Key Vault changes nothing. Which design proves that argument wrong?",
+      "source_quote": "Store secrets in Key Vault: Protect sensitive configuration values like database credentials by storing them in Azure Key Vault and accessing them using managed identities, rather than storing them in application settings or code.",
+      "source_title": "Secure your Azure App Service deployment",
+      "source_url": "https://learn.microsoft.com/en-us/azure/app-service/overview-security",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: App Service Authentication (Easy Auth) is built into the platform, requires little or no code, and integrates federated providers such as Microsoft Entra ID, validating sign-in before app code runs. A is wrong: Bastion is RDP and SSH access to VMs, not web-app user sign-in. C is wrong: Key Vault references supply app secrets, not user authentication. D is wrong: an NSG restricts network source; it does not authenticate individual users.",
+      "id": "D3-APP-002",
+      "options": [
+        "A Key Vault reference, which authenticates users against the secrets stored in the vault",
+        "An NSG rule that only allows traffic from the companys office IP range",
+        "Azure Bastion, which authenticates web users before they reach the app",
+        "App Service Authentication (Easy Auth), the platforms built-in authentication that validates sign-in with federated identity providers before app code runs"
+      ],
+      "question": "A team wants users to sign in to an App Service web app with Microsoft Entra ID without writing authentication code in the application, and the app must reject unauthenticated requests before any app code executes. Which built-in capability does this?",
+      "source_quote": "Configure authentication and authorization: Implement App Service Authentication/Authorization to secure your application with Microsoft Entra ID or other identity providers, preventing unauthorized access without writing custom authentication code.",
+      "source_title": "Secure your Azure App Service deployment",
+      "source_url": "https://learn.microsoft.com/en-us/azure/app-service/overview-security",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: at FUNCTION level the caller must present a function key for that function or a host key. A is wrong: that describes ANONYMOUS level. C is wrong: the master key is required only at ADMIN level. D is wrong: Entra user authentication is a separate layer (App Service Authentication); the FUNCTION authorisation level itself is a shared-key check.",
+      "id": "D3-APP-003",
+      "options": [
+        "The users Microsoft Entra ID token, because function keys are not used at FUNCTION level",
+        "No key, because FUNCTION level means anonymous access",
+        "Any function key for that function, or any host key",
+        "Only the master (admin) key, which also unlocks the host admin APIs"
+      ],
+      "question": "An Azure Functions HTTP trigger is set to authorisation level FUNCTION (the default). A partner system calls it and gets a 401. The partner argues the function should accept its Entra token. Which key must the caller present at this level?",
+      "source_quote": "Function authorization levels provide a secondary layer: host keys for app-wide access, function keys for per-function restriction, and the anonymous level reserved for endpoints protected by an upstream gateway.",
+      "source_title": "Implement security controls for Function and Logic apps",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/implement-security-controls-function-logic-apps/6-summary",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: WAF inspects HTTP traffic and blocks common web attacks; it is deployed with Application Gateway or Azure Front Door in front of App Service. A is wrong: WAF is not a disk-encryption feature. C is wrong: Bastion is RDP and SSH to VMs. D is wrong: a WAF does not replace the apps authentication; it protects the HTTP layer.",
+      "id": "D3-APP-004",
+      "options": [
+        "It provides RDP access to the App Service workers",
+        "It authenticates users with Microsoft Entra ID so the app needs no sign-in code",
+        "It encrypts the App Service disks so the database cannot be read if stolen",
+        "It inspects inbound HTTP traffic and blocks common web attacks such as SQL injection and cross-site scripting, typically in front of the app via Application Gateway or Front Door"
+      ],
+      "question": "A public App Service web app is receiving SQL injection attempts. The team adds Azure Web Application Firewall (WAF). A developer claims the WAF now authenticates users and encrypts the database. What does the WAF actually do?",
+      "source_quote": "In this architecture, Azure Application Gateway with Azure Web Application Firewall exposes a public endpoint and routes requests to Azure App Service through Azure Private Link.",
+      "source_title": "Baseline Highly Available Zone-Redundant App Services Web Application",
+      "source_url": "https://learn.microsoft.com/en-us/azure/architecture/web-apps/app-service/architectures/baseline-zone-redundant",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: FUNCTION keys are shared secrets for service-to-service callers and cannot identify which employee called; only App Service Authentication (Easy Auth) with an Entra provider validates the users token before code runs and identifies the caller. A is wrong: rotating the function key does not add user identity. C is wrong: ANONYMOUS removes even the shared-key check. D is wrong: CORS is a browser-origin control, not authentication; non-browser callers bypass it entirely.",
+      "id": "D3-APP-005",
+      "options": [
+        "Add the partners origin to the CORS allowed origins list, because CORS authenticates the caller",
+        "Rotate the function key weekly and log which key was used, because that identifies the employee",
+        "Keep FUNCTION level and enable App Service Authentication with the Microsoft Entra provider, so the platform validates the users token before code runs",
+        "Change the trigger to ANONYMOUS and rely on the function key being secret"
+      ],
+      "question": "A Functions HTTP trigger at FUNCTION level is called by several employees scripts, all sharing one function key. An incident requires knowing which employee called the function, but the logs only show the shared key. What is the correct fix?",
+      "source_quote": "The authentication layer was addressed through Azure App Service Authentication. You configured Microsoft Entra ID as the EasyAuth identity provider, using the Require authentication setting to block unauthenticated requests before the function code executes.",
+      "source_title": "Implement security controls for Function and Logic apps",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/implement-security-controls-function-logic-apps/6-summary",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: API Management is the back-end API protection layer (authentication, token limits, policies at the gateway), while WAF inspects HTTP traffic for web attacks. A is wrong: WAF alone does not authenticate API callers or enforce per-subscriber token limits. C is wrong: that inverts the two; APIM governs the API, WAF inspects HTTP. D is wrong: a private endpoint secures network access to a PaaS resource; it does not authenticate callers or rate-limit tokens.",
+      "id": "D3-APP-006",
+      "options": [
+        "Replace API Management with a WAF, because WAF policies are the back-end API protection mechanism",
+        "Add a private endpoint to the API and stop; network isolation is the same as API authentication and rate limiting",
+        "Add a WAF in front of the API; a WAF authenticates callers and enforces per-subscriber token limits",
+        "Put Azure API Management in front of the API as the back-end gateway (authentication, token-limit and logging policies) and keep WAF for HTTP attack inspection"
+      ],
+      "question": "A back-end API is exposed through Azure API Management. Calls are unauthenticated, one subscriber is burning the token budget, and SQL injection attempts reach the API. Which layered design addresses all three?",
+      "source_quote": "In this architecture, Azure Application Gateway with Azure Web Application Firewall exposes a public endpoint and routes requests to Azure App Service through Azure Private Link.",
+      "source_title": "Baseline Highly Available Zone-Redundant App Services Web Application",
+      "source_url": "https://learn.microsoft.com/en-us/azure/architecture/web-apps/app-service/architectures/baseline-zone-redundant",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: a private endpoint gives the app a private inbound address, while VNet integration gives the app private outbound connectivity from the VNet to PaaS services; they are opposite directions and both are needed. A is wrong: a private endpoint alone does not give the app outbound private access to Key Vault or SQL. C is wrong: service endpoints are a different subnet-level mechanism, not the apps outbound integration. D is wrong: exposing the app publicly and relying on a firewall on the vault does not give the app a private path.",
+      "id": "D3-APP-007",
+      "options": [
+        "Leave the app public and put a firewall on Key Vault; the app can then reach Key Vault privately",
+        "Add a private endpoint for the web app; that also gives the app private outbound access to Key Vault and SQL",
+        "Add a private endpoint for inbound traffic to the app AND enable VNet integration for the apps outbound calls to Key Vault and SQL, with private endpoints on those services too",
+        "Add a service endpoint on the web apps subnet; service endpoints are the same as VNet integration for outbound calls"
+      ],
+      "question": "An App Service app must be reachable only privately AND must reach Key Vault and Azure SQL without going over the public internet. The team adds a private endpoint for the app and declares the work done. What is missing?",
+      "source_quote": "Virtual network integration is used only to make outbound calls from your app into your virtual network. Refer to private endpoint for inbound private access.",
+      "source_title": "Integrate your app with an Azure virtual network",
+      "source_url": "https://learn.microsoft.com/en-us/azure/app-service/overview-vnet-integration",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: a user-assigned identity survives the app being deleted and can be shared by several apps, while a system-assigned identity is tied to the app lifecycle and is deleted with it. A is wrong: system-assigned identities are deleted with the app. C is wrong: user-assigned identities are not per-app only; they can be assigned to multiple resources. D is wrong: both identity types authenticate to Azure services without stored credentials.",
+      "id": "D3-APP-008",
+      "options": [
+        "Use a user-assigned managed identity, because it survives the app, can be shared across the three apps, and is deleted only when explicitly removed",
+        "Use a system-assigned managed identity, because it survives app deletion and can be shared across apps",
+        "Use a user-assigned managed identity, because it can only ever be attached to one app",
+        "Use a service principal with a client secret, because managed identities cannot be shared across apps"
+      ],
+      "question": "Three App Service apps must all authenticate to the same Key Vault and SQL Database with one identity, and the identity must survive any single app being deleted and recreated. Which managed identity type fits?",
+      "source_quote": "App Service supports both system-assigned and user-assigned managed identities. Managed identities provide an automatically managed identity in Microsoft Entra ID for your app to use when making outgoing requests to other Azure services.",
+      "source_title": "Secure your Azure App Service deployment",
+      "source_url": "https://learn.microsoft.com/en-us/azure/app-service/overview-security",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: managed identities are the highest-security connection method because they eliminate secrets entirely; Key Vault is the fallback when the target does not support Entra authentication, and shared secrets in app settings are the last resort. A is wrong: shared secrets are the lowest-security method. B is wrong: Key Vault is high security but still involves a secret; managed identity eliminates secrets. D is wrong: connection strings in code are the failure being fixed.",
+      "id": "D3-APP-009",
+      "options": [
+        "Store the connection string with its password in app settings, because that is the most secure option",
+        "Use Key Vault references, because they are more secure than managed identities",
+        "Use a managed identity with the least-privilege RBAC role on the target service, because that eliminates secrets entirely; use Key Vault only when the target does not support Entra authentication",
+        "Embed the connection string in the function code, because code is not visible to app contributors"
+      ],
+      "question": "A Functions app connects to Azure SQL, Storage and a third-party API that has no Entra support. The team must rank the connection methods by security. Which design is correct?",
+      "source_quote": "Use managed identities with Microsoft Entra ID whenever possible. This authentication method eliminates secrets and provides the highest security. When the target service does not support Microsoft Entra ID authentication, use Azure Key Vault to centrally manage secrets.",
+      "source_title": "Configure connections to remote services in Azure Functions",
+      "source_url": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-identity-based-connections-tutorial",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the master key is a host key with admin reach, so it must never be given to a partner; the partner gets a function key scoped to the one function it calls. A is wrong: the master key unlocks host admin APIs. C is wrong: ANONYMOUS removes the key check entirely. D is wrong: a host key works for every function in the app, which is broader than one function key.",
+      "id": "D3-APP-010",
+      "options": [
+        "Change the trigger to ANONYMOUS so no key management is needed",
+        "Give the partner a host key, because host keys are scoped to a single function",
+        "Give the partner the master key, because it is the standard key for external callers",
+        "Give the partner a function key scoped to that one function, and never share the master key, which also unlocks the host admin APIs"
+      ],
+      "question": "A partner must call exactly one HTTP function in an app that has twelve functions. A developer suggests sharing the master key for simplicity. Which key design is least privilege, and why is the master key wrong?",
+      "source_quote": "Function authorization levels provide a secondary layer: host keys for app-wide access, function keys for per-function restriction, and the anonymous level reserved for endpoints protected by an upstream gateway.",
+      "source_title": "Implement security controls for Function and Logic apps",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/implement-security-controls-function-logic-apps/6-summary",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: a host key works for every function in the app at FUNCTION level, including functions added later, so rotating one host key breaks all callers; per-function keys limit the blast radius. A is wrong: host keys are app-wide. B is wrong: function keys are per-function, not per-app. C is wrong: the master key is a host key with admin reach, broader still.",
+      "id": "D3-APP-011",
+      "options": [
+        "Nothing changes, because host keys are scoped to the function they were created for",
+        "Only the new function is affected, because host keys do not apply to functions added later",
+        "Only the master key is affected, because host keys are per-function",
+        "Every function caller using that host key is affected, because a host key works for every function in the app, including functions added later"
+      ],
+      "question": "A team shares one host key across ten partner integrations calling different functions in one Function app. The key leaks and must be rotated. What is the blast radius, and what should the design have been?",
+      "source_quote": "Function authorization levels provide a secondary layer: host keys for app-wide access, function keys for per-function restriction.",
+      "source_title": "Implement security controls for Function and Logic apps",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/implement-security-controls-function-logic-apps/6-summary",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: ADMIN level requires the master key only, and the master key also unlocks the host admin APIs, so it must never be used for ordinary callers. B is wrong: ADMIN does not accept any function key. C is wrong: ADMIN is not anonymous. D is wrong: Entra authentication is a separate layer; ADMIN level itself is a master-key check.",
+      "id": "D3-APP-012",
+      "options": [
+        "Only the master key, which also unlocks the host admin APIs, so it must never be shared with ordinary callers",
+        "Any function key for that function, because ADMIN is the same as FUNCTION level",
+        "No key, because ADMIN means the platform trusts the caller automatically",
+        "The callers Entra ID token only, because ADMIN level disables key checks"
+      ],
+      "question": "A function is set to authorisation level ADMIN. A partner presents a valid function key and gets a 401. Which key does ADMIN level require, and what is the risk of sharing it?",
+      "source_quote": "Function authorization levels provide a secondary layer: host keys for app-wide access, function keys for per-function restriction, and the anonymous level reserved for endpoints protected by an upstream gateway.",
+      "source_title": "Implement security controls for Function and Logic apps",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/implement-security-controls-function-logic-apps/6-summary",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: ANONYMOUS is reserved for endpoints protected by an upstream gateway that authenticates callers, or with App Service Authentication in front; on its own it means anyone can call. A is wrong: ANONYMOUS is not safe for an internet-facing function with no gateway. B is wrong: ANONYMOUS does not check any key. D is wrong: CORS is a browser control, not authentication.",
+      "id": "D3-APP-013",
+      "options": [
+        "Set the trigger to ANONYMOUS, because anonymous functions are still protected by the Functions runtime",
+        "Keep ANONYMOUS and add a CORS rule, because CORS authenticates callers",
+        "Put the function behind a gateway that authenticates callers, or enable App Service Authentication, and only then use ANONYMOUS for the trigger itself",
+        "Set the trigger to ANONYMOUS and rely on the function key, because anonymous level still requires a key"
+      ],
+      "question": "A team wants to expose an HTTP function directly to the internet and proposes ANONYMOUS level because the function only reads public data. What is the correct design, and what is wrong with the proposal?",
+      "source_quote": "Function authorization levels provide a secondary layer: host keys for app-wide access, function keys for per-function restriction, and the anonymous level reserved for endpoints protected by an upstream gateway.",
+      "source_title": "Implement security controls for Function and Logic apps",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/implement-security-controls-function-logic-apps/6-summary",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Contributor or workflow-editing permission equates to holding the permissions of every managed identity assigned to that workflow, because a contributor can add an HTTP action that requests an identity bearer token for any audience, valid for one hour. A is wrong: Contributor is not read-only for identities. C is wrong: the token is not scoped to the workflow audience; it can be requested for any audience. D is wrong: the platform does not restrict the destination of those requests.",
+      "id": "D3-APP-014",
+      "options": [
+        "Nothing, because Contributors cannot use the workflows managed identities",
+        "Treat Contributor on the workflow as equivalent to holding every permission of its managed identities, because a contributor can request an identity bearer token for any audience",
+        "Nothing, because identity tokens are always scoped to the workflow itself and expire in one minute",
+        "Rely on the platform to block token requests to destinations outside the workflow"
+      ],
+      "question": "A Logic App workflow has a managed identity with write access to a production SQL database. A contractor is granted Contributor on the workflow to fix a bug. What is the identity risk, and how long is the token involved valid?",
+      "source_quote": "Contributor or workflow editing permissions equate to holding the permissions for every managed identity assigned to that workflow. Anyone with contributor or workflow editing permissions can set up HTTP built-in operations that use managed identities to request identity bearer tokens for any audience. Bearer tokens are valid for one hour.",
+      "source_title": "Secure access and data in workflows - Azure Logic Apps",
+      "source_url": "https://learn.microsoft.com/en-us/azure/logic-apps/logic-apps-securing-a-logic-app",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: secure inputs and secure outputs on individual Logic App actions protect sensitive data from appearing in run history. A is wrong: run history is not encrypted per-action by default; the secure settings are the control. C is wrong: deleting history after the fact does not prevent exposure in the first place. D is wrong: RBAC on the logic app does not hide action inputs and outputs from people who can view runs.",
+      "id": "D3-APP-015",
+      "options": [
+        "Enable secure inputs and secure outputs on the actions that handle the secret, so sensitive data does not appear in run history",
+        "Rely on the default run history, because Logic Apps encrypts all action inputs and outputs automatically",
+        "Delete the run history after each run, because that is the only way to hide secrets",
+        "Restrict RBAC on the logic app, because that hides action inputs from anyone who can view runs"
+      ],
+      "question": "A Logic App passes a database password through several actions, and the password is visible in run history to anyone who can view runs. Which setting fixes this?",
+      "source_quote": "Secure inputs and secure outputs settings on individual Logic app actions protect sensitive data from appearing in run history.",
+      "source_title": "Implement security controls for Function and Logic apps",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/implement-security-controls-function-logic-apps/6-summary",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the Standard plan provides VNet integration, private endpoints and single-tenant isolation that the Consumption plan does not support, so network isolation requires Standard. A is wrong: Consumption has no VNet integration or private endpoints. B is wrong: IP restrictions alone do not give private endpoints or single-tenant isolation. D is wrong: the plan is the constraint; no setting on Consumption adds VNet integration.",
+      "id": "D3-APP-016",
+      "options": [
+        "Stay on Consumption and add VNet integration, because all plans support it",
+        "Stay on Consumption and add IP restrictions only, because that is equivalent to private endpoints",
+        "Move to the Standard plan, which provides virtual network integration, private endpoints and single-tenant isolation that the Consumption plan does not support",
+        "Stay on Consumption and enable a private endpoint through the portal, because private endpoints are plan-independent"
+      ],
+      "question": "A Logic App on the Consumption plan must call an internal API over a private network and must not share a multi-tenant runtime with other customers. The team tries to add VNet integration and a private endpoint, but the options are missing. What is the fix?",
+      "source_quote": "The Standard plan provides virtual network integration, private endpoints, and single-tenant isolation that the Consumption plan does not support.",
+      "source_title": "Implement security controls for Function and Logic apps",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/implement-security-controls-function-logic-apps/6-summary",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: private endpoints give inbound private access, VNet integration gives outbound calls from the app into the VNet, and NSG inbound rules do not apply to VNet integration because it cannot provide inbound access. A is wrong: VNet integration is outbound only. C is wrong: NSG inbound rules do not apply to the integration subnet for this purpose. D is wrong: a private endpoint is the inbound mechanism, not VNet integration.",
+      "id": "D3-APP-017",
+      "options": [
+        "Enable VNet integration, because it grants inbound private access to the app from the VNet",
+        "Add a private endpoint for inbound private access, and use VNet integration only for the apps outbound calls into the VNet",
+        "Block inbound traffic with an NSG on the integration subnet, because NSG inbound rules control VNet integration access",
+        "Enable VNet integration on the Basic tier, because VNet integration works on every pricing tier"
+      ],
+      "question": "An internal App Service app must be reachable only from inside the VNet, and must call a SQL database inside the same VNet. The team enables VNet integration and declares the app private. What is wrong, and what is the correct pair of controls?",
+      "source_quote": "Virtual network integration gives your app access to resources in your virtual network, but it does not grant inbound private access to your app from the virtual network. Virtual network integration is used only to make outbound calls from your app into your virtual network.",
+      "source_title": "Integrate your app with an Azure virtual network",
+      "source_url": "https://learn.microsoft.com/en-us/azure/app-service/overview-vnet-integration",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: VNet integration requires a Basic, Standard, Premium or Elastic Premium tier; it is not available on Free or Shared, and it supports connecting to a VNet in the same region. B is wrong: VNet integration does not work on the Free tier. C is wrong: cross-region VNet integration is not supported; the VNet must be in the same region. D is wrong: VNet integration is outbound only, so it does not give the app a private inbound address.",
+      "id": "D3-APP-018",
+      "options": [
+        "Move the app to at least the Basic tier and integrate with a VNet in the same region, because VNet integration requires a dedicated-compute tier and same-region networking",
+        "Keep the Free tier and enable VNet integration, because it works on every tier",
+        "Integrate with a VNet in a different region, because VNet integration is region-independent",
+        "Enable VNet integration to give the app a private inbound address for users"
+      ],
+      "question": "An App Service app on the Free tier must call a database in a VNet in another region. The team enables VNet integration and it fails. Which two constraints explain the failure?",
+      "source_quote": "The virtual network integration feature is used in Azure App Service dedicated compute pricing tiers. Virtual network integration supports connecting to a virtual network in the same region.",
+      "source_title": "Integrate your app with an Azure virtual network",
+      "source_url": "https://learn.microsoft.com/en-us/azure/app-service/overview-vnet-integration",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Key Vault references resolve the secret at runtime through the apps managed identity, so the plain secret never appears in app settings; the reference value itself is not the secret. A is wrong: the reference does not embed the secret value. B is wrong: the app still needs Key Vault Secrets User on the vault through its identity. D is wrong: a Key Vault reference is a platform-resolved setting, not a code change.",
+      "id": "D3-APP-019",
+      "options": [
+        "The secret value is embedded in the app setting, just in encoded form",
+        "The app no longer needs any Key Vault permission, because the reference bypasses RBAC",
+        "The app setting holds a reference such as @Microsoft.KeyVault(...), the platform resolves it at runtime using the apps managed identity, and the plain secret never appears in app settings",
+        "The application code must be changed to call the Key Vault SDK directly, because references do not work in app settings"
+      ],
+      "question": "A team replaces a plain-text database password in App Service app settings with a Key Vault reference. A reviewer asks whether the secret is still visible in the settings. How does the reference actually work?",
+      "source_quote": "Next to the connection string, select Show value. The value should be @Microsoft.KeyVault(...), which means that it is a key vault reference because the secret is now managed in the key vault.",
+      "source_title": "Secure your Azure App Service deployment",
+      "source_url": "https://learn.microsoft.com/en-us/azure/app-service/overview-security",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: managed identity is the highest-security method for Functions connections, and identity-based connections require Functions runtime 4.x or later, so a 3.x runtime cannot use them. A is wrong: 3.x does not support identity-based connections. C is wrong: managed identity eliminates secrets; a connection string is the fallback. D is wrong: the runtime version is the blocker, not the plan.",
+      "id": "D3-APP-020",
+      "options": [
+        "Enable managed identity connections on the 3.x runtime, because all versions support them",
+        "Upgrade the Functions runtime to 4.x or later, because identity-based connections are only supported on version 4.x and later",
+        "Keep the connection string in app settings, because managed identity is less secure than a connection string",
+        "Change the hosting plan, because the runtime version does not matter for managed identity"
+      ],
+      "question": "A Functions app on runtime 3.x must stop using connection strings and switch to managed identity connections to Azure Storage. The change fails. What is the cause?",
+      "source_quote": "Identity-based connections are only supported on version 4.x and later of the Functions runtime. Use managed identities with Microsoft Entra ID whenever possible. This authentication method eliminates secrets and provides the highest security.",
+      "source_title": "Configure connections to remote services in Azure Functions",
+      "source_url": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-identity-based-connections-tutorial",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: managed identity support for AzureWebJobsStorage varies by hosting plan, and Azure Files does not currently support managed identity connections, so the WEBSITE_CONTENTAZUREFILECONNECTIONSTRING must be secured in Key Vault. A is wrong: managed identity does not work for every setting on every plan. B is wrong: the setting is required for dynamic scaling on Consumption and Premium plans. D is wrong: a plain connection string is the last resort, not the recommended approach.",
+      "id": "D3-APP-021",
+      "options": [
+        "Use a managed identity for AzureWebJobsStorage on every plan, because it works identically everywhere",
+        "Delete the WEBSITE_CONTENTAZUREFILECONNECTIONSTRING setting, because it is optional on Consumption and Premium plans",
+        "Use a managed identity where the plan supports it, and secure the WEBSITE_CONTENTAZUREFILECONNECTIONSTRING in Key Vault, because Azure Files does not currently support managed identity connections",
+        "Leave the connection string in plain app settings, because Key Vault references do not work for this setting"
+      ],
+      "question": "A Functions app on the Consumption plan must use managed identity everywhere, but the storage connection string for the content share cannot be converted. What is the correct handling?",
+      "source_quote": "Azure Files does not currently support managed identity connections. Because of this limitation, use Key Vault to secure the WEBSITE_CONTENTAZUREFILECONNECTIONSTRING setting, which is required for dynamic scaling by both Consumption and Premium plans.",
+      "source_title": "Configure connections to remote services in Azure Functions",
+      "source_url": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-identity-based-connections-tutorial",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Logic Apps relies on Azure Storage to store and automatically encrypt data at rest with Microsoft-managed keys, and the security guidance adds authentication types, inbound and outbound access controls and connector blocking on top. B is wrong: data at rest is encrypted by default; the team does not need to encrypt it themselves. C is wrong: Logic Apps storage encryption is platform-managed, not customer-key by default. D is wrong: encryption at rest does not protect run history contents; secure inputs and outputs do that.",
+      "id": "D3-APP-022",
+      "options": [
+        "Logic Apps stores workflow data in Azure Storage encrypted at rest with Microsoft-managed keys by default, and the team adds authentication, access controls and connector blocking on top",
+        "Logic Apps stores workflow data unencrypted unless the team enables encryption themselves",
+        "Logic Apps requires a customer-managed key for all workflow data, or it is stored in plain text",
+        "Encryption at rest also hides secrets from run history, so no secure inputs or outputs setting is needed"
+      ],
+      "question": "A compliance review asks how Logic Apps protects workflow data at rest and what else is needed. Which statement is correct?",
+      "source_quote": "Azure Logic Apps relies on Azure Storage to store and automatically encrypt data at rest. Azure Logic Apps stores and automatically encrypts data at rest by using Azure Storage. This encryption protects your data by using Microsoft-managed keys.",
+      "source_title": "Secure access and data in workflows - Azure Logic Apps",
+      "source_url": "https://learn.microsoft.com/en-us/azure/logic-apps/logic-apps-securing-a-logic-app",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: App Service Authentication supports multiple providers including Microsoft Entra ID, Microsoft accounts, Facebook, Google and X, and the built-in module handles requests before passing them to application code. A is wrong: Easy Auth is not Entra-only. C is wrong: the identity provider is configured in the platform, not in code. D is wrong: Easy Auth does not replace the need for authorisation logic in the app; it handles authentication.",
+      "id": "D3-APP-023",
+      "options": [
+        "Only Microsoft Entra ID is supported, so social providers need custom code",
+        "Microsoft Entra ID, Microsoft accounts, Facebook, Google and X are supported, and the built-in authentication module handles requests before passing them to application code",
+        "Only one provider can be configured per app, and it must be Entra ID",
+        "Easy Auth handles authorisation but not authentication, so the app must still validate tokens itself"
+      ],
+      "question": "A consumer web app must let users sign in with Entra ID or Google, with no auth code in the app. Which Easy Auth statement is correct?",
+      "source_quote": "The built-in authentication module handles web requests before passing them to your application code and supports multiple providers including Microsoft Entra ID, Microsoft accounts, Facebook, Google, and X.",
+      "source_title": "Secure your Azure App Service deployment",
+      "source_url": "https://learn.microsoft.com/en-us/azure/app-service/overview-security",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: inbound IP restrictions filter who can reach the app, while private endpoints remove public exposure entirely; IP restrictions are a filter, not private connectivity. B is wrong: IP restrictions do not give private endpoints. C is wrong: IP restrictions apply to inbound traffic; they are not the outbound mechanism. D is wrong: service endpoints and IP restrictions are different controls.",
+      "id": "D3-APP-024",
+      "options": [
+        "Use inbound IP restrictions to filter which sources can reach the app, and use a private endpoint to remove public internet exposure entirely, because the two controls do different jobs",
+        "Use inbound IP restrictions alone, because they are the same as a private endpoint",
+        "Use inbound IP restrictions for the apps outbound calls to Key Vault",
+        "Replace the private endpoint with a service endpoint, because they are identical"
+      ],
+      "question": "An App Service app must be reachable only from the corporate network and must have no public endpoint at all. The team proposes IP restrictions alone. What is the correct design?",
+      "source_quote": "Configure private endpoints: Eliminate public internet exposure by routing traffic to your App Service through your virtual network using Azure Private Link. Set up service endpoint restrictions: Lock down inbound access to your app from specific subnets in your virtual networks using service endpoints.",
+      "source_title": "Secure your Azure App Service deployment",
+      "source_url": "https://learn.microsoft.com/en-us/azure/app-service/overview-security",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the baseline architecture uses Application Gateway with WAF as the public endpoint, routing to App Service through Private Link, while the app uses VNet integration and Private Link for Key Vault and SQL. A is wrong: exposing App Service directly is not the baseline. C is wrong: WAF is on the gateway, not a replacement for the gateway. D is wrong: public endpoints on Key Vault and SQL defeat the private design.",
+      "id": "D3-APP-025",
+      "options": [
+        "Expose App Service directly to the internet and put a firewall on Key Vault only",
+        "Use Application Gateway with WAF as the public endpoint, route to App Service through Private Link, and connect the app to Key Vault and SQL through VNet integration and Private Link",
+        "Replace Application Gateway with a WAF alone, because a WAF routes traffic to App Service",
+        "Keep Key Vault and SQL on public endpoints, because the app reaches them through Private Link anyway"
+      ],
+      "question": "A baseline highly available App Service architecture must be zone-redundant, publicly reachable only through a WAF, and privately connected to Key Vault and SQL. Which architecture is correct?",
+      "source_quote": "In this architecture, Azure Application Gateway with Azure Web Application Firewall exposes a public endpoint and routes requests to Azure App Service through Azure Private Link. The App Service application uses virtual network integration and Private Link to communicate securely with Azure platform as a service (PaaS) solutions like Azure Key Vault and Azure SQL Database.",
+      "source_title": "Baseline Highly Available Zone-Redundant App Services Web Application",
+      "source_url": "https://learn.microsoft.com/en-us/azure/architecture/web-apps/app-service/architectures/baseline-zone-redundant",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: managed identity authentication for the SQL connection replaces the password entirely, and the Cognitive Services OpenAI User role replaces API key storage for AI orchestration. A is wrong: the password is removed, not rotated. C is wrong: a connection string with a password is the pattern being removed. D is wrong: Key Vault references are for secrets that must still exist; the managed identity removes the secret.",
+      "id": "D3-APP-026",
+      "options": [
+        "Rotate the SQL password monthly and keep it in app settings",
+        "Use the system-assigned managed identity with the appropriate RBAC role, so connection strings are no longer stored in application settings, and use the Cognitive Services OpenAI User role instead of an API key for Azure OpenAI",
+        "Store the password in Key Vault and keep the API key in code, because managed identity cannot replace both",
+        "Keep the connection string and add a firewall rule, because managed identity does not work for SQL"
+      ],
+      "question": "A Function app orchestrates Azure OpenAI calls and reads from Azure SQL. Both connections currently use secrets in app settings. Which passwordless design is correct?",
+      "source_quote": "With managed identity enabled and the appropriate RBAC roles assigned, connection strings are no longer stored in application settings. For AI orchestration patterns where Function apps invoke Azure OpenAI endpoints, the Cognitive Services OpenAI User role replaces API key storage entirely.",
+      "source_title": "Implement security controls for Function and Logic apps",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/implement-security-controls-function-logic-apps/6-summary",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: inbound controls are IP restrictions and private endpoints on Elastic Premium or Dedicated plans, and outbound control is VNet integration; the same three-layer model applies to Logic Apps. B is wrong: private endpoints for Functions need Elastic Premium or Dedicated, not Consumption. C is wrong: IP restrictions are inbound, VNet integration is outbound. D is wrong: the three layers are authentication, identity and network isolation, not three copies of the same layer.",
+      "id": "D3-APP-027",
+      "options": [
+        "Use inbound IP restrictions and private endpoints on the Elastic Premium or Dedicated plan, with virtual network integration for outbound traffic",
+        "Use private endpoints on the Consumption plan, because all plans support them",
+        "Use VNet integration for inbound traffic and IP restrictions for outbound traffic",
+        "Use three layers of IP restrictions, because authentication and identity are the same layer"
+      ],
+      "question": "A Function app endpoint must be reachable only from the corporate network and must call Key Vault privately. Which network design is correct, and which plan constraint applies?",
+      "source_quote": "The network isolation layer was addressed through inbound IP restrictions, private endpoints for Function apps on the Elastic Premium or Dedicated plan, and virtual network integration for outbound traffic.",
+      "source_title": "Implement security controls for Function and Logic apps",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/implement-security-controls-function-logic-apps/6-summary",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: managed identity is available for built-in connectors in Consumption and Standard, and for managed connectors including Blob Storage, Cosmos DB and others; most built-in service-provider connectors do not support user-assigned managed identities. A is wrong: Basic authentication is the weakest option, not the recommended one. B is wrong: managed connectors do support managed identity. D is wrong: user-assigned managed identity support is limited for built-in service-provider connectors.",
+      "id": "D3-APP-028",
+      "options": [
+        "Use Basic authentication for all connectors, because it is the most secure option",
+        "Managed identity is not available for managed connectors, only for built-in connectors",
+        "Use any user-assigned managed identity for every built-in service-provider connector, because all of them support it",
+        "Use managed identity for the connectors that support it, noting that most built-in, service provider-based connectors do not support selecting user-assigned managed identities"
+      ],
+      "question": "A Logic App connects to Blob Storage, Cosmos DB and an HTTP API. The team wants managed identity everywhere. Which statement about connector authentication is correct?",
+      "source_quote": "Managed identity: Built-in connectors: Consumption: Azure API Management, Azure App Service, Azure Functions, HTTP, HTTP Webhook. Standard: Azure Automation, Azure Blob Storage, Azure Event Hubs, Azure Queues, Azure Service Bus, Azure Tables, HTTP, HTTP Webhook, SQL Server. Currently, most built-in, service provider-based connectors do not support selecting user-assigned managed identities for authentication.",
+      "source_title": "Secure access and data in workflows - Azure Logic Apps",
+      "source_url": "https://learn.microsoft.com/en-us/azure/logic-apps/logic-apps-securing-a-logic-app",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: blocking connections for specific connectors is a documented control, alongside authentication types and inbound and outbound access controls. A is wrong: connector blocking is a real control. C is wrong: RBAC on the logic app does not block a connector from being used inside a workflow. D is wrong: secure outputs hide data; they do not block connectors.",
+      "id": "D3-APP-029",
+      "options": [
+        "Connector blocking is not possible in Logic Apps, so any connector can be used",
+        "Block creating connections for specific connectors, using the connector-blocking control alongside authentication and access controls",
+        "Rely on RBAC on the logic app, because that blocks specific connectors",
+        "Enable secure outputs, because that blocks connectors from being created"
+      ],
+      "question": "A company forbids the use of a specific third-party file-sharing connector in any Logic App because it exfiltrates data. Which control enforces that ban?",
+      "source_quote": "To further control access and protect sensitive data in Azure Logic Apps, you can set up more security in these areas: Authentication types for triggers and actions. Access for inbound calls to request-based triggers. Access for outbound calls to other services. Block creating connections for specific connectors.",
+      "source_title": "Secure access and data in workflows - Azure Logic Apps",
+      "source_url": "https://learn.microsoft.com/en-us/azure/logic-apps/logic-apps-securing-a-logic-app",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Logic Apps supports Active Directory OAuth (OAuth 2.0 with Microsoft Entra ID) for connectors, alongside Basic, Raw and managed identity, so OAuth is the Entra-based option. B is wrong: Basic sends a username and password, not an Entra token. C is wrong: Raw is not the OAuth option. D is wrong: managed identity is a separate option from Active Directory OAuth.",
+      "id": "D3-APP-030",
+      "options": [
+        "Active Directory OAuth (OAuth 2.0 with Microsoft Entra ID), which is the Entra-based authentication type for supported connectors",
+        "Basic authentication, because it uses Entra tokens",
+        "Raw authentication, because it is the OAuth option",
+        "Managed identity, because that is the only Entra-based option and OAuth does not exist for connectors"
+      ],
+      "question": "A Logic App HTTP connector must authenticate to an API with a Microsoft Entra ID token using OAuth 2.0. Which authentication type is that?",
+      "source_quote": "Active Directory OAuth (OAuth 2.0 with Microsoft Entra ID): Consumption: Azure API Management, Azure App Service, Azure Functions, HTTP, HTTP + Swagger, HTTP Webhook. Standard: Azure Automation, Azure Blob Storage, Azure Event Hubs, Azure Queues, Azure Service Bus, Azure Tables, HTTP, HTTP Webhook, SQL Server.",
+      "source_title": "Secure access and data in workflows - Azure Logic Apps",
+      "source_url": "https://learn.microsoft.com/en-us/azure/logic-apps/logic-apps-securing-a-logic-app",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: request-based triggers can be secured with inbound access controls, and the trigger URL contains a shared signature that must be protected; anyone with the URL can invoke the workflow. A is wrong: the trigger URL is not public-safe; it is a capability URL. C is wrong: IP restrictions and authentication apply to inbound calls. D is wrong: Easy Auth is for App Service apps, not Logic App request triggers.",
+      "id": "D3-APP-031",
+      "options": [
+        "Publish the trigger URL publicly, because it is safe to share",
+        "Rely on the trigger URL being secret and add no other control, because the URL cannot be guessed",
+        "Secure inbound calls to the request trigger with access controls, because anyone holding the trigger URL and signature can invoke the workflow",
+        "Enable App Service Authentication on the Logic App, because that is how request triggers are secured"
+      ],
+      "question": "A Logic App has a request trigger whose URL was posted in a public chat. The team says the workflow is still safe because the URL is long. What is the correct response?",
+      "source_quote": "To further control access and protect sensitive data in Azure Logic Apps, you can set up more security in these areas: Access for inbound calls to request-based triggers. Access for outbound calls to other services and systems.",
+      "source_title": "Secure access and data in workflows - Azure Logic Apps",
+      "source_url": "https://learn.microsoft.com/en-us/azure/logic-apps/logic-apps-securing-a-logic-app",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: App Service supports free managed certificates, App Service certificates, third-party certificates and certificates imported from Key Vault, so the team can use a Key Vault certificate without buying an App Service certificate. B is wrong: a Key Vault certificate is a supported option. C is wrong: a free managed certificate is also supported for eligible domains. D is wrong: TLS is not provided by the WAF alone.",
+      "id": "D3-APP-032",
+      "options": [
+        "Buy an App Service certificate, because that is the only supported certificate type",
+        "Use a certificate imported from Key Vault, because App Service supports free managed certificates, App Service certificates, third-party certificates and certificates imported from Key Vault",
+        "Use a self-signed certificate in code, because App Service does not support Key Vault certificates",
+        "Rely on the WAF certificate, because App Service needs no certificate of its own"
+      ],
+      "question": "An App Service app needs TLS with a certificate the team already manages in Key Vault. Which certificate option is correct?",
+      "source_quote": "App Service supports multiple certificate types: free App Service managed certificates, App Service certificates, third-party certificates, and certificates imported from Azure Key Vault.",
+      "source_title": "Secure your Azure App Service deployment",
+      "source_url": "https://learn.microsoft.com/en-us/azure/app-service/overview-security",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the least-privilege rule applies to the identity itself; only the minimum necessary permissions should be assigned to managed identities on workflows. B is wrong: least privilege is the rule, not broad permissions. C is wrong: the identity needs only what the workflow does. D is wrong: managed identity permissions are not inherited from the workflow owner.",
+      "id": "D3-APP-033",
+      "options": [
+        "Assign only the minimum necessary permissions for the managed identity, following least privilege",
+        "Assign Owner to the managed identity so the workflow never fails with a permission error",
+        "Assign the same permissions the developer has, because the identity acts as the developer",
+        "Assign no permissions and let the identity inherit the workflow owners permissions automatically"
+      ],
+      "question": "A Logic App managed identity needs to read one Blob container and write to one queue. What permission principle applies?",
+      "source_quote": "Always assign only the minimum necessary permissions for managed identities on logic app workflows to do their work. Allow users, apps, and managed identities to access only the data and operations they need to perform their jobs.",
+      "source_title": "Secure access and data in workflows - Azure Logic Apps",
+      "source_url": "https://learn.microsoft.com/en-us/azure/logic-apps/logic-apps-securing-a-logic-app",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: communication of secrets and connection strings between apps and other Azure resources occurs only within Azure, without crossing network boundaries, and the architecture keeps Key Vault, SQL and Storage behind private endpoints with public endpoints blocked. A is wrong: the baseline blocks public endpoints on those services. B is wrong: secrets do not traverse the public internet in this design. D is wrong: the firewall is not the only control; private endpoints and identity are the layers.",
+      "id": "D3-APP-034",
+      "options": [
+        "Secrets travel over the public internet between App Service and Key Vault",
+        "Key Vault, SQL and Storage keep public endpoints open so the app can reach them",
+        "A single firewall rule is the only network control in the baseline",
+        "Communication of secrets between apps and Azure resources occurs only within Azure, and Key Vault, SQL Database and Storage have public endpoints blocked with Private Link access only"
+      ],
+      "question": "A security review asks whether database credentials ever cross the public internet between App Service, Key Vault and SQL in the baseline architecture. Which statement is correct?",
+      "source_quote": "Communication of secrets and connection strings between apps and other Azure resources like Azure SQL Database occurs only within Azure, without crossing any network boundaries. In this architecture, SQL Database, Storage, and Key Vault all have public endpoints blocked.",
+      "source_title": "Secure your Azure App Service deployment",
+      "source_url": "https://learn.microsoft.com/en-us/azure/app-service/overview-security",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: when all traffic routing is enabled, all outbound traffic is sent into the VNet; without it, only private (RFC1918) traffic and service endpoints on the integration subnet go into the VNet, and internet traffic leaves directly from the app. A is wrong: without all-traffic routing, internet traffic does not go through the VNet. C is wrong: the setting controls routing, not DNS. D is wrong: the integration subnet NSG can block outbound traffic.",
+      "id": "D3-APP-035",
+      "options": [
+        "All outbound traffic always goes through the VNet, whether or not all-traffic routing is enabled",
+        "With all-traffic routing enabled, all outbound traffic is sent into the VNet; without it, only private traffic and service endpoints on the integration subnet go into the VNet, and internet traffic leaves directly from the app",
+        "All-traffic routing only changes DNS resolution, not traffic routing",
+        "An NSG on the integration subnet cannot block outbound traffic from the app"
+      ],
+      "question": "An App Service app with VNet integration must send ALL outbound traffic through a firewall in the VNet, including internet traffic. The team enables VNet integration but internet calls still bypass the firewall. What is missing?",
+      "source_quote": "When all traffic routing is enabled, all outbound traffic is sent into your virtual network. If all traffic routing is not enabled, only private traffic (RFC1918) and service endpoints configured on the integration subnet is sent into the virtual network. Outbound traffic to the internet is routed directly from the app.",
+      "source_title": "Integrate your app with an Azure virtual network",
+      "source_url": "https://learn.microsoft.com/en-us/azure/app-service/overview-vnet-integration",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: outbound addresses in app properties are still used, but calls to a VM or private endpoint in the integration VNet use an address from the integration subnet, exposed as WEBSITE_PRIVATE_IP. B is wrong: the private IP is exposed through that variable. C is wrong: outbound calls to private endpoints do use the integration subnet address. D is wrong: the outbound address list is not the address used for private-endpoint calls.",
+      "id": "D3-APP-036",
+      "options": [
+        "Calls to a private endpoint in the integration VNet use an address from the integration subnet, exposed through the WEBSITE_PRIVATE_IP environment variable",
+        "The app has no private IP at all when VNet integration is enabled",
+        "Calls to private endpoints always use the public outbound addresses listed in app properties",
+        "WEBSITE_PRIVATE_IP is the public IP of the app"
+      ],
+      "question": "A firewall log shows an App Service app reaching a Key Vault private endpoint from an unexpected IP. How does VNet integration assign the source address for private-endpoint calls, and where is it visible?",
+      "source_quote": "When virtual network integration is enabled, your app makes outbound calls through your virtual network. If your outbound call is to a virtual machine or private endpoint in the integration virtual network or peered virtual network, the outbound address is an address from the integration subnet. The private IP assigned to an instance is exposed via the environment variable, WEBSITE_PRIVATE_IP.",
+      "source_title": "Integrate your app with an Azure virtual network",
+      "source_url": "https://learn.microsoft.com/en-us/azure/app-service/overview-vnet-integration",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: EasyAuth is the integrated authentication mechanism, also called App Service Authentication, that simplifies identity provider integration without significant code changes, and the reply URL must be the gateway endpoint with the provider callback path. A is wrong: the reply URL is the gateway, not the app direct URL, when a gateway fronts the app. C is wrong: Easy Auth is the mechanism; there is no separate custom code requirement. D is wrong: the callback path includes the provider, such as aad.",
+      "id": "D3-APP-037",
+      "options": [
+        "Write custom authentication code in the app, because Easy Auth cannot be used behind a gateway",
+        "Set the reply URL to the app direct URL, because the gateway is irrelevant to authentication",
+        "Use EasyAuth, the integrated authentication mechanism, and configure the reply URL for the custom domain as the gateway endpoint with the provider callback path",
+        "Set the callback path without a provider segment, because the provider is inferred automatically"
+      ],
+      "question": "A web app sits behind Application Gateway and uses Easy Auth with Entra ID. After deployment, sign-in fails with a reply URL mismatch. What is the correct configuration?",
+      "source_quote": "Use the integrated authentication mechanism for App Service, also called EasyAuth. EasyAuth simplifies identity provider integration with your web app. Configure the reply URL for the custom domain. Set the redirect URL to https://<application-gateway-endpoint>/.auth/login/<provider>/callback.",
+      "source_title": "Baseline Highly Available Zone-Redundant App Services Web Application",
+      "source_url": "https://learn.microsoft.com/en-us/azure/architecture/web-apps/app-service/architectures/baseline-zone-redundant",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Functions supports managed connectors in preview for Office 365, Teams and SharePoint with built-in OAuth and webhook handling through a Connector Namespace, and the general rule is to use managed identities where possible and Key Vault where Entra is not supported. A is wrong: shared secrets in app settings are the last resort. C is wrong: managed connectors exist for those services. D is wrong: the connection must still be authenticated; it is not anonymous.",
+      "id": "D3-APP-038",
+      "options": [
+        "Store a shared secret for each service in app settings, because that is the recommended pattern",
+        "Use managed connectors with built-in OAuth through a Connector Namespace where available, and otherwise use managed identity or Key Vault, never a shared secret in app settings as a first choice",
+        "Use anonymous connections, because Functions connectors do not need authentication",
+        "Store the credentials in the function code, because connectors cannot use managed identity"
+      ],
+      "question": "A Functions app must call Office 365, Teams and SharePoint. The team proposes storing a service account password in app settings for each. What is the correct connection design?",
+      "source_quote": "Functions also supports managed connectors (in preview), which let you connect to services like Office 365, Teams, and SharePoint with built-in OAuth and webhook handling through a Connector Namespace. Use managed identities with Microsoft Entra ID whenever possible.",
+      "source_title": "Configure connections to remote services in Azure Functions",
+      "source_url": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-identity-based-connections-tutorial",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the identities used for connections must have permissions on the target, normally through Azure RBAC with least privilege, and a managed identity token alone does not grant access. B is wrong: the token is authentication, not authorisation. C is wrong: the app Contributor role does not grant the identity data-plane access. D is wrong: roles must be assigned to the identity; there is no automatic grant.",
+      "id": "D3-APP-039",
+      "options": [
+        "Assign the identity a least-privilege RBAC role on the target service, because the identities used for connections must have permissions to perform the intended actions",
+        "Do nothing, because a managed identity token automatically grants access to every Azure service",
+        "Grant the developer Contributor on the app, because that grants the app identity access to the target",
+        "Assign Owner on the subscription to the identity, because least privilege does not apply to managed identities"
+      ],
+      "question": "A Function app with a system-assigned managed identity gets 403 errors calling Azure Storage, even though the identity exists and the token is issued. What is missing?",
+      "source_quote": "The identities that you use for your connections must have permissions to perform the intended actions. For most Azure services, this requirement means you need to assign a role in Azure RBAC. Whenever possible, adhere to the principle of least privilege by granting the identity only the minimum required privileges.",
+      "source_title": "Configure connections to remote services in Azure Functions",
+      "source_url": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-identity-based-connections-tutorial",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the three-layer model is authentication (who can invoke), identity (what the app acts as downstream) and network isolation (what can reach the endpoint), and the same model applies to Logic Apps. A is wrong: authentication alone does not cover identity or network. B is wrong: network isolation alone does not authenticate callers. D is wrong: the layers are distinct; identity is not the same as authentication.",
+      "id": "D3-APP-040",
+      "options": [
+        "Enable Easy Auth only, because authentication covers identity and network isolation too",
+        "Enable VNet integration only, because network isolation covers authentication too",
+        "Enable a managed identity only, because identity covers authentication and network isolation too",
+        "Apply all three layers: App Service Authentication for who can invoke, a system-assigned managed identity for what the app acts as downstream, and IP restrictions with private endpoints and VNet integration for network isolation"
+      ],
+      "question": "A serverless review finds four gaps: unauthenticated HTTP triggers, plain-text connection strings, no inbound network restrictions, and hardcoded credentials in shared Logic App connections. Which remediation model closes all four?",
+      "source_quote": "Contoso Retails security review identified four control gaps that left their serverless workloads exposed: unauthenticated HTTP triggers, plain-text connection strings in application settings, no inbound network restrictions on Function app endpoints, and hardcoded credentials in shared Logic app connection resources. This module addressed each gap using controls organized around three security layers.",
+      "source_title": "Implement security controls for Function and Logic apps",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/implement-security-controls-function-logic-apps/6-summary",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: CORS is enforced by browsers, so a browser single-page app on another origin is blocked while curl and server-side calls succeed; the fix is to add the origin to the app CORS allowed origins. A is wrong: CORS does not block server-side callers. C is wrong: CORS is not authentication; an allowed origin does not prove the caller identity. D is wrong: removing CORS does not add security; it removes a browser protection.",
+      "id": "D3-APP-041",
+      "options": [
+        "CORS blocks all callers from other origins, including curl and server-side code",
+        "CORS is enforced by browsers, so a browser app on another origin is blocked while curl and server-side calls succeed; add the origin to the apps CORS allowed origins",
+        "CORS authenticates the caller, so an allowed origin is proof of identity",
+        "Remove CORS entirely, because it is a security risk to have it enabled"
+      ],
+      "question": "A browser single-page app on another origin cannot call a Function app, but the same call works from curl. The team concludes the function is down. What is actually happening?",
+      "source_quote": "CORS is enforced by browsers, which is why curl and server-side calls succeed while a single-page app on another origin is blocked. In Azure, add the origin to the function apps CORS allowed origins.",
+      "source_title": "Configure connections to remote services in Azure Functions",
+      "source_url": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-identity-based-connections-tutorial",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the managed identity eliminates secrets, and the Key Vault reference resolves the secret at runtime; a plain app setting is visible to app Contributors. B is wrong: a Key Vault reference is not the same as a plain setting. C is wrong: the secret is not in code. D is wrong: the vault secret is read by the app identity, not by contributors.",
+      "id": "D3-APP-042",
+      "options": [
+        "Move the secret to Key Vault, grant the apps managed identity Key Vault Secrets User, and consume it as a Key Vault reference, so contributors see only the reference, not the secret",
+        "Keep the secret in a plain app setting but rename it, because contributors cannot read app settings",
+        "Store the secret in the application code repository with a password, because code is not visible to contributors",
+        "Grant every contributor Key Vault Secrets User, because that is the only way the app can read the secret"
+      ],
+      "question": "A database password is visible to every App Service Contributor as a plain app setting. Which design hides it from contributors while the app can still read it?",
+      "source_quote": "Store secrets in Key Vault: Protect sensitive configuration values like database credentials by storing them in Azure Key Vault and accessing them using managed identities, rather than storing them in application settings or code.",
+      "source_title": "Secure your Azure App Service deployment",
+      "source_url": "https://learn.microsoft.com/en-us/azure/app-service/overview-security",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Logic Apps stores data encrypted at rest with Microsoft-managed keys, and the team should also configure authentication types, inbound and outbound access, and connector blocking. A is wrong: encryption at rest is automatic. C is wrong: a customer-managed key is not required for Logic Apps data. D is wrong: secure inputs and outputs are still needed for run history.",
+      "id": "D3-APP-043",
+      "options": [
+        "Encryption at rest must be enabled manually or data is stored in plain text",
+        "A customer-managed key is required for all Logic Apps data",
+        "Logic Apps data is encrypted at rest by default with Microsoft-managed keys, and the team adds authentication, access controls and connector blocking on top",
+        "Encryption at rest hides secrets from run history, so secure inputs and outputs are unnecessary"
+      ],
+      "question": "A Logic App handles payroll data. The auditor asks how the workflow data is protected at rest and what else is required. Which statement is correct?",
+      "source_quote": "Azure Logic Apps stores and automatically encrypts data at rest by using Azure Storage. This encryption protects your data by using Microsoft-managed keys and helps you meet your organizational security and compliance commitments.",
+      "source_title": "Secure access and data in workflows - Azure Logic Apps",
+      "source_url": "https://learn.microsoft.com/en-us/azure/logic-apps/logic-apps-securing-a-logic-app",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the private DNS zone privatelink.azurewebsites.net links to the VNet and maps the App Service default domain to the private IP of the private endpoint, so the gateway resolves the app privately. A is wrong: public DNS would resolve the public IP. C is wrong: the zone must be linked to the VNet for private resolution. D is wrong: the gateway routes through the private endpoint, not the public endpoint.",
+      "id": "D3-APP-044",
+      "options": [
+        "Use public DNS, because it resolves the app to its private endpoint automatically",
+        "Link the private DNS zone privatelink.azurewebsites.net to the virtual network, so the App Service default domain resolves to the private IP of the private endpoint",
+        "Do not link any DNS zone, because private endpoints work without DNS",
+        "Route the gateway to the public endpoint of App Service, because the private endpoint is only for outbound traffic"
+      ],
+      "question": "Application Gateway must reach an App Service app through its private endpoint, but name resolution returns the public IP. What is missing?",
+      "source_quote": "The private DNS zone privatelink.azurewebsites.net links to the virtual network. The DNS zone contains an A record that maps the App Service default domain to the private IP address of the App Service private endpoint. Application Gateway routes the request to an App Service instance through the private endpoint.",
+      "source_title": "Baseline Highly Available Zone-Redundant App Services Web Application",
+      "source_url": "https://learn.microsoft.com/en-us/azure/architecture/web-apps/app-service/architectures/baseline-zone-redundant",
+      "status": "active",
+      "topic": "compute-app",
+      "version": 1
+    }
+  ]
+}

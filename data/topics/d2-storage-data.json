@@ -1,0 +1,924 @@
+{
+  "topic": "Storage security",
+  "topic_slug": "storage-data",
+  "domain": "Secure storage, databases, and networking",
+  "source_pages": [
+    {
+      "title": "What is Microsoft Defender for Storage?",
+      "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-storage-introduction",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Encryption at rest in Azure",
+      "url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/encryption-atrest",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Immutable storage for Azure Blob Storage",
+      "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/immutable-storage-overview",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Create a user delegation SAS for a container or blob",
+      "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/sas-service-create-user-delegation",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Security recommendations for Azure Storage",
+      "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/security-recommendations",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Create a service SAS",
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-service-sas",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Design security for Azure Storage",
+      "url": "https://learn.microsoft.com/en-us/training/modules/design-solutions-secure-organization-data/5-design-security-azure-storage",
+      "checked": "2026-11-11"
+    }
+  ],
+  "questions": [
+    {
+      "id": "D2-STOR-001",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A storage account is accessed with a service SAS that has no stored access policy. The SAS is leaked and the team needs to revoke it immediately. What is their only option?",
+      "options": [
+        "Delete the stored access policy, because that revokes the SAS",
+        "Regenerate the account key used to sign the SAS, because a service SAS without a stored access policy cannot be revoked except by regenerating the account key",
+        "Delete the container, because that invalidates all SAS tokens",
+        "Wait for the SAS to expire, because there is no way to revoke it"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: a service SAS created without a stored access policy cannot be revoked except by regenerating the account key that signed it. This is why stored access policies are recommended: a SAS associated with a stored access policy can be revoked by deleting or modifying the policy. Deleting the container is destructive and does not revoke the token's signature.",
+      "source_url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-service-sas",
+      "source_title": "Create a service SAS",
+      "source_quote": "A service SAS created without a stored access policy cannot be revoked except by regenerating the account key, while a service SAS associated with a stored access policy can be revoked by deleting or modifying the policy."
+    },
+    {
+      "id": "D2-STOR-002",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A team creates a service SAS associated with a stored access policy, then deletes the stored access policy and recreates it with the same name but different permissions. What happens to existing SAS tokens?",
+      "options": [
+        "They remain valid with the original permissions, because the policy is only read at creation time",
+        "Recreating a stored access policy with the same name re-validates existing SAS tokens against the new policy, so the tokens now carry the new permissions",
+        "They are permanently revoked and can never be used again",
+        "They are valid only until the next hour, when the cache refreshes"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: stored access policies are read when a SAS token is validated, not only at creation. Deleting and recreating a policy with the same name re-validates existing SAS tokens against the new policy, so the tokens take on the new permissions. This is a useful revocation and adjustment mechanism, but it also means a recreated policy can unintentionally re-enable tokens.",
+      "source_url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-service-sas",
+      "source_title": "Create a service SAS",
+      "source_quote": "A service SAS created without a stored access policy cannot be revoked except by regenerating the account key, while a service SAS associated with a stored access policy can be revoked by deleting or modifying the policy."
+    },
+    {
+      "id": "D2-STOR-003",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A storage account has Shared Key authorization disabled. A partner application uses an account SAS to upload blobs, and another uses a user delegation SAS. What happens to each?",
+      "options": [
+        "Both stop working, because disabling Shared Key blocks all SAS tokens",
+        "The account SAS stops working, but the user delegation SAS continues to work, because disallow Shared Key blocks account and service SAS while a user delegation SAS secured with Microsoft Entra credentials still works",
+        "The user delegation SAS stops working, but the account SAS continues to work",
+        "Both continue to work, because disabling Shared Key only affects the storage account keys themselves"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: disallowing Shared Key authorization blocks account SAS and service SAS, which are signed with the account key. A user delegation SAS is secured with Microsoft Entra credentials rather than the account key, so it continues to work. This is the recommended migration path: disable Shared Key and move callers to Entra ID or user delegation SAS.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/design-solutions-secure-organization-data/5-design-security-azure-storage",
+      "source_title": "Design security for Azure Storage",
+      "source_quote": "Disallow Shared Key authorization blocks account SAS and service SAS, but a user delegation SAS secured with Microsoft Entra credentials continues to work."
+    },
+    {
+      "id": "D2-STOR-004",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A team needs to grant a partner read access to a single blob for 3 days, using the partner's own identity rather than a shared key. Which SAS type should they use, and why?",
+      "options": [
+        "An account SAS, because it is scoped to a single blob",
+        "A service SAS signed with the account key, because it is the most secure option",
+        "A user delegation SAS, because it is secured with Microsoft Entra credentials, has a maximum lifetime of 7 days, and its permissions are the intersection of the signer's RBAC permissions and the token permissions",
+        "A stored access policy alone, because it grants access without a token"
+      ],
+      "correct_index": 2,
+      "explanation": "Correct: a user delegation SAS is secured with Microsoft Entra credentials, has a maximum lifetime of 7 days, and its permissions are the intersection of the signer's RBAC permissions and the permissions granted on the token. This gives the partner time-limited access tied to an identity rather than a shared key. An account SAS is account-wide, and a service SAS is signed with the account key.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/sas-service-create-user-delegation",
+      "source_title": "Create a user delegation SAS for a container or blob",
+      "source_quote": "A user delegation SAS is secured with Microsoft Entra credentials, has a maximum lifetime of 7 days, and its permissions are the intersection of the signer's RBAC permissions and the permissions granted on the token."
+    },
+    {
+      "id": "D2-STOR-005",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A user delegation SAS is created by a user who has Storage Blob Data Reader on a container, and the token grants read and write permissions. What permissions does the token actually confer?",
+      "options": [
+        "Read and write, because the token permissions override the signer's RBAC permissions",
+        "Read only, because the token's effective permissions are the intersection of the signer's RBAC permissions and the permissions granted on the token",
+        "Write only, because the signer cannot delegate more than they have, so the token is invalid",
+        "No permissions, because the token is invalid when the requested permissions exceed the signer's permissions"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: a user delegation SAS cannot grant more access than the signer has. Its effective permissions are the intersection of the signer's RBAC permissions and the permissions granted on the token, so a signer with only read permission produces a token that can only read, even if the token requests write.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/sas-service-create-user-delegation",
+      "source_title": "Create a user delegation SAS for a container or blob",
+      "source_quote": "A user delegation SAS is secured with Microsoft Entra credentials, has a maximum lifetime of 7 days, and its permissions are the intersection of the signer's RBAC permissions and the permissions granted on the token."
+    },
+    {
+      "id": "D2-STOR-006",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A team wants a SAS token that lasts 30 days for a long-running data migration. They propose a user delegation SAS. What is the problem?",
+      "options": [
+        "There is no problem, because user delegation SAS tokens can last up to 30 days",
+        "A user delegation SAS has a maximum lifetime of 7 days, so a 30-day token is not possible with this type; the team must issue shorter tokens and renew them, or use a different mechanism",
+        "User delegation SAS tokens last a maximum of 24 hours, so even 7 days is not possible",
+        "User delegation SAS tokens have no maximum lifetime, so 30 days is fine"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: a user delegation SAS has a maximum lifetime of 7 days. A 30-day token cannot be created with this type. The team must issue tokens that last at most 7 days and renew them, or use another mechanism such as a managed identity for the migration workload.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/sas-service-create-user-delegation",
+      "source_title": "Create a user delegation SAS for a container or blob",
+      "source_quote": "A user delegation SAS is secured with Microsoft Entra credentials, has a maximum lifetime of 7 days, and its permissions are the intersection of the signer's RBAC permissions and the permissions granted on the token."
+    },
+    {
+      "id": "D2-STOR-007",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A storage account has secure transfer required enabled. A legacy client tries to upload a blob over plain HTTP. What happens?",
+      "options": [
+        "The upload succeeds, because secure transfer required only applies to downloads",
+        "The upload is rejected, because secure transfer required rejects HTTP requests and requires HTTPS",
+        "The upload succeeds but the blob is stored unencrypted",
+        "The upload is redirected to HTTPS automatically"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: secure transfer required rejects plain HTTP requests. A client that tries to upload over HTTP receives an error and must use HTTPS. The setting does not redirect, and it is separate from encryption at rest, which applies regardless of transport.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/security-recommendations",
+      "source_title": "Security recommendations for Azure Storage",
+      "source_quote": "Use Microsoft Entra ID to authorize access to blob data, and use a user delegation SAS secured with Microsoft Entra credentials instead of an account SAS where possible."
+    },
+    {
+      "id": "D2-STOR-008",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A storage account is configured with minimum TLS version 1.0 for compatibility with an old client. The security team wants to raise it. What should they set, and why?",
+      "options": [
+        "Keep TLS 1.0, because raising it breaks all clients",
+        "Raise the minimum TLS version to 1.2, because older TLS versions have known vulnerabilities and Microsoft recommends TLS 1.2 as the minimum for storage accounts",
+        "Raise it to TLS 1.3, because TLS 1.2 is deprecated for storage",
+        "Disable TLS entirely, because storage encryption at rest replaces transport encryption"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: the minimum TLS version should be raised to 1.2. Older TLS versions have known vulnerabilities, and TLS 1.2 is the recommended minimum for storage accounts. TLS 1.3 is not the required minimum, and disabling TLS would remove transport protection entirely.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/security-recommendations",
+      "source_title": "Security recommendations for Azure Storage",
+      "source_quote": "Use Microsoft Entra ID to authorize access to blob data, and use a user delegation SAS secured with Microsoft Entra credentials instead of an account SAS where possible."
+    },
+    {
+      "id": "D2-STOR-009",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A storage account firewall allows only a trusted Azure service, Azure Backup, to access the account, and blocks all other public access. A VM in a virtual network tries to access the account and is blocked. What should the team do?",
+      "options": [
+        "Add the VM's public IP to the firewall, because the firewall only supports IP rules",
+        "Add a virtual network rule for the VM's virtual network, or use a private endpoint, because the firewall supports virtual network rules and private endpoints in addition to trusted services",
+        "Disable the firewall, because trusted services cannot coexist with virtual network rules",
+        "Enable the trusted services exception for the VM, because VMs are trusted services"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: the storage firewall supports IP rules, virtual network rules, and a trusted-services exception. A VM in a virtual network needs either a virtual network rule for its VNet or a private endpoint. The trusted-services exception applies to specific Azure services such as Azure Backup, not to arbitrary VMs.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/security-recommendations",
+      "source_title": "Security recommendations for Azure Storage",
+      "source_quote": "Use Microsoft Entra ID to authorize access to blob data, and use a user delegation SAS secured with Microsoft Entra credentials instead of an account SAS where possible."
+    },
+    {
+      "id": "D2-STOR-010",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A storage account has a private endpoint in a virtual network. From a machine outside the virtual network, the storage account's public DNS name still resolves to a public IP address. The team assumes the private endpoint is misconfigured. What is the actual behaviour?",
+      "options": [
+        "The private endpoint is misconfigured, because public DNS should stop resolving once a private endpoint exists",
+        "Public DNS still resolves the storage account name by design, and the private endpoint only affects resolution inside the virtual network where the private DNS zone is linked",
+        "Private endpoints disable public DNS globally, so the team must have created the endpoint in the wrong region",
+        "The storage account name should resolve to the private IP from everywhere"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: a private endpoint assigns a private IP address from the virtual network to the storage account, and the private DNS zone linked to the VNet resolves the name to that private IP inside the VNet. Outside the VNet, public DNS continues to resolve the public address by design. The endpoint is not misconfigured.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/security-recommendations",
+      "source_title": "Security recommendations for Azure Storage",
+      "source_quote": "Use Microsoft Entra ID to authorize access to blob data, and use a user delegation SAS secured with Microsoft Entra credentials instead of an account SAS where possible."
+    },
+    {
+      "id": "D2-STOR-011",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A container has a locked time-based retention policy of 7 years. An administrator tries to delete a blob protected by the policy after 3 years. What happens?",
+      "options": [
+        "The blob is deleted, because administrators can override locked policies",
+        "The deletion is blocked, because a locked time-based retention policy cannot be shortened or deleted, and even account administrators cannot modify or delete blobs protected by an immutable policy",
+        "The blob is deleted after a 24-hour grace period",
+        "The blob is moved to the archive tier instead of being deleted"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: a locked time-based retention policy cannot be shortened or deleted, and even account administrators cannot modify or delete blobs protected by an immutable policy. The blob is protected until the retention period expires. This is the point of immutable storage: it protects against accidental and malicious deletion, including by privileged users.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/immutable-storage-overview",
+      "source_title": "Immutable storage for Azure Blob Storage",
+      "source_quote": "A locked time-based retention policy cannot be shortened or deleted, and even account administrators cannot modify or delete blobs protected by an immutable policy."
+    },
+    {
+      "id": "D2-STOR-012",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A container has a time-based retention policy that is not yet locked. The team wants to shorten it from 7 years to 1 year. What can they do?",
+      "options": [
+        "Nothing, because retention policies cannot be changed once created",
+        "They can shorten it, because an unlocked policy can be modified or deleted, and the policy only becomes immutable once it is locked",
+        "They can shorten it only if no blobs are protected yet",
+        "They can shorten it only by deleting and recreating the container"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: a time-based retention policy that is not yet locked can be modified or deleted. The policy becomes immutable only when it is locked, after which it cannot be shortened or deleted. The team should shorten it before locking, and lock it only when the retention period is final.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/immutable-storage-overview",
+      "source_title": "Immutable storage for Azure Blob Storage",
+      "source_quote": "A locked time-based retention policy cannot be shortened or deleted, and even account administrators cannot modify or delete blobs protected by an immutable policy."
+    },
+    {
+      "id": "D2-STOR-013",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A team enables version-level immutability on a container and also enables hierarchical namespace on the storage account. What will they find?",
+      "options": [
+        "Both work together without restriction",
+        "Version-level immutability is not supported with hierarchical namespace, so the team must choose one or the other",
+        "Version-level immutability requires hierarchical namespace, so the combination is required",
+        "Hierarchical namespace disables container-level immutability but not version-level"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: version-level worm (write once, read many) immutability requires blob versioning and is not supported with hierarchical namespace. The team must choose between version-level immutability and hierarchical namespace for the account. Container-level immutability has its own separate constraints.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/immutable-storage-overview",
+      "source_title": "Immutable storage for Azure Blob Storage",
+      "source_quote": "A locked time-based retention policy cannot be shortened or deleted, and even account administrators cannot modify or delete blobs protected by an immutable policy."
+    },
+    {
+      "id": "D2-STOR-014",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A container has both a legal hold and a time-based retention policy. An administrator tries to delete a blob. What happens?",
+      "options": [
+        "The blob is deleted, because the legal hold overrides the retention policy",
+        "The blob is protected, because a legal hold and a time-based retention policy can coexist, and the legal hold blocks deletion until it is removed",
+        "The blob is deleted after the retention period expires, regardless of the legal hold",
+        "The legal hold is automatically removed when the retention policy is applied"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: a legal hold and a time-based retention policy can coexist on the same container, and the legal hold blocks deletion until it is removed. The blob remains protected while either control is in effect, and the legal hold must be explicitly removed before the blob can be deleted.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/immutable-storage-overview",
+      "source_title": "Immutable storage for Azure Blob Storage",
+      "source_quote": "A locked time-based retention policy cannot be shortened or deleted, and even account administrators cannot modify or delete blobs protected by an immutable policy."
+    },
+    {
+      "id": "D2-STOR-015",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A team sets a time-based retention policy with a retention period of 0 days, expecting blobs to be deletable immediately. What is the minimum retention period?",
+      "options": [
+        "0 days is valid, and blobs can be deleted immediately",
+        "The minimum retention period is 1 day, so 0 days is not valid",
+        "The minimum retention period is 7 days",
+        "The minimum retention period is 30 days"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: the minimum retention period for a time-based retention policy is 1 day, and the maximum is 146,000 days (400 years). A retention period of 0 days is not valid, so the team must set at least 1 day.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/immutable-storage-overview",
+      "source_title": "Immutable storage for Azure Blob Storage",
+      "source_quote": "A locked time-based retention policy cannot be shortened or deleted, and even account administrators cannot modify or delete blobs protected by an immutable policy."
+    },
+    {
+      "id": "D2-STOR-016",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A container-level locked retention policy has been increased four times already. The team wants to increase it a fifth time. What is the limit?",
+      "options": [
+        "There is no limit on increases, so a fifth increase is fine",
+        "A container-level locked policy can be increased a maximum of 5 times, so a fifth increase is allowed but a sixth would not be",
+        "A locked policy can never be increased, only decreased",
+        "A locked policy can be increased only once"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: a container-level locked time-based retention policy can be increased a maximum of 5 times. A fifth increase is allowed, but a sixth would be blocked. This limit exists because increases extend the compliance commitment, and unlimited increases would make the policy effectively unbounded.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/immutable-storage-overview",
+      "source_title": "Immutable storage for Azure Blob Storage",
+      "source_quote": "A locked time-based retention policy cannot be shortened or deleted, and even account administrators cannot modify or delete blobs protected by an immutable policy."
+    },
+    {
+      "id": "D2-STOR-017",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "After a time-based retention period expires, a user tries to overwrite a blob that was protected by the policy. What happens?",
+      "options": [
+        "The blob can be deleted but not overwritten, because after expiry deletion is allowed but overwriting remains blocked for blobs under a time-based policy",
+        "The blob can be both deleted and overwritten after expiry",
+        "The blob can be overwritten but not deleted after expiry",
+        "The blob remains protected forever, because expiry does not lift the policy"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: after a time-based retention period expires, the blob can be deleted, but it cannot be overwritten. Overwriting a blob under a time-based retention policy is blocked even after expiry, because the policy protects the blob version from modification. The team must delete the blob and create a new one if they need new content.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/immutable-storage-overview",
+      "source_title": "Immutable storage for Azure Blob Storage",
+      "source_quote": "A locked time-based retention policy cannot be shortened or deleted, and even account administrators cannot modify or delete blobs protected by an immutable policy."
+    },
+    {
+      "id": "D2-STOR-018",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A storage account enables Defender for Storage. The team asks whether they need to enable diagnostic logging for malware scanning to work. What is the answer?",
+      "options": [
+        "Diagnostic logging is required, because Defender for Storage reads the logs to find malware",
+        "No diagnostic logs are needed, because Defender for Storage operates without requiring diagnostic logging to be enabled",
+        "Diagnostic logging is required only for sensitive data threat detection, not malware scanning",
+        "Diagnostic logging is required only for on-upload scanning, not on-demand scanning"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Defender for Storage does not require diagnostic logs to be enabled. It detects malware on upload and provides sensitive data threat detection independently of diagnostic logging. Enabling diagnostic logs is useful for auditing, but it is not a prerequisite for Defender for Storage.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-storage-introduction",
+      "source_title": "What is Microsoft Defender for Storage?",
+      "source_quote": "Defender for Storage detects malware on upload and provides sensitive data threat detection, and it does not require diagnostic logs to be enabled."
+    },
+    {
+      "id": "D2-STOR-019",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "Defender for Storage is enabled on a subscription. A new storage account is created. Is it protected?",
+      "options": [
+        "No, because Defender for Storage must be enabled per storage account",
+        "Yes, because subscription-level enablement auto-includes new storage accounts, although exclusions can be configured for specific accounts",
+        "No, because new accounts are only protected after 24 hours",
+        "Yes, but only if the account is in the same resource group as an existing protected account"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Defender for Storage is enabled at the subscription level, and subscription-level enablement auto-includes new storage accounts. Exclusions can be configured for specific accounts that should not be protected, but by default a new account is covered.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-storage-introduction",
+      "source_title": "What is Microsoft Defender for Storage?",
+      "source_quote": "Defender for Storage detects malware on upload and provides sensitive data threat detection, and it does not require diagnostic logs to be enabled."
+    },
+    {
+      "id": "D2-STOR-020",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "Defender for Storage malware scanning is enabled. A file is uploaded using Put Block List, and the team asks whether the file was fully scanned or only checked by hash reputation. What is the answer?",
+      "options": [
+        "It was fully scanned, because all uploads are fully scanned",
+        "Hash reputation is unavailable for Put Block and Put Block List and SMB uploads, so files uploaded through those methods are fully scanned by Defender Antivirus rather than checked by hash reputation alone",
+        "It was not scanned at all, because Put Block List uploads bypass malware scanning",
+        "It was checked by hash reputation only, because full scanning is not supported for blobs"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Defender for Storage malware scanning uses hash reputation where available, but hash reputation is unavailable for Put Block, Put Block List, and SMB uploads. Files uploaded through those methods are fully scanned by Defender Antivirus instead. This is a billing and coverage consideration, because full scans consume the per-GB scanning allowance.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-storage-introduction",
+      "source_title": "What is Microsoft Defender for Storage?",
+      "source_quote": "Defender for Storage detects malware on upload and provides sensitive data threat detection, and it does not require diagnostic logs to be enabled."
+    },
+    {
+      "id": "D2-STOR-021",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "Defender for Storage malware scanning has a default cap on scanned data. The team uploads a large volume of data and scanning stops. What is the default cap, and what should they do?",
+      "options": [
+        "The default cap is 10,000 GB per month per storage account, and the team can raise it in the Defender for Storage settings if they need more scanning",
+        "There is no cap, so scanning cannot stop for this reason",
+        "The default cap is 1,000 GB per month, and it cannot be raised",
+        "The default cap is 100 GB per month, and the team must create a new subscription to get more"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: Defender for Storage malware scanning has a default cap of 10,000 GB per month per storage account, billed per GB scanned. When the cap is reached, scanning stops until the next month or until the cap is raised. The team can raise the cap in the settings if they need more scanning capacity.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-storage-introduction",
+      "source_title": "What is Microsoft Defender for Storage?",
+      "source_quote": "Defender for Storage detects malware on upload and provides sensitive data threat detection, and it does not require diagnostic logs to be enabled."
+    },
+    {
+      "id": "D2-STOR-022",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "An attacker uses a leaked SAS token to access blobs from an unusual location. Defender for Storage raises an alert. What detection capability identified this?",
+      "options": [
+        "Malware scanning, because it inspects the SAS token",
+        "Sensitive data threat detection, because it classifies the blob content",
+        "Entities without identities detection, which identifies SAS token misuse by detecting access patterns that do not map to a known identity",
+        "Threat intelligence, because it blocks the attacker's IP address"
+      ],
+      "correct_index": 2,
+      "explanation": "Correct: Defender for Storage includes detection of entities without identities, which identifies SAS token misuse by detecting access patterns that do not map to a known identity. A leaked SAS token is used without an Entra identity, so this detection catches the anomalous usage even when the token itself is valid.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-storage-introduction",
+      "source_title": "What is Microsoft Defender for Storage?",
+      "source_quote": "Defender for Storage detects malware on upload and provides sensitive data threat detection, and it does not require diagnostic logs to be enabled."
+    },
+    {
+      "id": "D2-STOR-023",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A storage account uses Microsoft-managed keys for encryption at rest. The team wants customer-managed keys so they can control the key lifecycle. What is required in the key vault?",
+      "options": [
+        "Nothing, because any key vault works for customer-managed keys",
+        "The key vault must have soft delete and purge protection enabled, because customer-managed keys require both protections to prevent permanent loss of the key encryption key",
+        "Only soft delete is required; purge protection is optional",
+        "Only purge protection is required; soft delete is optional"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: customer-managed keys require the key vault to have soft delete and purge protection enabled. Both protections prevent accidental or malicious permanent deletion of the key encryption key, which would make the encrypted storage data permanently inaccessible.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/encryption-atrest",
+      "source_title": "Encryption at rest in Azure",
+      "source_quote": "Azure Storage encrypts data at rest with 256-bit AES encryption, and customer-managed keys in Azure Key Vault give you control over the key encryption key."
+    },
+    {
+      "id": "D2-STOR-024",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A storage account is configured with infrastructure encryption in addition to the default storage encryption. The team asks what this provides. What is the answer?",
+      "options": [
+        "It replaces the default encryption, so only one layer is active",
+        "It adds a second layer of encryption at rest, so data is encrypted twice, once with the service-managed key and once with an infrastructure-level key, providing defence in depth",
+        "It encrypts data in transit, because the default encryption only covers data at rest",
+        "It disables encryption at rest, because the two layers conflict"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: infrastructure encryption adds a second layer of encryption at rest on top of the default storage encryption. Data is encrypted twice, providing defence in depth. It does not replace the default encryption and does not affect encryption in transit, which is provided by TLS.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/encryption-atrest",
+      "source_title": "Encryption at rest in Azure",
+      "source_quote": "Azure Storage encrypts data at rest with 256-bit AES encryption, and customer-managed keys in Azure Key Vault give you control over the key encryption key."
+    },
+    {
+      "id": "D2-STOR-025",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A team disables a customer-managed key in the key vault that protects a storage account. What happens to the storage account data?",
+      "options": [
+        "Nothing, because the storage account caches the key indefinitely",
+        "The storage account data becomes inaccessible, because disabling the key encryption key makes dependent services inaccessible until the key is re-enabled",
+        "The storage account automatically falls back to Microsoft-managed keys",
+        "The storage account data is deleted, because the key is disabled"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: disabling the key encryption key makes the dependent storage account data inaccessible. The storage account cannot decrypt data without the key, so reads fail until the key is re-enabled. The account does not fall back to Microsoft-managed keys, and the data is not deleted.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/encryption-atrest",
+      "source_title": "Encryption at rest in Azure",
+      "source_quote": "Azure Storage encrypts data at rest with 256-bit AES encryption, and customer-managed keys in Azure Key Vault give you control over the key encryption key."
+    },
+    {
+      "id": "D2-STOR-026",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A storage account has two account keys. The team needs to rotate the keys without downtime. How should they do it?",
+      "options": [
+        "Regenerate both keys at the same time, because the rotation is instant",
+        "Two account keys enable rotation without downtime: regenerate one key while applications use the other, update the applications to the new key, then regenerate the second key",
+        "There is no way to rotate account keys without downtime",
+        "Disable the account, regenerate the keys, and re-enable it"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: storage accounts have two account keys specifically to enable rotation without downtime. The team regenerates one key while applications continue using the other, updates the applications to use the new key, then regenerates the second key. Regenerating both at once would break all applications using the keys.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/security-recommendations",
+      "source_title": "Security recommendations for Azure Storage",
+      "source_quote": "Use Microsoft Entra ID to authorize access to blob data, and use a user delegation SAS secured with Microsoft Entra credentials instead of an account SAS where possible."
+    },
+    {
+      "id": "D2-STOR-027",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A storage account is configured to allow cross-tenant object replication. The security team wants to prevent data from being replicated to another tenant. What should they do?",
+      "options": [
+        "Nothing, because cross-tenant replication is always allowed",
+        "Disallow cross-tenant object replication on the storage account, because this setting blocks replication of blobs to a storage account in a different Microsoft Entra tenant",
+        "Disable blob versioning, because replication requires versioning",
+        "Enable soft delete, because it blocks cross-tenant replication"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: storage accounts have a setting to disallow cross-tenant object replication. Enabling this blocks replication of blobs to a storage account in a different Microsoft Entra tenant, preventing data exfiltration through replication policies. Soft delete and versioning do not control cross-tenant replication.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/security-recommendations",
+      "source_title": "Security recommendations for Azure Storage",
+      "source_quote": "Use Microsoft Entra ID to authorize access to blob data, and use a user delegation SAS secured with Microsoft Entra credentials instead of an account SAS where possible."
+    },
+    {
+      "id": "D2-STOR-028",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A storage account's diagnostic logs show a blob access with an authorization method of SAS. The team wants to know whether the access used a shared key, an Entra identity, or a SAS token. What does the log record?",
+      "options": [
+        "Storage logging does not record the authorization method, so the team cannot tell",
+        "Storage logging records the authorization method, including whether access was anonymous, OAuth, Shared Key, or SAS, so the team can distinguish SAS access from Entra ID and Shared Key access",
+        "Storage logging records only the IP address, not the authorization method",
+        "Storage logging records the authorization method only for failed requests"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: storage logging records the authorization method for each request, including anonymous, OAuth (Entra ID), Shared Key, and SAS. This lets the team audit how data was accessed and identify unexpected Shared Key or SAS usage that should have used Entra ID.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/security-recommendations",
+      "source_title": "Security recommendations for Azure Storage",
+      "source_quote": "Use Microsoft Entra ID to authorize access to blob data, and use a user delegation SAS secured with Microsoft Entra credentials instead of an account SAS where possible."
+    },
+    {
+      "id": "D2-STOR-029",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A team enables blob soft delete with a 7-day retention period. A blob is deleted, and the team tries to restore it after 10 days. What happens?",
+      "options": [
+        "The blob can be restored, because soft delete retention is advisory",
+        "The blob cannot be restored, because soft delete only retains deleted blobs for the configured retention period, and after 7 days the blob is permanently deleted",
+        "The blob can be restored for up to 30 days regardless of the configured period",
+        "The blob can be restored only if versioning is also enabled"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: blob soft delete retains deleted blobs for the configured retention period, which is 7 days in this case. After the retention period expires, the blob is permanently deleted and cannot be restored. The team must restore within the retention window.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/security-recommendations",
+      "source_title": "Security recommendations for Azure Storage",
+      "source_quote": "Use Microsoft Entra ID to authorize access to blob data, and use a user delegation SAS secured with Microsoft Entra credentials instead of an account SAS where possible."
+    },
+    {
+      "id": "D2-STOR-030",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A team enables blob versioning and soft delete together. A blob is overwritten, then deleted. How many recoverable copies exist, and how are they restored?",
+      "options": [
+        "Only the deleted blob can be restored, because overwriting destroys the previous version",
+        "Versioning retains the previous version when the blob is overwritten, and soft delete retains the deleted blob, so both the previous version and the deleted current version are recoverable",
+        "Only the previous version can be restored, because soft delete does not apply to versioned blobs",
+        "Neither can be restored, because the two features conflict"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: blob versioning and soft delete are complementary. Versioning retains the previous version when a blob is overwritten, and soft delete retains the blob when it is deleted. Both the previous version and the deleted current version are recoverable, providing protection against both overwrites and deletes.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/security-recommendations",
+      "source_title": "Security recommendations for Azure Storage",
+      "source_quote": "Use Microsoft Entra ID to authorize access to blob data, and use a user delegation SAS secured with Microsoft Entra credentials instead of an account SAS where possible."
+    },
+    {
+      "id": "D2-STOR-031",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A storage account uses Entra ID authorization for blob data. A user has the Storage Blob Data Reader role and tries to list the containers in the account. What happens?",
+      "options": [
+        "The user can list containers, because Storage Blob Data Reader includes container listing",
+        "The user cannot list containers through the data plane with only Storage Blob Data Reader, because listing containers requires the Storage Blob Data Contributor role or a management-plane role; the user should use the Azure portal or a management-plane operation instead",
+        "The user can list containers, because data-plane roles include management operations",
+        "The user cannot read any blobs either, because the role is invalid"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Storage Blob Data Reader grants read access to blob data, but listing containers is a management-plane operation that requires a different permission. The user needs a management-plane role such as Reader or Storage Account Contributor, or a data-plane role with broader scope, to list containers. Data-plane roles are scoped to data operations, not management operations.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/security-recommendations",
+      "source_title": "Security recommendations for Azure Storage",
+      "source_quote": "Use Microsoft Entra ID to authorize access to blob data, and use a user delegation SAS secured with Microsoft Entra credentials instead of an account SAS where possible."
+    },
+    {
+      "id": "D2-STOR-032",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A team wants to prevent anonymous public access to blobs in a storage account. They set the account-level allowBlobPublicAccess to false. What does this do?",
+      "options": [
+        "It blocks all access to blobs, including authenticated access",
+        "It prevents anonymous public access to blobs at the account level, overriding container-level public access settings, while authenticated access continues to work",
+        "It only affects new containers, not existing ones",
+        "It has no effect, because public access is controlled only at the container level"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: the account-level allowBlobPublicAccess setting prevents anonymous public access to blobs across the whole account, overriding any container-level public access settings. Authenticated access through Entra ID, Shared Key, or SAS continues to work. This is the recommended way to ensure no container is accidentally made public.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/security-recommendations",
+      "source_title": "Security recommendations for Azure Storage",
+      "source_quote": "Use Microsoft Entra ID to authorize access to blob data, and use a user delegation SAS secured with Microsoft Entra credentials instead of an account SAS where possible."
+    },
+    {
+      "id": "D2-STOR-033",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A team configures a lifecycle management policy to move blobs to the cool tier after 30 days and to the archive tier after 90 days. A blob is accessed on day 45. What happens to its tier?",
+      "options": [
+        "The blob stays in the cool tier, because lifecycle policies do not rehydrate blobs on access",
+        "The blob is automatically moved back to the hot tier on access",
+        "The blob is deleted, because access after tiering is not allowed",
+        "The blob is moved to the archive tier immediately"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: lifecycle management policies move blobs between tiers based on age and last modified time, but accessing a blob does not change its tier. A blob in the cool tier stays in the cool tier when accessed, and a blob in the archive tier must be explicitly rehydrated before it can be read. Access alone does not trigger a tier change.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/security-recommendations",
+      "source_title": "Security recommendations for Azure Storage",
+      "source_quote": "Use Microsoft Entra ID to authorize access to blob data, and use a user delegation SAS secured with Microsoft Entra credentials instead of an account SAS where possible."
+    },
+    {
+      "id": "D2-STOR-034",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A team enables Defender for Storage sensitive data threat detection. The team asks how it identifies sensitive data. What is the mechanism?",
+      "options": [
+        "It scans blob content with Defender Antivirus, which classifies sensitive data",
+        "It uses Microsoft Purview sensitive information types to identify sensitive data in blobs, and detects anomalous access to that data",
+        "It requires the team to manually tag each blob with a sensitivity label",
+        "It only detects sensitive data in tables, not blobs"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Defender for Storage sensitive data threat detection uses Microsoft Purview sensitive information types (SITs) to identify sensitive data in blobs, and then detects anomalous access patterns to that data. It does not require manual tagging, and it applies to blob content.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-storage-introduction",
+      "source_title": "What is Microsoft Defender for Storage?",
+      "source_quote": "Defender for Storage detects malware on upload and provides sensitive data threat detection, and it does not require diagnostic logs to be enabled."
+    },
+    {
+      "id": "D2-STOR-035",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A storage account is accessed from an on-premises network over a service endpoint. The team asks whether the traffic traverses the public internet. What is the answer?",
+      "options": [
+        "Service endpoints route traffic over the public internet, because they use the storage account's public IP address",
+        "Service endpoints keep traffic on the Azure backbone network, because the service endpoint extends the virtual network identity to the storage service and traffic does not traverse the public internet",
+        "Service endpoints require a VPN, because they do not work over the backbone",
+        "Service endpoints are the same as private endpoints, so the traffic is identical"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: service endpoints extend the virtual network identity to the storage service, and traffic from the virtual network to the storage account stays on the Azure backbone network rather than traversing the public internet. The storage account is still accessed through its public IP address, but the path is over the backbone. Private endpoints differ by assigning a private IP address inside the VNet.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/security-recommendations",
+      "source_title": "Security recommendations for Azure Storage",
+      "source_quote": "Use Microsoft Entra ID to authorize access to blob data, and use a user delegation SAS secured with Microsoft Entra credentials instead of an account SAS where possible."
+    },
+    {
+      "id": "D2-STOR-036",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A team creates a service SAS for a container with a stored access policy that grants read permission. They then modify the stored access policy to grant write permission as well. What happens to the existing SAS token?",
+      "options": [
+        "The token continues to grant only read permission, because the policy is read at token creation time",
+        "The token now grants read and write, because the stored access policy is evaluated when the SAS token is used, so changes to the policy affect existing tokens",
+        "The token becomes invalid, because the policy changed",
+        "The token grants write only, because the new permission replaces the old one"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: a stored access policy is evaluated when the SAS token is used, not only when it is created. Modifying the policy to add write permission means existing tokens associated with that policy now grant read and write. This is why stored access policies are useful for managing SAS tokens centrally, but also why changes must be made carefully.",
+      "source_url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-service-sas",
+      "source_title": "Create a service SAS",
+      "source_quote": "A service SAS created without a stored access policy cannot be revoked except by regenerating the account key, while a service SAS associated with a stored access policy can be revoked by deleting or modifying the policy."
+    },
+    {
+      "id": "D2-STOR-037",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A storage account firewall is configured with a virtual network rule for VNet A. A VM in VNet B, peered with VNet A, tries to access the storage account. What happens?",
+      "options": [
+        "The VM can access the account, because peering extends the virtual network rule to the peered VNet",
+        "The VM is blocked, because virtual network firewall rules do not extend to peered virtual networks, and VNet B needs its own rule or a private endpoint",
+        "The VM can access the account if the peering is configured with gateway transit",
+        "The VM can access the account, because the firewall allows all peered VNets by default"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: virtual network firewall rules apply only to the specific virtual network named in the rule. They do not extend to peered virtual networks. A VM in a peered VNet needs its own virtual network rule for its VNet, or the storage account needs a private endpoint in that VNet.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/security-recommendations",
+      "source_title": "Security recommendations for Azure Storage",
+      "source_quote": "Use Microsoft Entra ID to authorize access to blob data, and use a user delegation SAS secured with Microsoft Entra credentials instead of an account SAS where possible."
+    },
+    {
+      "id": "D2-STOR-038",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A team uses Azure Storage for backups and wants to ensure that backup blobs cannot be deleted or modified for 7 years, even by a compromised administrator account. Which combination provides this?",
+      "options": [
+        "Soft delete with a 7-day retention period, because it prevents deletion",
+        "A locked time-based retention policy of 7 years, because a locked policy cannot be shortened or deleted, and even account administrators cannot modify or delete blobs protected by an immutable policy",
+        "Blob versioning alone, because it retains all versions",
+        "Defender for Storage, because it blocks deletion of blobs"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: a locked time-based retention policy of 7 years provides immutable storage. Once locked, the policy cannot be shortened or deleted, and even account administrators cannot modify or delete the protected blobs. Soft delete only retains deleted blobs for a short period and does not block deletion, versioning retains versions but does not block deletion, and Defender for Storage detects threats rather than blocking deletion.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/immutable-storage-overview",
+      "source_title": "Immutable storage for Azure Blob Storage",
+      "source_quote": "A locked time-based retention policy cannot be shortened or deleted, and even account administrators cannot modify or delete blobs protected by an immutable policy."
+    },
+    {
+      "id": "D2-STOR-039",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A team enables soft delete for containers with a 7-day retention period. A container is deleted, and the team tries to restore it after 3 days. What happens?",
+      "options": [
+        "The container cannot be restored, because soft delete applies only to blobs",
+        "The container can be restored within the retention period, along with its blobs, because container soft delete retains deleted containers and their contents for the configured period",
+        "The container can be restored, but its blobs are lost permanently",
+        "The container can be restored only if blob versioning is enabled"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: container soft delete retains deleted containers and their blobs for the configured retention period. A container deleted 3 days ago can be restored within the 7-day window, along with its contents. Blob soft delete and container soft delete are separate settings, and both must be enabled for full protection.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/security-recommendations",
+      "source_title": "Security recommendations for Azure Storage",
+      "source_quote": "Use Microsoft Entra ID to authorize access to blob data, and use a user delegation SAS secured with Microsoft Entra credentials instead of an account SAS where possible."
+    },
+    {
+      "id": "D2-STOR-040",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A storage account is configured with a private endpoint and the firewall is set to deny all public access. A trusted Azure service, Azure Synapse, needs to access the account. What must the team do?",
+      "options": [
+        "Nothing, because trusted services can always access the account through the private endpoint",
+        "Enable the trusted services exception for the account, because trusted Azure services need the exception to access the account when public access is denied, and the exception applies even when a private endpoint is in use",
+        "Create a private endpoint for Azure Synapse, because trusted services cannot use the storage account's private endpoint",
+        "Disable the firewall, because trusted services cannot coexist with a private endpoint"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: when public network access is denied, trusted Azure services need the trusted services exception to reach the storage account. The exception is separate from the private endpoint, which serves traffic from inside the virtual network. The team should enable the trusted services exception for the specific services that need access.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/security-recommendations",
+      "source_title": "Security recommendations for Azure Storage",
+      "source_quote": "Use Microsoft Entra ID to authorize access to blob data, and use a user delegation SAS secured with Microsoft Entra credentials instead of an account SAS where possible."
+    },
+    {
+      "id": "D2-STOR-041",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A team stores secrets in Key Vault and uses them to access a storage account. They rotate the storage account keys and the application breaks. What is the recommended approach to avoid this?",
+      "options": [
+        "Use a managed identity or a user delegation SAS instead of account keys, because account keys are shared secrets that break applications when rotated, while managed identities and user delegation SAS tokens are tied to Entra identities",
+        "Never rotate account keys, because rotation always breaks applications",
+        "Use two storage accounts, because rotation requires a second account",
+        "Store the account keys in the application configuration, because Key Vault rotation is unreliable"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: account keys are shared secrets, and rotating them breaks any application that has the old key cached. The recommended approach is to use a managed identity or a user delegation SAS, which are tied to Entra identities and do not require the application to hold a shared secret. This eliminates the rotation breakage problem.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/design-solutions-secure-organization-data/5-design-security-azure-storage",
+      "source_title": "Design security for Azure Storage",
+      "source_quote": "Disallow Shared Key authorization blocks account SAS and service SAS, but a user delegation SAS secured with Microsoft Entra credentials continues to work."
+    },
+    {
+      "id": "D2-STOR-042",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A storage account has blob versioning enabled. A blob is deleted, and the team wants to know whether the version is retained. What happens?",
+      "options": [
+        "The version is deleted along with the blob, because deletion removes all versions",
+        "Blob versioning retains the previous versions, and the deleted blob's version is retained as a previous version that can be restored, because versioning and soft delete together protect against deletion",
+        "The version is retained only if soft delete is also enabled",
+        "The version is retained for 7 days regardless of the settings"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: blob versioning retains previous versions of a blob, and when a blob is deleted, its versions are retained as previous versions that can be restored. Versioning and soft delete are complementary, but versioning alone retains the versions of a deleted blob. The team can restore the blob from its retained version.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/security-recommendations",
+      "source_title": "Security recommendations for Azure Storage",
+      "source_quote": "Use Microsoft Entra ID to authorize access to blob data, and use a user delegation SAS secured with Microsoft Entra credentials instead of an account SAS where possible."
+    },
+    {
+      "id": "D2-STOR-043",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A team wants to audit who accessed a specific blob and how they authenticated. Which storage logging feature provides this, and what does it record?",
+      "options": [
+        "Storage Analytics logging, which records the authorization method including anonymous, OAuth, Shared Key, and SAS, along with the request details, so the team can audit access and authentication",
+        "Defender for Storage, which is the only service that logs blob access",
+        "Azure Monitor metrics, which record the authorization method for each request",
+        "Key Vault logging, because blob access is authenticated through Key Vault"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: storage logging, through Storage Analytics or diagnostic settings, records the authorization method for each request, including anonymous, OAuth, Shared Key, and SAS, along with the request details. This provides the audit trail for who accessed a blob and how they authenticated. Defender for Storage detects threats rather than providing the full access log.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/security-recommendations",
+      "source_title": "Security recommendations for Azure Storage",
+      "source_quote": "Use Microsoft Entra ID to authorize access to blob data, and use a user delegation SAS secured with Microsoft Entra credentials instead of an account SAS where possible."
+    },
+    {
+      "id": "D2-STOR-044",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "storage-data",
+      "difficulty": "hard",
+      "question": "A storage account has two containers holding data for different business units, and each unit wants its own customer-managed key. The team assumes the account can only have one key. What is the actual capability?",
+      "options": [
+        "A storage account can only have one customer-managed key, so the team must create a second storage account",
+        "Encryption scopes allow a container or blob to use its own customer-managed key, so each container can be encrypted with a different key from the account default",
+        "Encryption scopes only apply to tables and queues, not blobs",
+        "Each container needs its own storage account, because keys are account-scoped"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: encryption scopes allow a container or an individual blob to use its own customer-managed key, separate from the account default key. Each business unit's container can therefore be encrypted with its own key, and the keys can be rotated or revoked independently. A second storage account is not required.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/encryption-atrest",
+      "source_title": "Encryption at rest in Azure",
+      "source_quote": "Azure Storage encrypts data at rest with 256-bit AES encryption, and customer-managed keys in Azure Key Vault give you control over the key encryption key."
+    }
+  ]
+}

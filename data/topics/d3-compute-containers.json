@@ -1,0 +1,914 @@
+{
+  "topic": "Containers: AKS security, Defender for Containers, image scanning, pod security, Container Instances / Container Apps, registry security",
+  "topic_slug": "compute-containers",
+  "domain": "Secure compute",
+  "source_pages": [
+    {
+      "title": "DevSecOps on Azure Kubernetes Service (AKS)",
+      "url": "https://learn.microsoft.com/en-us/azure/architecture/guide/devsecops/devsecops-on-aks",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Container security architecture",
+      "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-containers-architecture",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Defender for Containers on Azure (AKS) - Overview",
+      "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-containers-azure-overview",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Common questions about protecting containers",
+      "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/faq-defender-for-containers",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Implement security controls for containers",
+      "url": "https://learn.microsoft.com/en-us/training/modules/implement-security-controls-containers/6-summary",
+      "checked": "2026-11-11"
+    }
+  ],
+  "questions": [
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Defender for Containers scans ACR images automatically on push and continually thereafter, and provides vulnerability assessment, runtime threat detection and posture management for AKS. A is wrong: scanning is not control-plane-only or monthly-manual. C is wrong: developer laptops are not the protected workload. D is wrong: registry scanning is push-triggered and periodic, not manual-only or runtime-only.",
+      "id": "D3-CON-001",
+      "options": [
+        "Only images that are already running, and only when an administrator clicks Scan",
+        "Only the AKS control plane, once a month, on a manual schedule",
+        "Container images in Azure Container Registry automatically when pushed and continually thereafter, plus runtime and posture assessment of the cluster",
+        "Only the host operating system of the developer laptops that build the images"
+      ],
+      "question": "A company enables Defender for Containers for its AKS cluster. The team assumes scanning happens only when someone clicks Scan. What does Defender for Containers actually scan, and when?",
+      "source_quote": "Scans container images in Azure Container Registry (ACR) for vulnerabilities, automatically upon push to the registry and continually.",
+      "source_title": "Defender for Containers on Azure (AKS) - Overview",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-containers-azure-overview",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: AcrPull is the read role the cluster identity needs to pull images; AcrPush grants push. A is wrong: AcrPush is a write role the cluster does not need. C is wrong: Owner on the registry is far broader than pulling images. D is wrong: using the registry admin user, a shared username and password, bypasses Entra authentication instead of using it.",
+      "id": "D3-CON-002",
+      "options": [
+        "Owner on the registry, so the cluster can manage all registry settings",
+        "The registry admin user credentials, shared with the cluster as a secret",
+        "AcrPush, because the cluster must be able to write images back to the registry",
+        "AcrPull, the read role that lets the cluster pull images from the registry"
+      ],
+      "question": "An AKS cluster needs to pull container images from Azure Container Registry using Microsoft Entra ID authentication. A developer suggests enabling the registry admin user for simplicity. Which role should the cluster identity have, and why not the admin user?",
+      "source_quote": "Developers and pipelines now authenticate with Microsoft Entra ID identities, and every registry action is attributable to a specific user or workload.",
+      "source_title": "Implement security controls for containers",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/implement-security-controls-containers/6-summary",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: workload identity lets a pod authenticate as a managed identity via the cluster OIDC issuer and a federated identity credential, so no secret is stored in the pod. A is wrong: that is the shared-secret pattern workload identity replaces. C is wrong: copying the admin kubeconfig into a pod gives it cluster-admin access. D is wrong: the kubelet identity is not the pod workload identity.",
+      "id": "D3-CON-003",
+      "options": [
+        "Use the kubelets identity on each node, which automatically grants the pod access to Key Vault",
+        "Store a service principal client secret in the pods environment variables",
+        "Use workload identity: the pod presents a federated token from the clusters OIDC issuer and exchanges it for a managed-identity token",
+        "Copy the clusters admin kubeconfig into the pod so it can authenticate as the cluster administrator"
+      ],
+      "question": "A pod in AKS must read secrets from Key Vault without any long-lived credential stored in the cluster. Which mechanism does Microsoft recommend for the pod identity?",
+      "source_quote": "Defender for Containers leverages native Azure integrations to provide security without complexity. Automatically discovers all AKS clusters and container registries in your Azure subscriptions.",
+      "source_title": "Defender for Containers on Azure (AKS) - Overview",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-containers-azure-overview",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: gated deployment needs the Defender sensor with Security Gating, registry access with security findings, an OIDC issuer and workload identity on the cluster, and a user-assigned managed identity with AcrPull on the ACRs. A is wrong: agentless discovery alone gives posture and visibility, not admission gating. C is wrong: gated deployment is an admission controller evaluating images before admission, not a post-deploy scan. D is wrong: registry scanning alone does not block a deployment.",
+      "id": "D3-CON-004",
+      "options": [
+        "Enable ACR image scanning on push and rely on developers to check the scan results before deploying",
+        "Install the Azure Policy for Kubernetes add-on only; policy alone performs image vulnerability gating",
+        "Enable agentless discovery for Kubernetes only; that automatically blocks vulnerable images at deploy time",
+        "Enable the Defender sensor with Security Gating and registry access with security findings, enable the cluster OIDC issuer and workload identity, and give a user-assigned managed identity AcrPull on the ACRs so the admission controller can read vulnerability findings"
+      ],
+      "question": "A team wants AKS to refuse to admit a pod whose image has a critical vulnerability, before the pod starts. Registry scanning is already on. What else must be in place for this gated deployment to work?",
+      "source_quote": "Deploys a lightweight security sensor, natively integrated in AKS Resource Provider (RP), used for runtime threat protection and AKS deployment gating.",
+      "source_title": "Defender for Containers on Azure (AKS) - Overview",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-containers-azure-overview",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the capability model is explicit: image vulnerability assessment and posture assessment are agentless, but runtime threat detection requires in-cluster components, the Defender sensor DaemonSet collecting eBPF telemetry. A is wrong: agentless discovery gives posture and visibility, not live process and network telemetry. C is wrong: ACR scanning does not watch running containers. D is wrong: audit logs are one signal, but runtime threat protection needs the sensor telemetry as well.",
+      "id": "D3-CON-005",
+      "options": [
+        "Rely on Kubernetes audit logs alone; they provide the same runtime process and network telemetry as the sensor",
+        "Enable agentless discovery only; it collects runtime process and network telemetry from running containers",
+        "Deploy the Defender sensor (DaemonSet, eBPF telemetry) as part of Defender for Containers, because runtime threat detection requires in-cluster components, while image and posture assessment can be agentless",
+        "Enable ACR image scanning only; scanning a pushed image is the same as monitoring its runtime behaviour"
+      ],
+      "question": "A team enables Defender for Containers with agentless discovery only and expects real-time alerts when a running container spawns an unexpected shell or makes an unusual network connection. No such alerts appear. Why?",
+      "source_quote": "Defender sensor: A lightweight DaemonSet deployed on AKS nodes that collects runtime telemetry (Kubernetes events, process, and network data) by using eBPF technology.",
+      "source_title": "Container security architecture",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-containers-architecture",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: workload identity uses the cluster OIDC issuer and a federated identity credential on the managed identity, so no stored secret; the pod service account is the federated subject. A is wrong: the admin user is a shared credential that bypasses Entra authentication. C is wrong: AcrPush is a write role, and the pod needs to pull. D is wrong: the kubelet identity is not the pod workload identity and granting it AcrPush would be over-privileged.",
+      "id": "D3-CON-006",
+      "options": [
+        "Enable the registry admin user and put its password in a Kubernetes Secret for the pod to use",
+        "Use Azure Workload Identity: the pods service account federates via the cluster OIDC issuer to a user-assigned managed identity that has AcrPull on the registry",
+        "Grant the kubelet identity AcrPush on the registry so any pod on the node can pull and push images",
+        "Store a service principal client secret in the pods ConfigMap and rotate it manually each month"
+      ],
+      "question": "A pod must pull images from a private ACR, but the team is forbidden from storing any long-lived credential in the cluster. The cluster OIDC issuer and workload identity are already enabled. Which design pulls images with no stored secret and least privilege?",
+      "source_quote": "Image vulnerability assessment is triggered when images are pushed to supported registries and periodically based on registry configuration. These capabilities do not require any components to be deployed in your Kubernetes clusters.",
+      "source_title": "Container security architecture",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-containers-architecture",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Defender for Containers supports only AKS clusters that use Virtual Machine Scale Sets for the nodes; a cluster without scale sets is not supported. B is wrong: the limitation is about the node pool type, not the Kubernetes version alone. C is wrong: Arc-enabled Kubernetes is a supported path, not a blocker. D is wrong: the sensor needs scale-set nodes; availability sets do not satisfy the requirement.",
+      "id": "D3-CON-007",
+      "options": [
+        "Rebuild the cluster with Virtual Machine Scale Sets for the nodes, because Defender for Containers only supports AKS clusters that use scale sets",
+        "Upgrade the Kubernetes version only, because the node pool type does not matter",
+        "Convert the cluster to Arc-enabled Kubernetes, because Defender for Containers does not support AKS at all",
+        "Keep the availability-set node pool and install the sensor manually, because the sensor works on any node pool"
+      ],
+      "question": "A team enables Defender for Containers on an old AKS cluster whose nodes run on availability sets, not Virtual Machine Scale Sets. The sensor never deploys. What is the cause?",
+      "source_quote": "Does Microsoft Defender for Containers support AKS without scale set (default)? No. Only Azure Kubernetes Service (AKS) clusters that use Virtual Machine Scale Sets for the nodes is supported.",
+      "source_title": "Common questions about protecting containers",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/faq-defender-for-containers",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Defender for Containers pulls the image from the registry and runs it in an isolated sandbox with Defender Vulnerability Management, which extracts the list of known vulnerabilities; findings are classified and recommendations are generated only for images with issues. A is wrong: the scanner does not execute the image in production. B is wrong: the scan analyses image layers and metadata in a sandbox, not just the tag. D is wrong: healthy images are marked healthy with no recommendation.",
+      "id": "D3-CON-008",
+      "options": [
+        "It runs the image in the production cluster and watches what it does",
+        "It reads only the image tag and trusts the registry metadata",
+        "It pulls the image and runs it in an isolated sandbox with Defender Vulnerability Management, which extracts known vulnerabilities, and it generates recommendations only for images with issues",
+        "It generates a recommendation for every image it scans, healthy or not"
+      ],
+      "question": "A developer asks how Defender for Containers actually scans an image without running it in production. Which description is correct?",
+      "source_quote": "Defender for Containers pulls the image from the registry and runs it in an isolated sandbox with Microsoft Defender Vulnerability Management for multicloud environments. The scanner extracts a list of known vulnerabilities.",
+      "source_title": "Common questions about protecting containers",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/faq-defender-for-containers",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: agentless scanning takes snapshots of VM disks every 24 hours for out-of-band analysis, and data-plane containers in those snapshots are assessed regardless of which registry the image came from. A is wrong: running-container scanning is not real-time process monitoring; that needs the sensor. C is wrong: the snapshot cadence is 24 hours, not continuous. D is wrong: agentless scanning is registry-agnostic for running containers in snapshots.",
+      "id": "D3-CON-009",
+      "options": [
+        "It monitors running containers in real time with no delay",
+        "It takes snapshots of VM disks every 24 hours for out-of-band analysis, and assesses data-plane containers in those snapshots regardless of their source registry",
+        "It only scans containers whose images came from Azure Container Registry",
+        "It scans running containers continuously with no snapshot involved"
+      ],
+      "question": "A running container image came from Docker Hub, not ACR. The team assumes Defender for Containers cannot assess it. How does agentless scanning of running containers actually work?",
+      "source_quote": "Defender for Cloud performs agentless scanning of VMs. Snapshots of VM disks are taken every 24 hours to perform out-of-band analysis, without affecting performance. Data plane containers residing in VM disk snapshots, agnostic of the container image registry from which it was pulled, are assessed for vulnerabilities.",
+      "source_title": "Common questions about protecting containers",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/faq-defender-for-containers",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Defender for Containers can scan ACR, ECR, GCR, GAR and supported external registries, but not Microsoft Container Registry or the ARO built-in registry. A is wrong: MCR is explicitly not supported. B is wrong: ECR and GCR are supported. D is wrong: the limitation is about the registry type, not about whether the cluster is in Azure.",
+      "id": "D3-CON-010",
+      "options": [
+        "Yes, Microsoft Container Registry is fully supported for scanning",
+        "No, only Azure Container Registry is supported and no other registry can be scanned",
+        "Yes, but only if the images are first copied into ACR",
+        "No, Defender for Containers cannot scan images in Microsoft Container Registry or the Azure Red Hat OpenShift built-in registry, although it can scan ACR, ECR, GCR and GAR"
+      ],
+      "question": "A team stores base images in Microsoft Container Registry and expects Defender for Containers to scan them. Will it, and which registries are actually supported?",
+      "source_quote": "Currently, Defender for Containers can scan images in Azure Container Registry (ACR), AWS Elastic Container Registry (ECR), Google Container Registry (GCR), Google Archive Registry (GAR), and supported external registries only. Microsoft Artifact Registry/Microsoft Container Registry, and Microsoft Azure Red Hat OpenShift (ARO) built-in container image registry are not supported.",
+      "source_title": "Common questions about protecting containers",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/faq-defender-for-containers",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Defender for Containers components require no inbound connections to clusters and use outbound-only connectivity through Azure native security infrastructure. B is wrong: no inbound firewall opening is needed. C is wrong: the sensor is a DaemonSet on the nodes, not a public endpoint. D is wrong: the ACR integration is push-triggered and periodic, not a polling agent inside the registry.",
+      "id": "D3-CON-011",
+      "options": [
+        "No inbound connections are needed; all Defender for Containers components use outbound-only connectivity",
+        "The firewall must allow inbound connections from Defender for Cloud to every node",
+        "The sensor must be exposed through a public load balancer so Defender for Cloud can reach it",
+        "The registry must allow inbound connections from the sensor on every node"
+      ],
+      "question": "A network team refuses to open any inbound firewall rule to the AKS cluster. Can Defender for Containers still work, and what connectivity does it need?",
+      "source_quote": "These components require no inbound connections to your clusters and use Azure native security infrastructure. All components use outbound-only connectivity (no inbound access required).",
+      "source_title": "Container security architecture",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-containers-architecture",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the DevSecOps guidance is to apply Azure Policy to ACR and AKS to enforce policy compliance, with built-in policies for both, while Defender scans images and clusters. A is wrong: Policy enforces configuration; it does not scan images for CVEs. B is wrong: Defender scanning alone does not block non-compliant configuration at admission. D is wrong: RBAC on the registry does not enforce pod security configuration.",
+      "id": "D3-CON-012",
+      "options": [
+        "Enable Defender for Containers only, because scanning alone enforces configuration compliance",
+        "Use Azure Policy only to scan images for vulnerabilities, because Policy replaces Defender scanning",
+        "Apply Azure Policy to ACR and AKS to enforce policy compliance with built-in security policies, and use Defender for Containers to scan images and monitor runtime",
+        "Grant Owner on the registry to every developer, because RBAC enforces pod security standards"
+      ],
+      "question": "A team must stop pods running as root, images from unknown registries, and containers with no resource limits. Which combination of controls enforces this, and what does each control actually do?",
+      "source_quote": "You can apply Azure Policy to Container Registry and AKS to enforce policy compliance. Azure Policy includes built-in security policies for both Container Registry and AKS.",
+      "source_title": "DevSecOps on Azure Kubernetes Service (AKS)",
+      "source_url": "https://learn.microsoft.com/en-us/azure/architecture/guide/devsecops/devsecops-on-aks",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the training summary records the three container gaps closed together: disabling the ACR admin account in favour of RBAC and scope-map tokens, replacing plain-text environment variables in Container Instances with managed-identity Key Vault references, and using internal ingress in Container Apps. A is wrong: the admin account is disabled, not kept. C is wrong: secrets become Key Vault references, not plain environment variables. D is wrong: backend APIs move to internal ingress, not unrestricted public ingress.",
+      "id": "D3-CON-013",
+      "options": [
+        "Keep the ACR admin account enabled and keep secrets in plain-text environment variables",
+        "Disable the ACR admin account and replace it with RBAC and scope-map tokens, replace plain-text environment variables with Key Vault references retrieved by a managed identity, and use internal ingress for backend Container Apps services",
+        "Enable anonymous pull on the registry and give every container group a shared admin password",
+        "Put every Container Apps service on public ingress, because internal ingress breaks service-to-service calls"
+      ],
+      "question": "A container estate has three gaps: a registry using shared admin credentials, container workloads passing secrets as plain-text environment variables, and a Container Apps environment with unrestricted public ingress on every service. Which remediation closes all three?",
+      "source_quote": "You secured Azure Container Registry by disabling the admin account and replacing it with RBAC role assignments scoped to specific identities and operations. Scope map tokens gave CI/CD pipelines the minimum permissions needed for their specific repository.",
+      "source_title": "Implement security controls for containers",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/implement-security-controls-containers/6-summary",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: scope-map tokens give a pipeline the minimum permissions for one repository without granting access to the rest of the registry, while RBAC roles are registry-wide. A is wrong: AcrPush is registry-wide for that role. B is wrong: the admin account is a shared credential with full access. D is wrong: anonymous pull removes authentication entirely.",
+      "id": "D3-CON-014",
+      "options": [
+        "Use a scope-map token scoped to that one repository, because it gives the pipeline the minimum permissions for its repository without granting access to the rest of the registry",
+        "Grant AcrPush on the whole registry, because that is the only way a pipeline can push",
+        "Enable the registry admin account for the pipeline, because it is scoped per repository",
+        "Enable anonymous pull, because that limits the pipeline to one repository"
+      ],
+      "question": "A CI/CD pipeline must push images to exactly one repository in a shared ACR and must not be able to push or pull any other repository. Which credential design gives that least privilege?",
+      "source_quote": "Scope map tokens gave CI/CD pipelines the minimum permissions needed for their specific repository without granting access to the rest of the registry.",
+      "source_title": "Implement security controls for containers",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/implement-security-controls-containers/6-summary",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: containers should run as non-root users with read-only root filesystems, in a virtual network with private IPs, and secrets should come from Key Vault through a managed identity, not plain environment variables. A is wrong: running as root with a writable filesystem is the risk, not the fix. B is wrong: plain-text environment variables expose secrets to anyone who can inspect the container group. D is wrong: a public IP is not needed for the container to call Key Vault privately.",
+      "id": "D3-CON-015",
+      "options": [
+        "Run as root with a writable root filesystem and pass the secret as a plain-text environment variable",
+        "Run as root but store the secret in a Kubernetes Secret, because that is the same as Key Vault",
+        "Give the container group a public IP so it can reach Key Vault over the internet",
+        "Run as a non-root user with a read-only root filesystem in a virtual network with private IPs, and retrieve the secret from Key Vault with a managed identity"
+      ],
+      "question": "An Azure Container Instances group must call a private API and read a secret, with no public exposure. Which hardening set is correct?",
+      "source_quote": "Containers now run in a virtual network with private IP addresses, operate as nonroot users, and use read-only root filesystems. For Azure Container Instances, you assigned managed identities to container groups and replaced plain-text environment variables with Key Vault secret references.",
+      "source_title": "Implement security controls for containers",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/implement-security-controls-containers/6-summary",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: separate services by trust level across environments, assign managed identities for image pull and Key Vault access, and configure internal ingress so backend APIs are not on the public internet. A is wrong: public ingress on every service is the gap, not the fix. C is wrong: a shared admin credential for image pull bypasses Entra authentication. D is wrong: secrets in environment variables are the plain-text gap.",
+      "id": "D3-CON-016",
+      "options": [
+        "Put every service on public ingress with a shared registry password in environment variables",
+        "Separate services by trust level across environments, assign managed identities for image pull and Key Vault access, and configure internal ingress for backend APIs",
+        "Use one environment for all trust levels, because separation adds no security value",
+        "Give backend APIs public ingress and protect them only with a shared API key in code"
+      ],
+      "question": "A Container Apps environment hosts a public front end and a backend API that handles payment data. Both are on public ingress and share one registry password. What is the correct redesign?",
+      "source_quote": "In Azure Container Apps, you separated services by trust level across environments, assigned managed identities for image pull and Key Vault access, and configured internal ingress to keep backend APIs off the public internet.",
+      "source_title": "Implement security controls for containers",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/implement-security-controls-containers/6-summary",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Microsoft Defender for Kubernetes has been deprecated and replaced with Microsoft Defender for Containers, so the team must move to the Defender for Containers plan. B is wrong: the old plan is not still supported alongside. C is wrong: Defender for Servers is for machines, not container posture. D is wrong: there is no in-place rename; it is a plan migration.",
+      "id": "D3-CON-017",
+      "options": [
+        "Migrate to Microsoft Defender for Containers, because Microsoft Defender for Kubernetes has been deprecated and replaced with it",
+        "Keep Microsoft Defender for Kubernetes, because it is still the supported plan for AKS",
+        "Enable Defender for Servers instead, because it covers container scanning",
+        "Rename the existing plan in the portal, because the change is only a name"
+      ],
+      "question": "A runbook still references Microsoft Defender for Kubernetes for AKS protection. What is the current state of that plan, and what must the team do?",
+      "source_quote": "Microsoft Defender for Kubernetes has been deprecated and replaced with Microsoft Defender for Containers.",
+      "source_title": "Common questions about protecting containers",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/faq-defender-for-containers",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Defender for Containers provides vulnerability assessment across the lifecycle, in registries, runtime environments and CI/CD pipelines, with registry push and periodic scanning, runtime agentless scanning and a CLI tool for pipelines. A is wrong: scanning is not registry-only. B is wrong: the CLI tool exists precisely for pipeline integration. D is wrong: Windows images are supported alongside Linux.",
+      "id": "D3-CON-018",
+      "options": [
+        "Defender for Containers scans only images in the registry, never in pipelines or at runtime",
+        "Defender for Containers has no pipeline integration, so scanning must be manual in CI/CD",
+        "Defender for Containers scans images throughout their lifecycle: registry push and periodic scans, runtime agentless scanning, and a CLI tool for pipeline integration, for Linux and Windows images",
+        "Defender for Containers supports Linux images only"
+      ],
+      "question": "A DevSecOps team wants image scanning at three points: when the image is pushed, in the CI/CD pipeline, and at runtime. Which Defender for Containers statement covers all three?",
+      "source_quote": "Vulnerability assessment: Scans container images throughout their lifecycle - in registries, runtime environments, and CI/CD pipelines. Registry scanning (ACR push and periodic), Runtime agentless scanning, CLI tool for pipeline integration, Support for Linux and Windows images.",
+      "source_title": "Defender for Containers on Azure (AKS) - Overview",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-containers-azure-overview",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: AKS clusters running Kubernetes 1.19 or later are supported, and the sensor is natively integrated in the AKS resource provider. A is wrong: 1.19 is the floor, not the ceiling. C is wrong: the sensor is Azure-managed, not a third-party install. D is wrong: Defender for Containers discovers clusters automatically; manual registration is not required.",
+      "id": "D3-CON-019",
+      "options": [
+        "Only clusters on exactly Kubernetes 1.19 are supported",
+        "AKS clusters running Kubernetes 1.19 or later are supported, with the Defender sensor natively integrated in the AKS resource provider",
+        "The team must install a third-party sensor, because Defender provides no in-cluster component",
+        "Each cluster must be manually registered, because Defender cannot discover AKS clusters"
+      ],
+      "question": "A team runs AKS clusters on Kubernetes 1.30 and 1.31 and asks whether Defender for Containers supports them and how the sensor is deployed. Which statement is correct?",
+      "source_quote": "Automatically discovers all AKS clusters and container registries in your Azure subscriptions. AKS clusters running Kubernetes 1.19 or later.",
+      "source_title": "Defender for Containers on Azure (AKS) - Overview",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-containers-azure-overview",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the DevSecOps guidance is to scan with Defender for Containers when the image is uploaded to Container Registry and to scan the AKS environment continuously, with alerts on vulnerabilities found in images. A is wrong: a one-time scan at build misses vulnerabilities disclosed later. B is wrong: scanning must be continuous, not only after an incident. C is wrong: the recommendation is to enable Defender for Containers, not to rely on developers checking manually.",
+      "id": "D3-CON-020",
+      "options": [
+        "Scan the image once at build time and never again",
+        "Scan only after a security incident is declared",
+        "Rely on developers to check scan results manually with no Defender alerts",
+        "Enable Defender for Containers so images are scanned on upload to Container Registry and the AKS environment is scanned continuously, with alerts on vulnerabilities found"
+      ],
+      "question": "A new CVE is disclosed for a library in an image that was clean when it was built three months ago and is still running in production. Which scanning design catches it?",
+      "source_quote": "Conduct a vulnerability assessment for images stored in Container Registry. Implement continuous scans for running images in Container Registry by enabling Defender for Containers. Defender for Containers can alert on vulnerabilities found within your container images stored in Container Registry.",
+      "source_title": "DevSecOps on Azure Kubernetes Service (AKS)",
+      "source_url": "https://learn.microsoft.com/en-us/azure/architecture/guide/devsecops/devsecops-on-aks",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the capability model separates agentless capabilities, image vulnerability assessment and posture, from capabilities that require in-cluster components, namely runtime threat detection via the sensor. A is wrong: runtime threat detection is not agentless. B is wrong: image assessment does not need the sensor. D is wrong: posture assessment is agentless; the sensor is for runtime detection.",
+      "id": "D3-CON-021",
+      "options": [
+        "Image vulnerability assessment and posture assessment are agentless, while runtime threat detection requires in-cluster components",
+        "Runtime threat detection is agentless and image assessment requires the sensor",
+        "All Defender for Containers capabilities require the sensor DaemonSet",
+        "All Defender for Containers capabilities are agentless and the sensor is optional"
+      ],
+      "question": "An architect must document which Defender for Containers capabilities work without anything installed in the cluster and which need the sensor. Which split is correct?",
+      "source_quote": "Capability model overview: Image vulnerability assessment: Yes (agentless). Runtime threat detection requires in-cluster components.",
+      "source_title": "Container security architecture",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-containers-architecture",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the ACR integration gives push-triggered and periodic image scanning without extra components, while the sensor is a separate DaemonSet for runtime protection. A is wrong: ACR scanning needs no in-cluster component. B is wrong: the sensor is not required for registry scanning. D is wrong: findings can be published back to the registry without modifying the original image.",
+      "id": "D3-CON-022",
+      "options": [
+        "ACR scanning requires the Defender sensor on every node before it works",
+        "ACR scanning requires a sidecar in every pod",
+        "ACR scanning is push-triggered and periodic with no extra components, and findings can be published back to the registry without modifying the original image",
+        "ACR scanning modifies the original image to add the scan results"
+      ],
+      "question": "A team wants ACR image scanning but cannot deploy anything into the cluster yet. Does registry scanning work, and does it alter the images?",
+      "source_quote": "ACR integration: Push-triggered and periodic image scanning for Azure Container Registry. In supported scenarios, vulnerability assessment results can be published back to the registry without modifying the original container image.",
+      "source_title": "Container security architecture",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-containers-architecture",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Defender for Containers automatically discovers all AKS clusters and container registries in subscriptions, so a new cluster is discovered without manual registration, but the sensor still needs scale-set nodes. B is wrong: discovery is automatic. C is wrong: discovery does not install the sensor on unsupported node pools. D is wrong: discovery covers AKS and ACR in the subscription.",
+      "id": "D3-CON-023",
+      "options": [
+        "Defender for Containers automatically discovers AKS clusters and container registries in the subscription, so the new cluster appears without manual registration, though the sensor still requires scale-set nodes",
+        "Each new cluster must be manually registered before Defender can see it",
+        "Automatic discovery installs the sensor even on availability-set node pools",
+        "Discovery only covers registries, not clusters"
+      ],
+      "question": "A new AKS cluster is created in a subscription with Defender for Containers enabled. The team expects to register it manually. What actually happens?",
+      "source_quote": "Automatically discovers all AKS clusters and container registries in your Azure subscriptions.",
+      "source_title": "Defender for Containers on Azure (AKS) - Overview",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-containers-azure-overview",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the sensor is a lightweight DaemonSet on AKS nodes collecting Kubernetes events, process and network data with eBPF, which is the runtime telemetry that agentless scanning cannot provide. A is wrong: the sensor is a DaemonSet, not a sidecar per pod. C is wrong: the sensor collects runtime telemetry; it does not scan registry images. D is wrong: the sensor is Azure-managed and natively integrated in the AKS resource provider.",
+      "id": "D3-CON-024",
+      "options": [
+        "The sensor is a sidecar injected into every pod to scan its image",
+        "The sensor is a lightweight DaemonSet on AKS nodes collecting runtime telemetry (Kubernetes events, process and network data) using eBPF technology",
+        "The sensor scans images in ACR when they are pushed",
+        "The sensor is a third-party agent the team must install and maintain"
+      ],
+      "question": "A team asks what the Defender sensor actually is and what telemetry it collects. Which description is correct?",
+      "source_quote": "Defender sensor: A lightweight DaemonSet deployed on AKS nodes that collects runtime telemetry (Kubernetes events, process, and network data) by using eBPF technology.",
+      "source_title": "Container security architecture",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-containers-architecture",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the ACR integration is push-triggered and periodic, and image vulnerability assessment does not require any components deployed in the clusters. A is wrong: the sensor is for runtime protection, not registry scanning. B is wrong: scanning is push-triggered and periodic, not manual-only. D is wrong: findings are published back without modifying the image.",
+      "id": "D3-CON-025",
+      "options": [
+        "Registry scanning requires the sensor DaemonSet on every node",
+        "Registry scanning only runs when an administrator clicks Scan",
+        "Registry scanning modifies the image to embed the findings",
+        "Registry scanning is push-triggered and periodic with no in-cluster components required, and findings can be published back without modifying the image"
+      ],
+      "question": "A registry team wants image scanning with no agents in the cluster and no changes to the images. Which statement is correct?",
+      "source_quote": "Image vulnerability assessment is triggered when images are pushed to supported registries and periodically based on registry configuration. These capabilities do not require any components to be deployed in your Kubernetes clusters.",
+      "source_title": "Container security architecture",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-containers-architecture",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the DevSecOps guidance is that Defender scans Container Registry, the AKS cluster and Key Vault for vulnerabilities, and Defender for Containers scans the image when the CI workflow uploads it to Container Registry. B is wrong: scanning is automatic on upload, not manual. C is wrong: the scan happens at upload, not only at deployment. D is wrong: Defender for Key Vault is a separate capability for the vault, not the image scan.",
+      "id": "D3-CON-026",
+      "options": [
+        "Microsoft Defender scans Container Registry, the AKS cluster and Azure Key Vault, and Defender for Containers scans the container image when the CI workflow uploads it to Container Registry",
+        "The CI pipeline must call a manual scan API, because Defender never scans on upload",
+        "Images are scanned only when a pod starts, never in the registry",
+        "Defender for Key Vault scans the container images, and Defender for Containers scans the vault"
+      ],
+      "question": "A GitHub Actions workflow builds an image and uploads it to Container Registry. When does Defender for Containers scan it, and what else does Defender scan in that pipeline?",
+      "source_quote": "Microsoft Defender scans Container Registry, the AKS cluster, and Azure Key Vault for security vulnerabilities. Defender for Containers scans the container image for known security vulnerabilities when GitHub Actions uploads it to Container Registry.",
+      "source_title": "DevSecOps on Azure Kubernetes Service (AKS)",
+      "source_url": "https://learn.microsoft.com/en-us/azure/architecture/guide/devsecops/devsecops-on-aks",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the recommendations sit under Compute and apps in Defender for Cloud, and the guidance is to use them for baseline scans of AKS clusters. A is wrong: the recommendations are not under the registry blade. C is wrong: baseline scans are a Defender for Cloud capability, not a kubectl plugin. D is wrong: the recommendations are in Defender for Cloud, not in Azure Policy alone.",
+      "id": "D3-CON-027",
+      "options": [
+        "Under the Container Registry blade, because recommendations are registry-scoped",
+        "Under Azure Policy only, because Defender for Cloud has no container recommendations",
+        "Under Compute and apps in Defender for Cloud, where the container recommendations are used for baseline scans of AKS clusters",
+        "In kubectl, because baseline scans run as a Kubernetes plugin"
+      ],
+      "question": "A team must run a baseline scan of an AKS cluster configuration. Where do the Defender for Cloud container recommendations live?",
+      "source_quote": "Use the container recommendations in Defender for Cloud (under Compute and apps) to perform baseline scans for your AKS clusters.",
+      "source_title": "DevSecOps on Azure Kubernetes Service (AKS)",
+      "source_url": "https://learn.microsoft.com/en-us/azure/architecture/guide/devsecops/devsecops-on-aks",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the guidance is to use Defender for Cloud to automatically scan and monitor production configurations, and to conduct vulnerability assessments for images stored in Container Registry. A is wrong: a one-time pre-production scan misses later disclosures. C is wrong: scanning must be continuous, not incident-triggered. D is wrong: Defender for Cloud is the scanning tool; manual review is not the control.",
+      "id": "D3-CON-028",
+      "options": [
+        "Scan images once before production and never again",
+        "Use Defender for Cloud to automatically scan and monitor production configurations, and conduct vulnerability assessments for images stored in Container Registry",
+        "Scan only after an incident is declared",
+        "Rely on manual review of Dockerfiles, because Defender cannot scan production configurations"
+      ],
+      "question": "A production AKS cluster runs images that were clean at build time. Which continuous control catches vulnerabilities disclosed after deployment?",
+      "source_quote": "Use Defender for Cloud to automatically scan and monitor your production configurations. Conduct a vulnerability assessment for images stored in Container Registry.",
+      "source_title": "DevSecOps on Azure Kubernetes Service (AKS)",
+      "source_url": "https://learn.microsoft.com/en-us/azure/architecture/guide/devsecops/devsecops-on-aks",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the registry admin account provides broad shared credentials and is disabled by default, and the secure baseline is to keep it disabled and use Entra ID identities and RBAC. B is wrong: the admin account is disabled by default, not enabled. C is wrong: the admin account cannot be scoped per repository; scope-map tokens do that. D is wrong: the admin account is a shared credential with no audit trail, not the recommended production path.",
+      "id": "D3-CON-029",
+      "options": [
+        "Keep the admin account disabled and use Microsoft Entra ID identities with RBAC roles, because the admin account is a shared credential with broad access",
+        "Enable the admin account for production, because it is enabled by default and is the recommended path",
+        "Enable the admin account but scope it to one repository, because it supports per-repository scoping",
+        "Use the admin account for the CI pipeline, because it provides a full audit trail"
+      ],
+      "question": "A team enables the ACR admin account for the CI pipeline because it is simple. What is wrong with that design, and what is the default state of the account?",
+      "source_quote": "You secured Azure Container Registry by disabling the admin account and replacing it with RBAC role assignments scoped to specific identities and operations. Developers and pipelines now authenticate with Microsoft Entra ID identities.",
+      "source_title": "Implement security controls for containers",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/implement-security-controls-containers/6-summary",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the admin account is a shared credential that bypasses Entra authentication, while managed identity via attach-acr grants AcrPull with RBAC and no secret. A is wrong: the admin account is the insecure option. B is wrong: a service principal secret in a Kubernetes Secret is a stored long-lived credential. D is wrong: anonymous pull removes authentication entirely.",
+      "id": "D3-CON-030",
+      "options": [
+        "Enable the registry admin user and store its password in a Kubernetes Secret",
+        "Store a service principal client secret in the cluster as an image pull secret",
+        "Use anonymous pull so no credential is needed",
+        "Attach the ACR to the AKS cluster with a managed identity granted AcrPull, so the cluster pulls images with Entra authentication and no stored secret"
+      ],
+      "question": "An AKS cluster must pull images from a private ACR. The team proposes the admin user, a service principal secret, or anonymous pull. Which design is correct?",
+      "source_quote": "Developers and pipelines now authenticate with Microsoft Entra ID identities, and every registry action is attributable to a specific user or workload.",
+      "source_title": "Implement security controls for containers",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/implement-security-controls-containers/6-summary",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: containers run in a VNet with private IPs, as non-root users, with read-only root filesystems, and the managed identity retrieves secrets from Key Vault. A is wrong: a public IP is not needed. B is wrong: running as root is the risk. D is wrong: a writable root filesystem is the risk.",
+      "id": "D3-CON-031",
+      "options": [
+        "Give the container group a public IP and run as root with a writable filesystem",
+        "Run the containers in a virtual network with private IP addresses, as non-root users, with read-only root filesystems, and retrieve secrets from Key Vault with a managed identity",
+        "Store the secret as a plain-text environment variable, because Key Vault references do not work in Container Instances",
+        "Run as root, because non-root users cannot call private APIs"
+      ],
+      "question": "A Container Instances workload handles payment tokens and must have no public IP, no root execution and no writable filesystem. Which hardening set is correct?",
+      "source_quote": "Containers now run in a virtual network with private IP addresses, operate as nonroot users, and use read-only root filesystems. For Azure Container Instances, you assigned managed identities to container groups and replaced plain-text environment variables with Key Vault secret references.",
+      "source_title": "Implement security controls for containers",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/implement-security-controls-containers/6-summary",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the sensor collects Kubernetes events, process and network data with eBPF, which is how runtime threats such as a crypto miner are detected; image scanning alone cannot see runtime behaviour. A is wrong: image scanning finds known vulnerabilities, not runtime miners. B is wrong: Azure Policy enforces configuration at admission; it does not watch runtime processes. D is wrong: audit logs alone do not provide the process and network telemetry the sensor collects.",
+      "id": "D3-CON-032",
+      "options": [
+        "ACR image scanning, because it watches running containers",
+        "Azure Policy, because it monitors runtime processes",
+        "The Defender sensor DaemonSet, because it collects runtime telemetry (Kubernetes events, process and network data) with eBPF, which detects runtime threats such as a crypto miner starting unexpectedly",
+        "Kubernetes audit logs alone, because they provide the same runtime telemetry as the sensor"
+      ],
+      "question": "A container that passed image scanning starts a crypto miner at runtime. Which Defender for Containers component detects it, and why do the other controls not?",
+      "source_quote": "Defender sensor: A lightweight DaemonSet deployed on AKS nodes that collects runtime telemetry (Kubernetes events, process, and network data) by using eBPF technology.",
+      "source_title": "Container security architecture",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-containers-architecture",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Defender for Containers provides vulnerability assessment, runtime threat detection, software supply chain capabilities and security posture management, natively integrated with Azure services. B is wrong: it is not a registry-only scanner. C is wrong: it is not a deployment tool. D is wrong: it is a cloud-native security solution, not a SIEM.",
+      "id": "D3-CON-033",
+      "options": [
+        "Defender for Containers provides vulnerability scanning, runtime threat detection, software supply chain capabilities and security posture management, natively integrated with Azure services",
+        "Defender for Containers only scans registry images and does nothing else",
+        "Defender for Containers is a deployment tool that builds and pushes images",
+        "Defender for Containers is a SIEM that replaces Microsoft Sentinel"
+      ],
+      "question": "A CISO asks what Defender for Containers actually covers across the container lifecycle. Which scope statement is correct?",
+      "source_quote": "Microsoft Defender for Containers provides enterprise-grade security for Azure Kubernetes Service (AKS) clusters. It offers comprehensive protection through vulnerability scanning, runtime threat detection, software supply chain capabilities, and security posture management, all natively integrated with Azure services.",
+      "source_title": "Defender for Containers on Azure (AKS) - Overview",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-containers-azure-overview",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Defender for Containers leverages native Azure integrations and automatically discovers clusters and registries, so no complex third-party configuration is needed. A is wrong: it is native, not third-party. B is wrong: discovery is automatic. D is wrong: it integrates with ACR and AKS, not only with on-premises registries.",
+      "id": "D3-CON-034",
+      "options": [
+        "It requires a third-party security tool to be installed first",
+        "It requires manual registration of every cluster and registry",
+        "It only works with on-premises registries, not ACR",
+        "It leverages native Azure integrations, automatically discovers AKS clusters and container registries, and needs no complex third-party configuration"
+      ],
+      "question": "A team worries Defender for Containers needs a separate third-party platform and manual onboarding of every cluster. What is the actual integration model?",
+      "source_quote": "Defender for Containers leverages native Azure integrations to provide security without complexity. Automatically discovers all AKS clusters and container registries in your Azure subscriptions.",
+      "source_title": "Defender for Containers on Azure (AKS) - Overview",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-containers-azure-overview",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: image vulnerability assessment can be agentless, while runtime threat detection needs the sensor; the architecture documents which capabilities need in-cluster components. A is wrong: runtime detection is not agentless. C is wrong: image assessment is agentless. D is wrong: posture assessment is agentless.",
+      "id": "D3-CON-035",
+      "options": [
+        "Both image assessment and runtime detection are agentless",
+        "Image vulnerability assessment is agentless, while runtime threat detection requires in-cluster components",
+        "Image assessment requires the sensor and runtime detection is agentless",
+        "Posture assessment requires the sensor and image assessment requires the sensor too"
+      ],
+      "question": "A network-isolated cluster cannot have the sensor deployed yet. Which Defender for Containers capabilities still work, and which do not?",
+      "source_quote": "Capability model overview: Image vulnerability assessment: Yes (agentless). Runtime threat detection requires in-cluster components. Connection to container registries: Image vulnerability assessment is triggered when images are pushed to supported registries and periodically.",
+      "source_title": "Container security architecture",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-containers-architecture",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Defender for Cloud filters and classifies findings from the scanner, and generates security recommendations only for images that have issues; healthy images are marked healthy. A is wrong: healthy images do not generate recommendations. B is wrong: findings are filtered and classified, not passed through raw. D is wrong: the scanner extracts known vulnerabilities; it does not certify an image as vulnerability-free.",
+      "id": "D3-CON-036",
+      "options": [
+        "Every scanned image generates a security recommendation, healthy or not",
+        "Findings are passed through raw with no filtering or classification",
+        "Defender for Cloud filters and classifies findings from the scanner, marks healthy images as healthy, and generates recommendations only for images that have issues",
+        "A clean scan certifies the image as free of all vulnerabilities, including unknown ones"
+      ],
+      "question": "A scan returns no recommendations for an image. Does that mean the image is certified vulnerability-free, and how are findings handled?",
+      "source_quote": "Defender for Cloud filters and classifies findings from the scanner. When an image is healthy, Defender for Cloud marks it as such. Defender for Cloud generates security recommendations only for images that have issues to be resolved.",
+      "source_title": "Common questions about protecting containers",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/faq-defender-for-containers",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the FAQ states Defender for Containers supports AKS clusters with Virtual Machine Scale Sets, and only those; a cluster without scale sets is not supported. B is wrong: the node pool type is the requirement. C is wrong: the requirement is about scale sets, not about the Kubernetes version. D is wrong: the sensor cannot be installed manually to bypass the requirement.",
+      "id": "D3-CON-037",
+      "options": [
+        "Yes, Defender for Containers supports AKS clusters with Virtual Machine Scale Sets, and only clusters that use scale sets for the nodes are supported",
+        "Yes, any AKS cluster is supported regardless of node pool type",
+        "No, Defender for Containers does not support any AKS cluster",
+        "Yes, but only clusters on Kubernetes 1.19 exactly"
+      ],
+      "question": "A team asks whether their AKS cluster is eligible for Defender for Containers. Which support statement is correct?",
+      "source_quote": "Does Microsoft Defender for Containers support AKS clusters with virtual machines scale sets? Yes. Does Microsoft Defender for Containers support AKS without scale set (default)? No. Only Azure Kubernetes Service (AKS) clusters that use Virtual Machine Scale Sets for the nodes is supported.",
+      "source_title": "Common questions about protecting containers",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/faq-defender-for-containers",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the ACR integration is push-triggered and periodic, and the sensor is a separate DaemonSet for runtime protection; registry scanning needs no in-cluster component. A is wrong: ACR scanning needs no sensor. C is wrong: scanning is push-triggered and periodic, not manual-only. D is wrong: findings are published back without modifying the image.",
+      "id": "D3-CON-038",
+      "options": [
+        "The sensor must be deployed before any registry scanning works",
+        "ACR scanning is push-triggered and periodic with no in-cluster components, while the sensor DaemonSet provides runtime threat protection separately",
+        "Registry scanning only runs manually",
+        "Registry scanning rewrites the image to add the findings"
+      ],
+      "question": "A team enables Defender for Containers but the sensor rollout is delayed by a month. What scanning still works in the meantime?",
+      "source_quote": "ACR integration: Push-triggered and periodic image scanning for Azure Container Registry, providing vulnerability assessment without requiring extra components. Defender sensor (DaemonSet): collects runtime telemetry by using eBPF technology.",
+      "source_title": "Container security architecture",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-containers-architecture",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Azure Policy enforces configuration at admission, such as refusing root containers or images from unknown registries, while Defender for Containers scans images and monitors runtime; the two are complementary. A is wrong: Policy does not scan images for CVEs. B is wrong: Defender scanning alone does not block a non-compliant pod at admission. D is wrong: RBAC does not enforce pod security configuration.",
+      "id": "D3-CON-039",
+      "options": [
+        "Azure Policy scans images for CVEs, so Defender is unnecessary",
+        "Defender for Containers blocks non-compliant pods at admission, so Policy is unnecessary",
+        "RBAC on the cluster enforces pod security standards, so neither Policy nor Defender is needed",
+        "Azure Policy enforces configuration at admission while Defender for Containers scans images for vulnerabilities and monitors runtime, so both are needed"
+      ],
+      "question": "A cluster must refuse pods running as root and images with critical CVEs. Which control does which job, and why is one control not enough?",
+      "source_quote": "You can apply Azure Policy to Container Registry and AKS to enforce policy compliance. Azure Policy includes built-in security policies for both Container Registry and AKS. Defender for Containers scans the container image for known security vulnerabilities when GitHub Actions uploads it to Container Registry.",
+      "source_title": "DevSecOps on Azure Kubernetes Service (AKS)",
+      "source_url": "https://learn.microsoft.com/en-us/azure/architecture/guide/devsecops/devsecops-on-aks",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: agentless scanning takes snapshots every 24 hours, so a vulnerability disclosed after the last snapshot is not visible until the next snapshot, while the sensor gives runtime telemetry but not vulnerability data. B is wrong: agentless scanning is not real-time. C is wrong: the sensor does not provide vulnerability assessment. D is wrong: the snapshot cadence is 24 hours, not weekly.",
+      "id": "D3-CON-040",
+      "options": [
+        "Agentless scanning takes disk snapshots every 24 hours, so a vulnerability disclosed after the last snapshot appears only at the next snapshot",
+        "Agentless scanning is real-time, so the delay must be a portal bug",
+        "The sensor provides the vulnerability data in real time, so agentless scanning is irrelevant",
+        "Snapshots are weekly, so the delay is expected to be seven days"
+      ],
+      "question": "A critical CVE is published at 09:00. Agentless scanning shows no finding for a running container until the next day. Why is that expected behaviour?",
+      "source_quote": "Defender for Cloud performs agentless scanning of VMs. Snapshots of VM disks are taken every 24 hours to perform out-of-band analysis, without affecting performance.",
+      "source_title": "Common questions about protecting containers",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/faq-defender-for-containers",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the three container gaps closed together are disabling the ACR admin account for RBAC and scope-map tokens, replacing plain-text environment variables with Key Vault references, and using internal ingress in Container Apps. A is wrong: the admin account is disabled, not kept. B is wrong: secrets become Key Vault references, not environment variables. D is wrong: backend APIs move to internal ingress.",
+      "id": "D3-CON-041",
+      "options": [
+        "Keep the admin account and plain-text environment variables, and put everything on public ingress",
+        "Disable the admin account but keep plain-text environment variables",
+        "Disable the ACR admin account for RBAC and scope-map tokens, replace plain-text environment variables with Key Vault references retrieved by a managed identity, and use internal ingress for backend Container Apps services",
+        "Use internal ingress for the front end and public ingress for the backend API"
+      ],
+      "question": "A container review finds shared admin credentials, secrets in plain-text environment variables, and public ingress on every Container Apps service. Which single remediation set closes all three gaps?",
+      "source_quote": "You secured Azure Container Registry by disabling the admin account and replacing it with RBAC role assignments scoped to specific identities and operations. Scope map tokens gave CI/CD pipelines the minimum permissions needed for their specific repository. For Azure Container Instances, you assigned managed identities to container groups and replaced plain-text environment variables with Key Vault secret references. In Azure Container Apps, you configured internal ingress to keep backend APIs off the public internet.",
+      "source_title": "Implement security controls for containers",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/implement-security-controls-containers/6-summary",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the CLI tool is for pipeline integration, so the pipeline can scan the image before it is pushed, while registry scanning happens on push and periodically. A is wrong: the CLI tool exists for pipelines. B is wrong: the CLI scans the image in the pipeline; it does not deploy it. D is wrong: the CLI is a scanning tool, not a registry replacement.",
+      "id": "D3-CON-042",
+      "options": [
+        "There is no pipeline scanning option; images can only be scanned after they reach the registry",
+        "Use the Defender for Containers CLI tool for pipeline integration to scan the image in the CI/CD pipeline before it is pushed",
+        "Use the CLI tool to deploy the image, because it is a deployment tool",
+        "Use the CLI tool as a replacement for the registry, because it stores images"
+      ],
+      "question": "A team wants to fail the build if an image has a critical vulnerability, before the image is pushed to ACR. Which Defender for Containers capability does that?",
+      "source_quote": "Vulnerability assessment: Scans container images throughout their lifecycle - in registries, runtime environments, and CI/CD pipelines. CLI tool for pipeline integration.",
+      "source_title": "Defender for Containers on Azure (AKS) - Overview",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-containers-azure-overview",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the ACR integration scans images on push and periodically, and the sensor provides runtime protection; the two are separate components with separate jobs. B is wrong: the sensor does not scan registry images. C is wrong: registry scanning is automatic on push. D is wrong: the sensor is Azure-managed and natively integrated, not a manual install.",
+      "id": "D3-CON-043",
+      "options": [
+        "ACR scanning is push-triggered and periodic, and the sensor DaemonSet provides runtime threat protection; they are separate components",
+        "The sensor scans registry images on push, and ACR scanning monitors runtime behaviour",
+        "Registry scanning only runs when a developer triggers it manually",
+        "The sensor must be installed manually from a third-party marketplace"
+      ],
+      "question": "A new engineer confuses the ACR integration with the Defender sensor. What is the correct distinction?",
+      "source_quote": "ACR integration: Push-triggered and periodic image scanning for Azure Container Registry. Defender sensor (DaemonSet): A lightweight DaemonSet deployed on AKS nodes that collects runtime telemetry by using eBPF technology.",
+      "source_title": "Container security architecture",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-containers-architecture",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Defender for Containers is the current plan, Microsoft Defender for Kubernetes is deprecated, and Defender for Servers is for machines, not containers. A is wrong: the Kubernetes plan is deprecated. B is wrong: Defender for Servers does not cover container scanning. D is wrong: there is no separate Defender for AKS plan; it is Defender for Containers.",
+      "id": "D3-CON-044",
+      "options": [
+        "Enable Microsoft Defender for Kubernetes, because it is the current plan for AKS",
+        "Enable Defender for Servers, because it covers container image scanning",
+        "Enable a separate Defender for AKS plan, because Defender for Containers does not cover AKS",
+        "Enable Microsoft Defender for Containers, because Microsoft Defender for Kubernetes has been deprecated and replaced with it"
+      ],
+      "question": "A runbook lists three different Defender plans for AKS: Defender for Kubernetes, Defender for Servers, and Defender for AKS. Which plan is actually correct for AKS container protection?",
+      "source_quote": "Microsoft Defender for Kubernetes has been deprecated and replaced with Microsoft Defender for Containers. Microsoft Defender for Containers provides enterprise-grade security for Azure Kubernetes Service (AKS) clusters.",
+      "source_title": "Common questions about protecting containers",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/faq-defender-for-containers",
+      "status": "active",
+      "topic": "compute-containers",
+      "version": 1
+    }
+  ]
+}

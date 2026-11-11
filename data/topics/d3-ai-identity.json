@@ -1,0 +1,924 @@
+{
+  "topic": "Entra Agent ID, Purview DSPM for AI, AI agent permissions, OAuth for agents, managed identities for AI workloads, AI guardrails",
+  "topic_slug": "ai-identity",
+  "domain": "Secure compute",
+  "source_pages": [
+    {
+      "title": "AI threat protection",
+      "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/ai-threat-protection",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Best practices for Microsoft Entra Agent ID",
+      "url": "https://learn.microsoft.com/en-us/entra/agent-id/best-practices-agent-id",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "What are agent identities?",
+      "url": "https://learn.microsoft.com/en-us/entra/agent-id/what-are-agent-identities",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Microsoft Agent 365 overview",
+      "url": "https://learn.microsoft.com/en-us/microsoft-agent-365/overview",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Microsoft Purview for Microsoft Agent 365",
+      "url": "https://learn.microsoft.com/en-us/purview/ai-agent-365",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Prevent oversharing with data risk assessments from Microsoft Purview Data Security Posture Management",
+      "url": "https://learn.microsoft.com/en-us/purview/data-security-posture-management-oversharing",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Data Security Posture Management for AI",
+      "url": "https://learn.microsoft.com/en-us/purview/dspm-for-ai",
+      "checked": "2026-11-11"
+    }
+  ],
+  "questions": [
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Copilot grounds its answers in the users Microsoft 365 data via Microsoft Graph and respects existing permissions, so it can only surface content the user is already authorised to see, and an overshared file becomes visible through Copilot. A is wrong: Copilot is not a privileged crawler with unlimited access. C is wrong: the risk is precisely that it honours broad permissions. D is wrong: DSPM for AI is designed to find exactly this oversharing risk, and Copilot is not limited to OneDrive.",
+      "id": "D3-AGENT-001",
+      "options": [
+        "Copilots access is limited to the users own OneDrive, so SharePoint oversharing does not matter",
+        "Copilot has its own administrator account that bypasses SharePoint permissions",
+        "Copilot can only surface content the requesting user is already authorised to see, so a file overshared to Everyone can be summarised by Copilot for any user with access",
+        "Copilot cannot see SharePoint content at all unless a file is explicitly shared with Copilot"
+      ],
+      "question": "A confidential salary spreadsheet in SharePoint is shared with Everyone in the company by mistake. A user who would never have found the file manually asks Microsoft 365 Copilot to summarise salary information. Why is this a real risk?",
+      "source_quote": "Data risk assessments from Data Security Posture Management help you identify and fix potential data oversharing risks in your organization. Because of the power and speed AI can proactively surface content that might be obsolete, over-permissioned, or lack governance controls, generative AI amplifies the problem of oversharing data.",
+      "source_title": "Prevent oversharing with data risk assessments from Microsoft Purview Data Security Posture Management",
+      "source_url": "https://learn.microsoft.com/en-us/purview/data-security-posture-management-oversharing",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Entra Agent ID extends identity management to AI agents; agents created in Copilot Studio and Azure AI Foundry are automatically assigned identities in Entra, centralising agent and user management. A is wrong: the agent is not anonymous; it has its own identity. C is wrong: the agent does not use the developers identity as its own. D is wrong: agents are non-human identities, distinct from user identities.",
+      "id": "D3-AGENT-002",
+      "options": [
+        "The agent uses the identity of the developer who built it, with no separate identity of its own",
+        "Agents are not given identities at all; only human users can have Entra identities",
+        "The agent runs anonymously and has no identity; access is controlled only by the API key it holds",
+        "The agent is automatically assigned its own identity in Microsoft Entra ID, so it can be governed like other identities"
+      ],
+      "question": "A team builds an AI agent in Copilot Studio. A developer claims the agent has no identity of its own and just uses an API key. What does Microsoft Entra Agent ID actually provide for that agent?",
+      "source_quote": "An agent identity is a specialized Microsoft Entra ID identity construct (not a plain service principal) designed for the dynamic, ephemeral, bulk-created nature of AI agents; it enables autonomous access, delegated (OBO) access, and authenticating incoming requests from other agents or clients.",
+      "source_title": "What are agent identities?",
+      "source_url": "https://learn.microsoft.com/en-us/entra/agent-id/what-are-agent-identities",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: DSPM for AI is a Purview visibility and posture capability; it discovers AI usage, identifies sensitive data in interactions, and recommends policies. It does not itself block prompts, enforce Conditional Access, or replace DLP. A is wrong: DSPM recommends; DLP is the enforcement policy that blocks. C is wrong: Conditional Access governs identity and token issuance, a different layer. D is wrong: DSPM does not rewrite permissions; remediation is a separate admin action.",
+      "id": "D3-AGENT-003",
+      "options": [
+        "Use DSPM for AI to rewrite SharePoint permissions automatically; no admin action is needed after the dashboard is enabled",
+        "Enable DSPM for AI; it will automatically block any Copilot prompt containing a credit-card number",
+        "Use DSPM for AI to discover AI usage and sensitive data in interactions and get recommended actions, then apply Purview DLP, labelling and permission remediation to enforce them",
+        "Use DSPM for AI instead of Conditional Access, because DSPM also blocks sign-ins from risky locations"
+      ],
+      "question": "DSPM for AI reports that Copilot prompts regularly contain customer credit-card numbers and that a SharePoint site used for grounding is overshared. The team expects DSPM for AI to block the prompts and fix the permissions by itself. What is the correct understanding?",
+      "source_quote": "Data Security Posture Management for AI offers a set of capabilities so you can safely adopt AI without having to choose between productivity and protection: Data risk assessments to identify, remediate, and monitor potential oversharing of data.",
+      "source_title": "Data Security Posture Management for AI",
+      "source_url": "https://learn.microsoft.com/en-us/purview/dspm-for-ai",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: agent identities are non-human identities that cannot complete interactive challenges, so the available Conditional Access grant controls are Block or Allow only; MFA is not available for them. The agent identity and the agent user account are distinct objects needing separate policies, and a raw API-key path bypasses Entra authentication so Conditional Access cannot apply to it. A is wrong: MFA cannot be required of an agent identity. C is wrong: targeting users does not cover agent identities. D is wrong: an API key bypasses Entra, so no Conditional Access policy can govern that path.",
+      "id": "D3-AGENT-004",
+      "options": [
+        "Target the policy at the agents human sponsor only; that automatically covers the agent identity",
+        "Keep the API key as the agents authentication and add a Conditional Access policy requiring MFA on that key",
+        "Require MFA for the agent identity, targeting the agent identity in the policy, because agents complete MFA like users",
+        "Create a Conditional Access policy targeting the agent identity with Block (or Allow) as the grant control, because MFA is not available for agent identities, and separately cover the agent user account; also remove the API-key path, which bypasses Entra authentication"
+      ],
+      "question": "A Copilot Studio agent with an Entra Agent ID has read access to HR data in SharePoint. The team writes a Conditional Access policy requiring MFA for the agent and applies it to the agents human sponsor. The policy has no effect on the agents sign-ins. What is wrong, and what is the correct design?",
+      "source_quote": "An agent identity is a specialized Microsoft Entra ID identity construct (not a plain service principal) designed for the dynamic, ephemeral, bulk-created nature of AI agents; it enables autonomous access, delegated (OBO) access, and authenticating incoming requests from other agents or clients.",
+      "source_title": "What are agent identities?",
+      "source_url": "https://learn.microsoft.com/en-us/entra/agent-id/what-are-agent-identities",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: for an agent, blast radius is its permissions and paths to data, what the compromised identity can reach, which other agents it can invoke, and which data it can exfiltrate, assessed in Defender XDR from the agent identity and access, not from endpoint malware. A is wrong: no endpoint implant is needed for an agent compromise. C is wrong: the user account is one object; the agent identity own permissions are the blast radius. D is wrong: Defender XDR is the tool named for this analysis.",
+      "id": "D3-AGENT-005",
+      "options": [
+        "Use Purview DSPM for AI to measure blast radius; Defender XDR cannot analyse agent identities",
+        "Check the agents host VM for malware; blast radius for an agent means which endpoints are infected",
+        "Analyse in Defender XDR what the agent identity can access, which data and downstream agents it can reach, and what an attacker could do with those permissions",
+        "Review only the human sponsors mailbox; the agent has no permissions of its own to analyse"
+      ],
+      "question": "An agent identity with broad SharePoint and mailbox access is suspected compromised. The SOC asks for the blast radius. What does blast radius mean for an Entra Agent ID, and which tool is named for the analysis?",
+      "source_quote": "Runtime detection of AI-specific attacks such as direct and indirect prompt injection and data exfiltration attempts, with alerts correlated in Defender XDR and Sentinel and hunting across Copilot Studio and Foundry logs.",
+      "source_title": "AI threat protection",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/ai-threat-protection",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: real-time protection for Copilot Studio agents is a Defender capability that can block risky agent actions at runtime; Purview DSPM for AI gives data-risk visibility and recommended policies; Defender for AI Services gives Defender for Cloud threat protection for Foundry workloads; Foundry guardrails and content filters screen prompts and completions. A is wrong: DSPM does not block at runtime. C is wrong: Defender for AI Services is not the Copilot Studio real-time protection control. D is wrong: content filters screen the prompt and completion; they do not block a tool invocation the agent is about to make.",
+      "id": "D3-AGENT-006",
+      "options": [
+        "Enable Defender for AI Services only; that is the same control as Copilot Studio real-time protection",
+        "Rely on Foundry content filters to block the agents tool calls; filters and real-time agent protection are the same control",
+        "Enable Purview DSPM for AI; it blocks the agents tool calls in real time",
+        "Enable real-time protection for Copilot Studio agents in Defender, use Purview DSPM for AI for data-risk visibility, and use Defender for AI Services plus Foundry guardrails for Foundry workloads"
+      ],
+      "question": "A Copilot Studio agent is about to call a tool that would exfiltrate data. The team has DSPM for AI enabled and assumes it will block the call. Which control actually provides real-time protection for Copilot Studio agents, and what do the other tools do instead?",
+      "source_quote": "Microsoft Defender for Cloud AI threat protection provides runtime detection of AI-specific attacks such as direct and indirect prompt injection and data exfiltration attempts, with alerts correlated in Defender XDR.",
+      "source_title": "AI threat protection",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/ai-threat-protection",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: an agent identity is a specialised Entra identity construct, not a plain service principal, built for the dynamic, ephemeral, bulk-created nature of AI agents. A is wrong: a plain service principal is the legacy pattern for agents created before Agent ID. B is wrong: a user account is a human identity; the agent needs its own non-human identity. D is wrong: a shared API key is not an Entra identity at all.",
+      "id": "D3-AGENT-007",
+      "options": [
+        "A plain service principal created with an app registration, because that is the same as an agent identity",
+        "The human sponsors user account, because the agent acts as the sponsor",
+        "A specialised Microsoft Entra ID identity construct for the agent, distinct from a plain service principal, supporting autonomous and delegated access",
+        "A shared API key stored in the agent configuration, because agents cannot have Entra identities"
+      ],
+      "question": "A team is migrating agents built before Entra Agent ID existed. Those agents use plain app registrations. What is an Entra agent identity, and how does it differ from what the old agents use?",
+      "source_quote": "An agent identity is a specialized Microsoft Entra ID identity construct (not a plain service principal) designed for the dynamic, ephemeral, bulk-created nature of AI agents.",
+      "source_title": "What are agent identities?",
+      "source_url": "https://learn.microsoft.com/en-us/entra/agent-id/what-are-agent-identities",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the base Agent ID identity object is available to all Entra customers at no extra licence, but extending Entra security features to agents, such as Agent 365 integration, Conditional Access for agents and ID Protection for agents, requires a Microsoft Agent 365 licence per user. B is wrong: the base identity is not licence-gated. C is wrong: Agent 365 is the licence gate, not an E5 add-on for the base identity. D is wrong: the identity object itself is free; the security features are the licensed part.",
+      "id": "D3-AGENT-008",
+      "options": [
+        "The base agent identity object is available at no extra licence, but extending Entra security features to agents, such as Conditional Access and ID Protection for agents, requires a Microsoft Agent 365 licence",
+        "Every agent identity requires a paid Agent 365 licence just to exist",
+        "Agent 365 is required for the identity object but Conditional Access for agents is free",
+        "Agent identities are free in full, including Conditional Access and ID Protection, with no licence needed"
+      ],
+      "question": "Finance asks what an Entra Agent ID costs. The team says agent identities are free; the vendor says every agent needs a paid licence. Which statement is correct?",
+      "source_quote": "Agent ID is available to all Microsoft Entra customers at no extra license for the base identity object; however, extending Microsoft Entra security features (Agent 365 integration, Conditional Access for agents, ID Protection for agents) to agents requires a Microsoft Agent 365 license per user.",
+      "source_title": "What are agent identities?",
+      "source_url": "https://learn.microsoft.com/en-us/entra/agent-id/what-are-agent-identities",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: agents authenticate autonomously with client credentials using an agent identity created from a blueprint, or on behalf of a signed-in user through a formal on-behalf-of flow with agent-specific impersonation, not by forwarding the user token. A is wrong: forwarding a user token to a third party is explicitly the pattern to avoid. C is wrong: autonomous access uses the agent identity, not the sponsor account. D is wrong: API keys are not the Entra authentication path for agents.",
+      "id": "D3-AGENT-009",
+      "options": [
+        "Use a shared API key for all agent authentication, because Entra does not support agents",
+        "Forward the signed-in users token to the tool or MCP endpoint, because that is the standard agent pattern",
+        "Authenticate autonomously with the agent identity from a blueprint, or on behalf of the user through a formal on-behalf-of flow, and never forward a Microsoft-audience token to an untrusted third-party endpoint",
+        "Authenticate as the human sponsor account for every autonomous action"
+      ],
+      "question": "An agent must call a third-party MCP tool server. The developer proposes forwarding the users Entra token to the tool. What is the correct authentication design, and what is forbidden?",
+      "source_quote": "Agents authenticate either autonomously (client-credentials/app-only, using an agent identity created from an agent identity blueprint) or on behalf of a signed-in user (a formal OBO flow with agent-specific impersonation, not user-token forwarding).",
+      "source_title": "What are agent identities?",
+      "source_url": "https://learn.microsoft.com/en-us/entra/agent-id/what-are-agent-identities",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the agent identity blueprint is the template from which agent identities are created, and new agents should use the Agent ID framework, never a plain app registration created with app-create commands. A is wrong: an app registration is the legacy pattern. B is wrong: a blueprint is not a Conditional Access policy. C is wrong: the blueprint is the creation template, not a report.",
+      "id": "D3-AGENT-010",
+      "options": [
+        "Create a plain app registration with an app-create command, because that is the same as an agent identity",
+        "Write a Conditional Access policy, because a blueprint is a policy document",
+        "Generate a compliance report, because a blueprint is an audit artifact",
+        "Create the agent identity from an agent identity blueprint, because new agents should use the Agent ID framework and never a plain app registration"
+      ],
+      "question": "A developer asks how a new agent gets its Entra identity. Which creation path is correct, and which legacy path must not be used?",
+      "source_quote": "Existing agents created before Entra Agent ID rolled out continue to use plain app registrations; new agents should use the Agent ID framework and never use app-create commands to represent an agent.",
+      "source_title": "Best practices for Microsoft Entra Agent ID",
+      "source_url": "https://learn.microsoft.com/en-us/entra/agent-id/best-practices-agent-id",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the current DSPM adds an AI observability page with an inventory of active agents and their risk based on Insider Risk Management signals, recommendations, and per-agent detail including Entra-enabled status, owner and agent user ID. A is wrong: the classic experience does not support Agent 365. B is wrong: the observability page is in the current DSPM, not the classic view. D is wrong: the inventory covers agents with activity, not only Microsoft-built agents.",
+      "id": "D3-AGENT-011",
+      "options": [
+        "Use the current DSPM AI observability page, which inventories active agents with risk, recommendations and per-agent detail such as Entra-enabled status, owner and agent user ID",
+        "Use the classic DSPM for AI view, because it supports Agent 365",
+        "Use the classic DSPM view, because AI observability only exists there",
+        "Use the observability page, but only Microsoft-built agents appear in it"
+      ],
+      "question": "A CISO asks for one inventory of every active agent, its risk, its owner and whether it has an Entra identity. Which Purview view provides it, and which view must not be used?",
+      "source_quote": "Microsoft Purview DSPM for AI provides an AI observability page in the Purview portal, a dashboard of active agents and their risk (based on Insider Risk Management signals), recommendations for remediation, and per-agent detail (Entra-enabled status, owner, agent user ID, activities).",
+      "source_title": "Microsoft Purview for Microsoft Agent 365",
+      "source_url": "https://learn.microsoft.com/en-us/purview/ai-agent-365",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: a default data risk assessment automatically runs weekly for the top 100 SharePoint sites based on usage, and custom assessments can target selected users or sites. A is wrong: the default assessment is automatic and weekly, not monthly manual. B is wrong: OneDrive is not supported for item-level scanning. D is wrong: assessments are capped at 200,000 items per location and 10 sites for item-level scanning.",
+      "id": "D3-AGENT-012",
+      "options": [
+        "Run a manual monthly assessment of all sites, because there is no default assessment",
+        "Use the default weekly assessment of the top 100 SharePoint sites by usage, and supplement it with custom assessments for selected users or sites",
+        "Run item-level scanning on OneDrive, because it is supported the same as SharePoint",
+        "Scan unlimited items per location, because assessments have no caps"
+      ],
+      "question": "Before rolling out Copilot, a team must find overshared SharePoint sites. How do Purview data risk assessments work by default, and what are their limits?",
+      "source_quote": "A default data risk assessment automatically runs weekly for the top 100 SharePoint sites based on usage in your organization. Item-level scanning is applicable to Microsoft 365 only, and currently restricted to SharePoint sites. A maximum of 200,000 items per location.",
+      "source_title": "Prevent oversharing with data risk assessments from Microsoft Purview Data Security Posture Management",
+      "source_url": "https://learn.microsoft.com/en-us/purview/data-security-posture-management-oversharing",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: a DLP policy can prevent Copilot and agents from summarising data with selected sensitivity labels, and DSPM one-click policies create the underlying DLP policies; DSPM itself is the visibility layer. A is wrong: DSPM recommends and creates policies in other solutions; it does not block by itself. C is wrong: labels are the enforcement trigger, not an irrelevance. D is wrong: the DLP policy is the blocking control, not a Conditional Access policy.",
+      "id": "D3-AGENT-013",
+      "options": [
+        "Enable DSPM for AI and stop, because DSPM blocks Copilot from processing labelled items by itself",
+        "Create a Purview DLP policy that prevents Microsoft 365 Copilot and agents from summarising data with the selected sensitivity labels, using the DSPM one-click policy that creates it",
+        "Remove the sensitivity labels, because labels prevent DLP from working",
+        "Write a Conditional Access policy, because DLP cannot target Copilot interactions"
+      ],
+      "question": "A law firm labels client-matter files Highly Confidential and must stop Copilot from summarising them. Which control actually blocks the summarisation, and what role does DSPM play?",
+      "source_quote": "Use Microsoft Purview Data Loss Prevention to create a DLP policy that prevents Microsoft 365 Copilot and agents from summarizing data when it has sensitivity labels that you select.",
+      "source_title": "Prevent oversharing with data risk assessments from Microsoft Purview Data Security Posture Management",
+      "source_url": "https://learn.microsoft.com/en-us/purview/data-security-posture-management-oversharing",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: when a sensitivity label applies encryption, the user needs the EXTRACT usage right alongside VIEW before an AI app returns that content, so a VIEW-only user cannot get the content through Copilot. B is wrong: VIEW alone is not enough for encrypted labelled content. C is wrong: Copilot respects label encryption; it does not bypass it. D is wrong: the EXTRACT right is a label usage right, not a SharePoint role.",
+      "id": "D3-AGENT-014",
+      "options": [
+        "The user needs the EXTRACT usage right alongside VIEW before an AI app returns encrypted labelled content, so VIEW-only users cannot get it through Copilot",
+        "VIEW is enough, because Copilot bypasses label encryption for summarisation",
+        "Copilot ignores sensitivity labels entirely and returns any content the user can open",
+        "The user needs a SharePoint Owner role, because usage rights do not apply to AI apps"
+      ],
+      "question": "A document carries a sensitivity label with encryption. A user has VIEW rights but not EXTRACT. Can Copilot return the document content to that user?",
+      "source_quote": "When a sensitivity label applies encryption, the user needs the EXTRACT usage right alongside VIEW before an AI app returns that content.",
+      "source_title": "Microsoft Purview for Microsoft Agent 365",
+      "source_url": "https://learn.microsoft.com/en-us/purview/ai-agent-365",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Purview capabilities supported for AI and Agent 365 interactions include auditing, data classification, sensitivity labels, DLP, Insider Risk Management and eDiscovery, with audit records carrying metadata such as resources, labels, model and jailbreak flags. A is wrong: Purview does not authenticate agents; Entra does that. B is wrong: Purview does not issue tokens. D is wrong: Purview audit records centre on metadata, but prompt and response text is reviewed through DSPM for AI and eDiscovery, not absent entirely.",
+      "id": "D3-AGENT-015",
+      "options": [
+        "Purview authenticates the agent and issues its tokens",
+        "Purview replaces Conditional Access for agents",
+        "Purview has no audit capability for agent interactions",
+        "Purview provides auditing, classification, sensitivity labels, DLP, Insider Risk Management and eDiscovery for agent interactions, with audit records carrying metadata such as resources, labels, model and jailbreak flags"
+      ],
+      "question": "A compliance team asks what Purview actually does for AI agents. Which capability set is correct, and which identity jobs does Purview not do?",
+      "source_quote": "Purview capabilities supported for AI/Agent 365 interactions: Auditing, Data classification, Sensitivity labels, Data Loss Prevention, Insider Risk Management. Purview audit records for Copilot and agent interactions carry metadata such as the resources accessed, sensitivity labels, the model and detection flags.",
+      "source_title": "Microsoft Purview for Microsoft Agent 365",
+      "source_url": "https://learn.microsoft.com/en-us/purview/ai-agent-365",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Agent 365 is the control plane that lets admins observe, govern and secure every agent from a single registry, using Entra Agent ID for identity, Purview for data security and Defender for runtime threat protection. B is wrong: Agent 365 does not replace Entra; it builds on Agent ID. C is wrong: Agent 365 covers third-party agents too, not only Microsoft agents. D is wrong: Agent 365 is a control plane, not a model-hosting service.",
+      "id": "D3-AGENT-016",
+      "options": [
+        "Agent 365 is a replacement for Entra Agent ID that removes the need for agent identities",
+        "Agent 365 is the control plane for agents: one registry to observe, govern and secure Microsoft, Copilot Studio and third-party agents, built on Entra Agent ID, Purview and Defender",
+        "Agent 365 only governs Microsoft-built agents and ignores third-party agents",
+        "Agent 365 is a model-hosting service that runs agents instead of Foundry"
+      ],
+      "question": "A company has agents from Copilot Studio, Foundry and a third-party vendor, and no single inventory. What is Microsoft Agent 365, and what does it build on?",
+      "source_quote": "Microsoft Agent 365 is the control plane for agents. It extends the infrastructure you use to manage people (identity, access, data protection, threat defense) to AI agents, using Microsoft Entra Agent ID for identity, Microsoft Purview for data security, and Microsoft Defender for runtime threat protection.",
+      "source_title": "Microsoft Agent 365 overview",
+      "source_url": "https://learn.microsoft.com/en-us/microsoft-agent-365/overview",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: DSPM creates policies in other Purview solutions, and that is where enforcement lives; for example, the detect and block sensitive-info policies are DLP policies, and risky-AI-usage detection is an Insider Risk Management policy. B is wrong: DSPM is the visibility and recommendation layer, not the enforcement engine. C is wrong: DLP is a Purview solution, not a Defender plan. D is wrong: the policies are created in the named solutions, not in Entra.",
+      "id": "D3-AGENT-017",
+      "options": [
+        "DSPM creates the policies in other Purview solutions, such as DLP and Insider Risk Management, and enforcement lives in those solutions",
+        "DSPM enforces the policies itself with no other solution involved",
+        "DSPM creates the policies in Defender for Cloud, because DLP is a Defender plan",
+        "DSPM creates the policies in Entra Conditional Access, because that is where data policies live"
+      ],
+      "question": "A team enables a DSPM one-click policy called Block sensitive info from AI sites and asks where the blocking actually happens. Which answer is correct?",
+      "source_quote": "DSPM creates policies in other Purview solutions for you. That is where the enforcement lives. DSPM for AI: Detect sensitive info added to AI sites: Data loss prevention. DSPM for AI: Detect risky AI usage: Insider Risk Management.",
+      "source_title": "Microsoft Purview for Microsoft Agent 365",
+      "source_url": "https://learn.microsoft.com/en-us/purview/ai-agent-365",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the classic DSPM for AI does not support Agent 365; the team must use the current DSPM experience, where the AI observability page appears. A is wrong: the classic view has no Agent 365 visibility. C is wrong: the current DSPM is the replacement, not a duplicate of classic. D is wrong: the observability page is in the Purview portal, not in Defender for Cloud.",
+      "id": "D3-AGENT-018",
+      "options": [
+        "Stay in the classic DSPM for AI view, because Agent 365 visibility is there",
+        "Use the current DSPM experience, because the classic DSPM for AI does not support Agent 365 and AI observability only appears in the current version",
+        "Use both views interchangeably, because they show identical agent data",
+        "Look in Defender for Cloud, because the AI observability page lives there"
+      ],
+      "question": "A team opens DSPM for AI (classic) and cannot see any Agent 365 agents or the AI observability page. What is wrong?",
+      "source_quote": "The classic DSPM for AI does not support Agent 365; must use the current DSPM experience. The current DSPM replaces the classic DSPM for AI and adds an inventory of AI apps and agents with activity in the last 30 days.",
+      "source_title": "Microsoft Purview for Microsoft Agent 365",
+      "source_url": "https://learn.microsoft.com/en-us/purview/ai-agent-365",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: new Agent 365 agent instances are auto-enabled for audit and sensitive-data detection, and Purview audit records carry metadata such as resources, labels, model and jailbreak flags, with prompt and response text reviewed through DSPM for AI and eDiscovery. A is wrong: audit is auto-enabled for new agent instances. C is wrong: the records carry rich metadata, not just a timestamp. D is wrong: prompt text is available through DSPM for AI and eDiscovery, not absent from Purview entirely.",
+      "id": "D3-AGENT-019",
+      "options": [
+        "Audit must be enabled manually for every agent instance, or nothing is recorded",
+        "New Agent 365 agent instances are auto-enabled for audit and sensitive-data detection, and audit records carry metadata such as resources, labels, model and jailbreak flags",
+        "Audit records contain only a timestamp and the agent name",
+        "Prompt and response text is never available anywhere in Purview"
+      ],
+      "question": "An auditor asks whether agent interactions are audited by default and what the audit records contain. Which statement is correct?",
+      "source_quote": "New Agent 365 agent instances are auto-enabled for audit and sensitive-data detection. Purview audit records for Copilot and agents carry metadata such as resources, labels, model and jailbreak flags.",
+      "source_title": "Microsoft Purview for Microsoft Agent 365",
+      "source_url": "https://learn.microsoft.com/en-us/purview/ai-agent-365",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: each agent gets an Entra Agent ID, a named human sponsor accountable for its lifecycle and access, and an entry in the registry. B is wrong: a sponsor is required; an agent without one is ungoverned. C is wrong: the registry is the governance record, not a billing list. D is wrong: the sponsor is a person accountable for the agent, not the agent developer account used as the agent identity.",
+      "id": "D3-AGENT-020",
+      "options": [
+        "Give every agent an Entra Agent ID, a named human sponsor accountable for its lifecycle and access, and an entry in the agent registry",
+        "Let agents run without a sponsor, because sponsorship is optional",
+        "Skip the registry, because it is only a billing list",
+        "Use the developers account as the sponsor and as the agent identity, because they are the same thing"
+      ],
+      "question": "A governance board requires that every agent in the tenant be attributable to a person and visible in one inventory. What are the three elements of that control?",
+      "source_quote": "Every agent gets an Agent ID, a named sponsor and an entry in the registry. Give every agent an Entra identity and a sponsor: the person accountable for its lifecycle and access.",
+      "source_title": "Microsoft Agent 365 overview",
+      "source_url": "https://learn.microsoft.com/en-us/microsoft-agent-365/overview",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Conditional Access follows the token subject: the agent identity or blueprint for app-only access, and the user for on-behalf-of access. A is wrong: the sponsor is not the subject of the agent app-only token. B is wrong: the blueprint is the subject for app-only, not the user. D is wrong: Conditional Access can target agent identities with Block or Allow; it is not inapplicable.",
+      "id": "D3-AGENT-021",
+      "options": [
+        "The human sponsor, because the agent always acts as the sponsor",
+        "The signed-in user, because app-only tokens carry the user subject",
+        "The agent identity or blueprint for app-only access, and the user for on-behalf-of access",
+        "Conditional Access does not apply to agents at all, so no subject matters"
+      ],
+      "question": "A Conditional Access policy must block an agent from signing in from an untrusted location when it acts autonomously, but allow it when it acts on behalf of a signed-in user. Which token subject does the policy follow in each case?",
+      "source_quote": "Conditional Access follows the token subject: agent identity or blueprint for app-only, the user for on-behalf-of.",
+      "source_title": "What are agent identities?",
+      "source_url": "https://learn.microsoft.com/en-us/entra/agent-id/what-are-agent-identities",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: DSPM for AI automatically runs a weekly data risk assessment for the top 100 SharePoint sites, and the first results take about four days after the default assessment is created, so a same-day rollout cannot rely on complete results. A is wrong: results are not instant. B is wrong: the default assessment covers the top 100 sites, not every site. D is wrong: custom assessments supplement the default; they do not replace it.",
+      "id": "D3-AGENT-022",
+      "options": [
+        "The assessment results are available instantly on the day Copilot is enabled",
+        "The default weekly assessment covers the top 100 SharePoint sites by usage and the first results take about four days, so the rollout must wait for or supplement those results",
+        "The default assessment covers every SharePoint site in the tenant on day one",
+        "Custom assessments replace the default assessment, so the default can be ignored"
+      ],
+      "question": "A team plans to enable Copilot on Monday and rely on the DSPM data risk assessment to have found all oversharing by Tuesday. What is wrong with that plan?",
+      "source_quote": "No activation needed, Data Security Posture Management for AI automatically runs a weekly data risk assessment for the top 100 SharePoint sites based on usage in your organization. Allow at least 24 hours for these new policies to collect data to display the results.",
+      "source_title": "Data Security Posture Management for AI",
+      "source_url": "https://learn.microsoft.com/en-us/purview/dspm-for-ai",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Agent 365 is generally available for commercial customers since 1 May 2026, licensed per user, with Microsoft 365 E5 as the recommended prerequisite, and the base Agent ID identity is free. B is wrong: Agent 365 is GA, not preview. C is wrong: it is licensed per user, not per agent. D is wrong: E5 is the recommended prerequisite, not a blocker.",
+      "id": "D3-AGENT-023",
+      "options": [
+        "Agent 365 is generally available since 1 May 2026, licensed per user, with Microsoft 365 E5 as the recommended prerequisite, while the base Agent ID identity object is free",
+        "Agent 365 is still in preview and cannot be used in production",
+        "Agent 365 is licensed per agent, not per user",
+        "Agent 365 requires Microsoft 365 E7 and cannot be used with E5 at all"
+      ],
+      "question": "A company on Microsoft 365 E5 asks whether it can use Agent 365 and what it costs. Which statement is correct?",
+      "source_quote": "Generally available for Commercial since 1 May 2026, licensed per user, with Microsoft E5 as the recommended prerequisite. Agent ID is available to all Microsoft Entra customers at no extra license for the base identity object.",
+      "source_title": "What are agent identities?",
+      "source_url": "https://learn.microsoft.com/en-us/entra/agent-id/what-are-agent-identities",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the Entra Agent Registry inventories Microsoft and third-party agents in one place, and each agent gets an Agent ID, a sponsor and a registry entry. A is wrong: the registry covers third-party agents too. B is wrong: the registry is the inventory; it does not run agents. D is wrong: the registry is a governance record, not a billing list.",
+      "id": "D3-AGENT-024",
+      "options": [
+        "The registry only lists Microsoft-built agents",
+        "The registry runs the agents listed in it",
+        "The Entra Agent Registry inventories Microsoft and third-party agents in one place, with each agent holding an Agent ID, a sponsor and a registry entry",
+        "The registry is only a billing list with no governance use"
+      ],
+      "question": "A company has agents from three vendors and no inventory. Which registry control gives one view, and what does each entry contain?",
+      "source_quote": "Agent 365 is Microsoft control plane for deploying, organising and governing agents. Each agent gets an Entra Agent ID, and the Entra Agent Registry inventories Microsoft and third-party agents in one place.",
+      "source_title": "Microsoft Agent 365 overview",
+      "source_url": "https://learn.microsoft.com/en-us/microsoft-agent-365/overview",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: agents acting on behalf of a licensed user are covered by that user Agent 365 licence; the licence is per user, not per agent. A is wrong: the licence is per user. C is wrong: a licence is required for the security features, but it is the user licence that covers the agent. D is wrong: the base identity is free, but the Agent 365 security features are licensed per user.",
+      "id": "D3-AGENT-025",
+      "options": [
+        "Each agent needs its own Agent 365 licence, priced per agent",
+        "Agents acting on behalf of a licensed user are covered by that user Agent 365 licence, because Agent 365 is licensed per user",
+        "No licence is needed for any Agent 365 feature",
+        "Each agent needs a Microsoft 365 E7 licence of its own"
+      ],
+      "question": "A team runs 50 agents, all acting on behalf of 10 licensed users. How many Agent 365 licences do the agents need?",
+      "source_quote": "Agent ID is available to all Microsoft Entra customers at no extra license for the base identity object; however, extending Microsoft Entra security features to agents requires a Microsoft Agent 365 license per user. Agents acting on behalf of a licensed user are covered.",
+      "source_title": "What are agent identities?",
+      "source_url": "https://learn.microsoft.com/en-us/entra/agent-id/what-are-agent-identities",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the current DSPM adds an inventory of AI apps and agents with activity in the last 30 days, how many are high risk, and how many had sensitive interactions. B is wrong: the inventory covers the last 30 days of activity, not all time. C is wrong: the inventory covers AI apps and agents, not only Copilot. D is wrong: the classic experience does not have this inventory.",
+      "id": "D3-AGENT-026",
+      "options": [
+        "The current DSPM inventories AI apps and agents with activity in the last 30 days, showing how many are high risk and how many had sensitive interactions",
+        "The inventory covers all apps and agents ever created, with no time window",
+        "The inventory covers only Microsoft 365 Copilot, not other AI apps or agents",
+        "The inventory is in the classic DSPM for AI view"
+      ],
+      "question": "A CISO asks for a current inventory of AI apps and agents in use, with risk. Which DSPM view and time window provide it?",
+      "source_quote": "The current DSPM replaces the classic DSPM for AI and adds an inventory of AI apps and agents with activity in the last 30 days, how many are high risk, and how many had sensitive interactions.",
+      "source_title": "Microsoft Purview for Microsoft Agent 365",
+      "source_url": "https://learn.microsoft.com/en-us/purview/ai-agent-365",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the current DSPM covers AI apps and agents alongside the rest of the data, with security objectives and guided workflows, and most new features land only there. A is wrong: the classic experiences still work but get no new features. B is wrong: the current DSPM is the replacement. D is wrong: the current DSPM is under Solutions, DSPM in the Purview portal.",
+      "id": "D3-AGENT-027",
+      "options": [
+        "The classic DSPM for AI is the current version and gets all new features",
+        "The current DSPM is a duplicate of classic with no new capabilities",
+        "The current DSPM is only for Copilot and does not cover agents",
+        "The current Data Security Posture Management under Solutions, DSPM covers AI apps and agents alongside the rest of the data, and most new features are added only there"
+      ],
+      "question": "A team is unsure whether to use DSPM for AI (classic) or the current DSPM. Which version should they use for new agent governance, and why?",
+      "source_quote": "The current DSPM replaces the classic DSPM for AI and adds an inventory of AI apps and agents with activity in the last 30 days. Most new features will be added only there. This documentation is for the current version of Data Security Posture Management that expands coverage to more data sources.",
+      "source_title": "Prevent oversharing with data risk assessments from Microsoft Purview Data Security Posture Management",
+      "source_url": "https://learn.microsoft.com/en-us/purview/data-security-posture-management-oversharing",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the default assessment runs weekly for the top 100 SharePoint sites, and custom assessments can target all users or a pilot group and selected sites. A is wrong: the default is weekly, not monthly. C is wrong: item-level scanning covers SharePoint only, not OneDrive. D is wrong: custom assessments are in preview for specific users and sites, not unlimited.",
+      "id": "D3-AGENT-028",
+      "options": [
+        "The default assessment runs monthly for every site in the tenant",
+        "The default assessment runs weekly for the top 100 SharePoint sites by usage, and custom assessments can target selected users or sites",
+        "Item-level scanning covers OneDrive the same as SharePoint",
+        "Custom assessments can scan unlimited sites with no limits"
+      ],
+      "question": "A pilot group of 50 users needs a custom data risk assessment before Copilot rolls out to them. How do default and custom assessments differ?",
+      "source_quote": "No activation needed, Data Security Posture Management for AI automatically runs a weekly data risk assessment for the top 100 SharePoint sites based on usage in your organization. You can supplement this with your own custom data risk assessments, currently in preview.",
+      "source_title": "Data Security Posture Management for AI",
+      "source_url": "https://learn.microsoft.com/en-us/purview/dspm-for-ai",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: item-level scanning is restricted to SharePoint sites, up to 10 sites, with a maximum of 200,000 items per location, and OneDrive is not supported for item-level scanning. B is wrong: OneDrive is not supported. C is wrong: the cap is 200,000 items per location. D is wrong: the site limit is 10, not 100.",
+      "id": "D3-AGENT-029",
+      "options": [
+        "Item-level scanning is restricted to SharePoint sites, up to 10 sites, with a maximum of 200,000 items per location, and OneDrive is not supported for item-level scanning",
+        "Item-level scanning covers OneDrive and SharePoint equally with no site limit",
+        "Item-level scanning has no item cap per location",
+        "Item-level scanning covers up to 100 sites"
+      ],
+      "question": "A team wants item-level scanning of overshared files in OneDrive and in 50 SharePoint sites. What are the actual limits?",
+      "source_quote": "Item-level scanning and remediation for items that are potentially overshared is applicable to Microsoft 365 only, and currently restricted to SharePoint sites. OneDrive currently is not supported for item-level scanning. A maximum of 200,000 items per location. A current maximum of 10 SharePoint sites for item-level scanning.",
+      "source_title": "Prevent oversharing with data risk assessments from Microsoft Purview Data Security Posture Management",
+      "source_url": "https://learn.microsoft.com/en-us/purview/data-security-posture-management-oversharing",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the one-click policies are named with a DSPM for AI prefix and create policies in DLP and Insider Risk Management, for example Detect sensitive info added to AI sites (DLP) and Detect risky AI usage (IRM). A is wrong: the policies are created in DLP and IRM, not in Entra. C is wrong: the policies are real enforcement policies, not reports. D is wrong: DSPM creates them; the admin does not write them from scratch.",
+      "id": "D3-AGENT-030",
+      "options": [
+        "The one-click policies create Conditional Access policies in Entra",
+        "The one-click policies are only reports with no enforcement",
+        "DSPM one-click policies create enforcement policies in other Purview solutions, such as DLP for detecting and blocking sensitive info sent to AI sites, and Insider Risk Management for risky AI usage",
+        "The admin must write each policy from scratch; DSPM cannot create them"
+      ],
+      "question": "A team enables the DSPM one-click policy Detect sensitive info added to AI sites. Where does the enforcement policy live, and what does it do?",
+      "source_quote": "DSPM creates policies in other Purview solutions for you. That is where the enforcement lives. DSPM for AI: Detect sensitive info added to AI sites: Data loss prevention. DSPM for AI: Detect risky AI usage: Insider Risk Management.",
+      "source_title": "Microsoft Purview for Microsoft Agent 365",
+      "source_url": "https://learn.microsoft.com/en-us/purview/ai-agent-365",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the DSPM one-click policy for Copilot is named Prevent data exposure in Microsoft 365 Copilot and Microsoft Copilot interactions, and it works with a DLP policy that blocks summarisation of labelled items. A is wrong: DSPM alone does not block; the DLP policy enforces. C is wrong: the policy targets Copilot interactions, not sign-ins. D is wrong: labels are the trigger for the block, not an irrelevance.",
+      "id": "D3-AGENT-031",
+      "options": [
+        "Enable DSPM for AI and stop, because DSPM blocks Copilot from processing labelled items by itself",
+        "Enable the one-click policy Prevent data exposure in Microsoft 365 Copilot and Microsoft Copilot interactions, which creates a DLP policy that blocks Copilot and agents from summarising items with the selected labels",
+        "Write a Conditional Access policy, because DLP cannot target Copilot",
+        "Remove the labels, because labels prevent the policy from working"
+      ],
+      "question": "A firm must stop Copilot from processing documents labelled Highly Confidential. Which DSPM one-click policy and enforcement mechanism do that?",
+      "source_quote": "Use Microsoft Purview Data Loss Prevention to create a DLP policy that prevents Microsoft 365 Copilot and agents from summarizing data when it has sensitivity labels that you select. For Copilot, the two that matter are Prevent data exposure in Microsoft 365 Copilot and Microsoft Copilot interactions and Prevent oversharing of sensitive data.",
+      "source_title": "Prevent oversharing with data risk assessments from Microsoft Purview Data Security Posture Management",
+      "source_url": "https://learn.microsoft.com/en-us/purview/data-security-posture-management-oversharing",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Purview audit records for Copilot and agent interactions carry metadata such as the resources accessed, sensitivity labels, the model and detection flags, and prompt and response text is reviewed through DSPM for AI and eDiscovery. B is wrong: the records carry rich metadata. C is wrong: audit is auto-enabled for new agent instances. D is wrong: prompt text is available through DSPM for AI and eDiscovery.",
+      "id": "D3-AGENT-032",
+      "options": [
+        "Audit records carry metadata such as the resources accessed, sensitivity labels, the model and jailbreak flags, and prompt and response text is reviewed through DSPM for AI and eDiscovery",
+        "Audit records contain only a timestamp and nothing else",
+        "Audit must be enabled manually for every agent, or nothing is recorded",
+        "Prompt and response text is never available anywhere in Purview"
+      ],
+      "question": "An investigator needs the full context of a suspicious agent interaction: what it accessed, which labels applied, which model ran, and whether a jailbreak was flagged. Where is that evidence?",
+      "source_quote": "Purview audit records for Copilot and agent interactions carry metadata such as the resources accessed, sensitivity labels, the model and detection flags. Prompt and response text is reviewed through Purview DSPM for AI and eDiscovery.",
+      "source_title": "Microsoft Purview for Microsoft Agent 365",
+      "source_url": "https://learn.microsoft.com/en-us/purview/ai-agent-365",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Agent 365 extends the infrastructure used to manage people to AI agents, with Entra Agent ID for identity, Purview for data security and Defender for runtime threat protection. A is wrong: Agent 365 does not replace Entra. B is wrong: it covers third-party agents too. D is wrong: it is a control plane, not a model host.",
+      "id": "D3-AGENT-033",
+      "options": [
+        "Agent 365 replaces Entra Agent ID entirely",
+        "Agent 365 governs only Microsoft-built agents",
+        "Agent 365 hosts the models that agents run on",
+        "Agent 365 extends the infrastructure used to manage people (identity, access, data protection, threat defense) to AI agents, using Entra Agent ID, Purview and Defender"
+      ],
+      "question": "A board asks what Agent 365 actually is in one sentence. Which description is correct?",
+      "source_quote": "Microsoft Agent 365 is the control plane for agents. It extends the infrastructure you use to manage people (identity, access, data protection, threat defense) to AI agents, using Microsoft Entra Agent ID for identity, Microsoft Purview for data security, and Microsoft Defender for runtime threat protection.",
+      "source_title": "Microsoft Agent 365 overview",
+      "source_url": "https://learn.microsoft.com/en-us/microsoft-agent-365/overview",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: to use DSPM for AI, an account needs appropriate permissions for compliance management, such as membership of the Microsoft Entra Compliance Administrator group role. A is wrong: Global Admin is not required; Compliance Administrator is the named role. C is wrong: a reader cannot manage DSPM. D is wrong: the Purview portal is the access point, not the Azure portal alone.",
+      "id": "D3-AGENT-034",
+      "options": [
+        "Any user with a Microsoft 365 licence can manage DSPM for AI",
+        "An account with appropriate permissions for compliance management, such as membership of the Microsoft Entra Compliance Administrator group role, in the Microsoft Purview portal",
+        "Global Admin is the only role that can open DSPM for AI",
+        "A Security Reader can create and manage DSPM policies"
+      ],
+      "question": "A compliance officer needs to manage DSPM for AI. Which role and portal are required?",
+      "source_quote": "To get started with Data Security Posture Management for AI, use the Microsoft Purview portal. You need an account that has appropriate permissions for compliance management, such as an account that is a member of the Microsoft Entra Compliance Administrator group role.",
+      "source_title": "Data Security Posture Management for AI",
+      "source_url": "https://learn.microsoft.com/en-us/purview/dspm-for-ai",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: DSPM for AI provides a central management location to secure data for AI apps and proactively monitor AI use, covering Copilots, agents and other AI apps that use third-party large language models. B is wrong: it covers third-party AI apps too. C is wrong: it is a Purview portal experience, not a Defender plan. D is wrong: it is a posture capability, not a model-training service.",
+      "id": "D3-AGENT-035",
+      "options": [
+        "Purview DSPM for AI provides a central location to secure data for AI apps and proactively monitor AI use, covering Copilots, agents and other AI apps including those using third-party large language models",
+        "DSPM for AI covers only Microsoft 365 Copilot and no other AI app",
+        "DSPM for AI is a Defender for Cloud plan, not a Purview capability",
+        "DSPM for AI trains the models that Copilot uses"
+      ],
+      "question": "A company uses Copilot, a Foundry agent and a third-party generative AI app. Which Purview capability covers data security for all three?",
+      "source_quote": "Microsoft Purview Data Security Posture Management (DSPM) for AI from the Microsoft Purview portal provides a central management location to help you quickly secure data for AI apps and proactively monitor AI use. These apps include Copilots, agents, and other AI apps that use third-party large language modules (LLMs).",
+      "source_title": "Data Security Posture Management for AI",
+      "source_url": "https://learn.microsoft.com/en-us/purview/dspm-for-ai",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: generative AI amplifies oversharing because it can proactively surface content that is obsolete, over-permissioned or lacks governance, so data risk assessments identify and remediate it. A is wrong: AI does not fix oversharing by itself. B is wrong: AI amplifies the problem; it does not leave it unchanged. D is wrong: the assessments cover SharePoint and OneDrive oversharing insights, not only external sharing.",
+      "id": "D3-AGENT-036",
+      "options": [
+        "Generative AI fixes oversharing automatically, so no assessment is needed",
+        "Generative AI has no effect on oversharing risk",
+        "Generative AI amplifies oversharing because it can proactively surface content that is obsolete, over-permissioned or lacks governance, so data risk assessments are needed to identify and remediate it",
+        "Data risk assessments only cover external sharing, not internal oversharing"
+      ],
+      "question": "A team argues oversharing is an old SharePoint problem that AI does not change. Why is that wrong?",
+      "source_quote": "Because of the power and speed AI can proactively surface content that might be obsolete, over-permissioned, or lack governance controls, generative AI amplifies the problem of oversharing data. Use data risk assessments to both identify and remediate issues.",
+      "source_title": "Prevent oversharing with data risk assessments from Microsoft Purview Data Security Posture Management",
+      "source_url": "https://learn.microsoft.com/en-us/purview/data-security-posture-management-oversharing",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the agent identity and the agent user account are distinct objects; Conditional Access follows the token subject, so a policy targeting users does not cover the agent identity, and the agent needs its own policy with Block or Allow. A is wrong: targeting users does not cover agent identities. C is wrong: MFA is not available for agent identities. D is wrong: the sponsor is not the subject of the agent token.",
+      "id": "D3-AGENT-037",
+      "options": [
+        "Target the policy at the users, because that automatically covers agent identities",
+        "Create a separate Conditional Access policy targeting the agent identity with Block or Allow, because the agent identity and the user account are distinct objects and Conditional Access follows the token subject",
+        "Require MFA for the agent identity, because agents complete MFA like users",
+        "Target the policy at the human sponsor, because the sponsor is the subject of the agent token"
+      ],
+      "question": "A Conditional Access policy targets all users with MFA. An agent with its own Agent ID signs in from an untrusted location and is not blocked. Why, and what is the fix?",
+      "source_quote": "Conditional Access follows the token subject: agent identity or blueprint for app-only, the user for on-behalf-of. An agent identity is a specialized Microsoft Entra ID identity construct (not a plain service principal).",
+      "source_title": "What are agent identities?",
+      "source_url": "https://learn.microsoft.com/en-us/entra/agent-id/what-are-agent-identities",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the Foundry Agent Service authenticates MCP tools with key-based, Entra agent identity or project managed identity, or OAuth identity passthrough, and explicitly blocks forwarding Microsoft-audience tokens to untrusted third-party MCP endpoints. B is wrong: forwarding a Microsoft-audience token is explicitly blocked. C is wrong: key-based auth is one of the supported methods. D is wrong: OAuth passthrough is a supported method, not a forbidden one.",
+      "id": "D3-AGENT-038",
+      "options": [
+        "Authenticate MCP tools with key-based auth, Entra agent identity or project managed identity, or OAuth identity passthrough, and never forward a Microsoft-audience token to an untrusted third-party MCP endpoint",
+        "Forward the Microsoft-audience token to the third-party MCP endpoint, because that is the standard pattern",
+        "Use key-based auth only, because Entra identities cannot authenticate MCP tools",
+        "Use OAuth passthrough only, because key-based auth is forbidden for MCP tools"
+      ],
+      "question": "A Foundry agent must call tools over MCP. Which authentication options are supported, and what is explicitly blocked?",
+      "source_quote": "Foundry Agent Service authenticates MCP tools via key-based, Microsoft Entra (agent identity or project managed identity), or OAuth identity passthrough, and explicitly blocks forwarding Microsoft-audience tokens to untrusted third-party MCP endpoints.",
+      "source_title": "What are agent identities?",
+      "source_url": "https://learn.microsoft.com/en-us/entra/agent-id/what-are-agent-identities",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the agent identity is the non-human identity that acts, the sponsor is the person accountable for its lifecycle, and the user account is the human the agent may act on behalf of; conflating them breaks governance. A is wrong: the sponsor is not the agent identity. B is wrong: the user account is not the agent identity. D is wrong: the three are distinct objects with distinct roles.",
+      "id": "D3-AGENT-039",
+      "options": [
+        "The sponsor is the agent identity, so no separate identity is needed",
+        "The user account is the agent identity, so the agent needs no identity of its own",
+        "The agent identity, the human sponsor and the user account are three distinct objects: the identity acts, the sponsor is accountable for its lifecycle, and the user is the human the agent may act on behalf of",
+        "The three are interchangeable labels for the same Entra object"
+      ],
+      "question": "A governance review finds a team using sponsor, agent identity and user account interchangeably. What is the correct separation?",
+      "source_quote": "Every agent gets an Agent ID, a named sponsor and an entry in the registry. Give every agent an Entra identity and a sponsor: the person accountable for its lifecycle and access. An agent identity is a specialized Microsoft Entra ID identity construct (not a plain service principal).",
+      "source_title": "Microsoft Agent 365 overview",
+      "source_url": "https://learn.microsoft.com/en-us/microsoft-agent-365/overview",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the old agents keep their plain app registrations, and new agents should use the Agent ID framework, never app-create commands. A is wrong: existing agents are not forcibly migrated by the platform. C is wrong: the old agents keep working with app registrations. D is wrong: app registrations are the legacy pattern, not the recommended one for new agents.",
+      "id": "D3-AGENT-040",
+      "options": [
+        "All old agents are automatically converted to Agent IDs by the platform",
+        "Existing agents created before Entra Agent ID keep their plain app registrations, and new agents should use the Agent ID framework and never use app-create commands to represent an agent",
+        "Old agents stop working immediately and must be rebuilt",
+        "New agents should also use plain app registrations, because Agent ID is only for Copilot Studio"
+      ],
+      "question": "A company has 40 agents built before Entra Agent ID existed, all using app registrations. What happens to them, and what must new agents use?",
+      "source_quote": "Existing agents created before Entra Agent ID rolled out continue to use plain app registrations; new agents should use the Agent ID framework and never use app-create commands to represent an agent.",
+      "source_title": "Best practices for Microsoft Entra Agent ID",
+      "source_url": "https://learn.microsoft.com/en-us/entra/agent-id/best-practices-agent-id",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the AI observability page shows the agent instance and its data risks, and new agent instances are auto-enabled for audit and sensitive-data detection. B is wrong: audit is auto-enabled for new instances. C is wrong: the observability page is the verification surface. D is wrong: the observability page shows per-agent detail including Entra-enabled status and owner.",
+      "id": "D3-AGENT-041",
+      "options": [
+        "Verify on the DSPM AI observability page that the agent instance appears with its data risks, because new Agent 365 agent instances are auto-enabled for audit and sensitive-data detection",
+        "Assume the agent is governed because it has an Agent ID, with no verification needed",
+        "Enable audit manually for every agent, because auto-enablement does not exist",
+        "Check the Azure portal, because the observability page does not show per-agent detail"
+      ],
+      "question": "A new agent is deployed with an Agent ID. How does the security team verify it is actually visible to governance and audited?",
+      "source_quote": "Verify: DSPM for AI AI observability page shows the agent instance and its data risks. New Agent 365 agent instances are auto-enabled for audit and sensitive-data detection.",
+      "source_title": "Microsoft Purview for Microsoft Agent 365",
+      "source_url": "https://learn.microsoft.com/en-us/purview/ai-agent-365",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Insider Risk Management with a dedicated agent signal scores risky prompts and responses, and the DSPM one-click policy Detect risky AI usage creates that IRM policy. A is wrong: IRM is a Purview capability, not a Defender plan. C is wrong: DLP blocks sensitive data; IRM scores risky behaviour. D is wrong: the policy is created by DSPM one-click, not written from scratch in Sentinel.",
+      "id": "D3-AGENT-042",
+      "options": [
+        "Use Defender for Cloud, because Insider Risk Management is a Defender plan",
+        "Use DLP, because DLP scores risky behaviour",
+        "Use Purview Insider Risk Management, which scores risky prompts and responses, through the DSPM one-click policy Detect risky AI usage",
+        "Write a Sentinel rule from scratch, because DSPM cannot create an IRM policy"
+      ],
+      "question": "A team wants to score agents whose prompts and responses look risky, such as repeated attempts to access sensitive data. Which Purview capability does that, and how is it enabled?",
+      "source_quote": "DSPM for AI: Detect risky AI usage: Insider Risk Management. Score risky prompts and responses. Purview capabilities supported for AI/Agent 365 interactions: Auditing, Data classification, Sensitivity labels, Data Loss Prevention, Insider Risk Management.",
+      "source_title": "Microsoft Purview for Microsoft Agent 365",
+      "source_url": "https://learn.microsoft.com/en-us/purview/ai-agent-365",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the current DSPM inventory covers AI apps and agents with activity in the last 30 days, and the AI observability page shows active agents with risk based on Insider Risk Management signals. A is wrong: the inventory is activity-based, not all-time. C is wrong: the inventory covers third-party agents too. D is wrong: the observability page is in the current DSPM, not classic.",
+      "id": "D3-AGENT-043",
+      "options": [
+        "The inventory lists every agent ever created, with no activity window",
+        "The current DSPM inventories AI apps and agents with activity in the last 30 days, and the AI observability page shows active agents with risk based on Insider Risk Management signals",
+        "The inventory covers only Microsoft-built agents",
+        "The inventory is in the classic DSPM for AI view"
+      ],
+      "question": "A CISO asks which agents are actually active and risky right now, not which were created last year. Which DSPM inventory answers that?",
+      "source_quote": "The current DSPM replaces the classic DSPM for AI and adds an inventory of AI apps and agents with activity in the last 30 days, how many are high risk, and how many had sensitive interactions. Microsoft Purview DSPM for AI provides an AI observability page, a dashboard of active agents and their risk (based on Insider Risk Management signals).",
+      "source_title": "Microsoft Purview for Microsoft Agent 365",
+      "source_url": "https://learn.microsoft.com/en-us/purview/ai-agent-365",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the four products work together: Agent 365 as registry and control point, Entra Agent ID for identity and Conditional Access, Purview for audit and data loss prevention, and Defender for runtime threat detection. A is wrong: no single product does all four jobs. B is wrong: Purview does not authenticate agents. D is wrong: Defender does not inventory agents; Agent 365 does.",
+      "id": "D3-AGENT-044",
+      "options": [
+        "Agent 365 alone does identity, audit, DLP and threat detection",
+        "Purview alone authenticates agents and blocks their tool calls",
+        "Defender alone inventories agents and manages their identities",
+        "Agent 365 as the registry and control point, Entra Agent ID for identity and Conditional Access, Purview for audit and data loss prevention, and Defender for runtime threat detection"
+      ],
+      "question": "A governance design must assign four jobs: agent inventory, agent identity, data protection, and runtime threat detection. Which product does each job?",
+      "source_quote": "Microsoft governs agents through four products working together: Agent 365 as the registry and control point, Entra Agent ID for agent identity and Conditional Access, Purview for audit and data loss prevention, and Defender for threat detection.",
+      "source_title": "Microsoft Agent 365 overview",
+      "source_url": "https://learn.microsoft.com/en-us/microsoft-agent-365/overview",
+      "status": "active",
+      "topic": "ai-identity",
+      "version": 1
+    }
+  ]
+}

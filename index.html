@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SC-500 Exam Practice — Full Syllabus</title>
+<meta name="description" content="Free, open-source SC-500 exam practice: Learn flashcards and an exam simulator with scoring. Original practice questions based on Microsoft Learn.">
+<meta name="theme-color" content="#1a2a3a">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header">
+  <div class="wrap">
+    <h1>SC-500 Exam Practice</h1>
+    <p class="subtitle">Implementing End-to-End Security Controls for Cloud and AI Workloads — practice questions, flashcards, and an exam simulator.</p>
+    <p class="bank-meta" id="bank-meta">Question bank loading…</p>
+    <nav class="top-nav">
+      <button type="button" data-nav="home">Home</button>
+      <button type="button" data-nav="learn">Learn</button>
+      <button type="button" data-nav="eval-setup">Evaluate</button>
+      <a href="https://github.com/utkarsh121/sc-500-quiz" target="_blank" rel="noopener">GitHub repo</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="main">
+  <div id="load-error" class="alert hidden" role="alert"></div>
+  <noscript><p class="alert" role="alert">This practice site needs JavaScript enabled to load the question bank and run Learn and Evaluate modes.</p></noscript>
+
+  <!-- HOME -->
+  <section id="view-home" class="view">
+    <div class="mode-grid">
+      <article class="mode-card">
+        <p class="mode-eyebrow">Flashcards</p>
+        <h2>Learn</h2>
+        <p>Flashcards from the question bank. Read the scenario, flip the card to see the answer and the full explanation, and mark cards Known or Unsure. Filter by difficulty and topic, shuffle, and work through your weak areas.</p>
+        <button type="button" class="btn primary" data-nav="learn">Start learning</button>
+      </article>
+      <article class="mode-card">
+        <p class="mode-eyebrow">Exam simulator</p>
+        <h2>Evaluate</h2>
+        <p>Exam simulator. Pick a difficulty and a question count, answer one question at a time with a timer, flag questions for review, then submit for a score, a pass / fail result at 70% (the 700 proxy), and a breakdown by topic — with a full review of every answer.</p>
+        <button type="button" class="btn primary" data-nav="eval-setup">Start an exam</button>
+      </article>
+    </div>
+
+    <section class="counts" aria-labelledby="counts-heading">
+      <h2 id="counts-heading">Questions by domain and topic</h2>
+      <p class="hint">Counts are computed live from the question bank, so they stay accurate as the bank grows.</p>
+      <div class="domain-counts" id="domain-counts">
+        <p class="hint">Loading counts…</p>
+      </div>
+      <h3>Per-topic counts</h3>
+      <ul class="topic-counts" id="topic-counts">
+        <li>Loading counts…</li>
+      </ul>
+    </section>
+
+    <section class="about">
+      <h2>About the question bank</h2>
+      <p><strong>Version <span id="bank-version-home">2026.11.2</span> — <span id="bank-count-home">1020</span> hard questions across all four SC-500 exam domains.</strong> The bank lives in per-topic files under <code>data/topics/</code> (23 topics), listed in <code>data/bank.json</code>, and is the only source of truth for both modes, so Learn and Evaluate can never drift apart.</p>
+      <ul>
+        <li><strong>Never delete:</strong> a question that becomes outdated is marked <code>deprecated</code> or <code>superseded</code>, kept in the bank and in git history, and replaced by a new versioned question. Corrections bump the version and are recorded in <code>CHANGELOG.md</code>.</li>
+        <li><strong>Versioned:</strong> every question has a stable ID (for example <code>D1-CA-001</code>), a version, a status, a topic, a difficulty, and a source link. Bank releases are tagged, for example <code>bank-2026.11.2</code>.</li>
+        <li><strong>Sources:</strong> Microsoft Learn and Azure official publications only — the official SC-500 study guide and SC-500T00 (12 learning paths, 63 modules), plus Azure docs where Learn has no page. Every question cites its source page with a link and a short quoted rule. Full list: <a href="data/SOURCES.md">data/SOURCES.md</a> (131 pages).</li>
+        <li><strong>Original practice only:</strong> these are original exam-style practice questions. They are not real exam questions and not exam dumps.</li>
+        <li><strong>Quarterly updates:</strong> the bank is re-checked against Microsoft Learn every quarter (January / April / July / October). New and corrected questions are added as new versions; nothing is removed.</li>
+        <li><strong>Privacy:</strong> no login, no tracking, no server. Your Learn progress and exam history are stored only in your browser (localStorage) and never leave your device.</li>
+      </ul>
+      <p>Exam facts: the real SC-500 is 120 minutes, pass mark 700. The simulator shows a percentage and a pass / fail at 70% as a <em>proxy</em> for 700 — it is not a real Microsoft scaled score.</p>
+    </section>
+  </section>
+
+  <!-- LEARN -->
+  <section id="view-learn" class="view hidden">
+    <h2>Learn — flashcards</h2>
+    <div class="controls">
+      <label>Difficulty
+        <select id="learn-difficulty">
+          <option value="all">All</option>
+          <option value="standard">Standard</option>
+          <option value="hard">Hard</option>
+        </select>
+      </label>
+      <label>Domain
+        <select id="learn-domain">
+          <option value="all">All domains</option>
+          <option value="Manage identity, access, and governance">Domain 1 — Identity, access, and governance</option>
+          <option value="Secure storage, databases, and networking">Domain 2 — Storage, databases, and networking</option>
+          <option value="Secure compute">Domain 3 — Secure compute</option>
+          <option value="Manage and monitor security posture">Domain 4 — Security posture</option>
+        </select>
+      </label>
+      <label>Topic
+        <select id="learn-topic"><option value="all">All topics</option></select>
+      </label>
+      <label class="check"><input type="checkbox" id="learn-wrong-only"> Review wrong / unsure only</label>
+      <button type="button" class="btn" id="learn-shuffle">Shuffle</button>
+      <button type="button" class="btn" id="learn-reset-marks">Clear my marks</button>
+    </div>
+    <p class="progress" id="learn-progress" aria-live="polite"></p>
+    <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="learn-progress-fill" style="width: 0%"></div></div>
+    <article class="flashcard" id="learn-card">
+      <p class="card-meta" id="learn-meta"></p>
+      <p class="card-question" id="learn-question"></p>
+      <div id="learn-options" class="card-options"></div>
+      <div id="learn-answer" class="card-answer hidden">
+        <p><strong>Answer:</strong> <span id="learn-answer-text"></span></p>
+        <p id="learn-explanation"></p>
+        <p class="card-source" id="learn-source"></p>
+      </div>
+      <div class="card-actions">
+        <button type="button" class="btn primary" id="learn-flip">Reveal answer</button>
+        <button type="button" class="btn" id="learn-known">✓ Known</button>
+        <button type="button" class="btn" id="learn-unsure">? Unsure</button>
+        <button type="button" class="btn" id="learn-prev">← Previous</button>
+        <button type="button" class="btn" id="learn-next">Next →</button>
+      </div>
+    </article>
+    <p class="hint">Marks are stored in your browser only. “Review wrong / unsure only” shows cards you marked Unsure, plus cards you got wrong in Evaluate mode.</p>
+  </section>
+
+  <!-- EVALUATE SETUP -->
+  <section id="view-eval-setup" class="view hidden">
+    <h2>Evaluate — exam simulator setup</h2>
+    <div class="setup">
+      <label>Domain
+        <select id="eval-domain">
+          <option value="all">All domains</option>
+          <option value="Manage identity, access, and governance">Domain 1 — Identity, access, and governance</option>
+          <option value="Secure storage, databases, and networking">Domain 2 — Storage, databases, and networking</option>
+          <option value="Secure compute">Domain 3 — Secure compute</option>
+          <option value="Manage and monitor security posture">Domain 4 — Security posture</option>
+        </select>
+      </label>
+      <label>Difficulty
+        <select id="eval-difficulty">
+          <option value="all">All</option>
+          <option value="hard">Hard only</option>
+        </select>
+      </label>
+      <label>Number of questions
+        <select id="eval-count">
+          <option value="10">10</option>
+          <option value="20" selected>20</option>
+          <option value="40">40</option>
+          <option value="100">100</option>
+          <option value="200">200</option>
+          <option value="500">500</option>
+          <option value="1020">1020 (full bank)</option>
+        </select>
+      </label>
+      <label class="check"><input type="checkbox" id="eval-timer" checked> Timer on</label>
+      <p class="hint" id="eval-time-hint">Timer: 60 minutes for 20 questions. 30 minutes for 10, 120 minutes for 40, 180 minutes for 100, 240 minutes for 200. The timer auto-submits at 0:00.</p>
+      <p class="hint">No explanations are shown during the exam. You can flag questions, move back and forth, and change answers before you submit.</p>
+      <button type="button" class="btn primary" id="eval-start">Start exam</button>
+    </div>
+  </section>
+
+  <!-- EVALUATE EXAM -->
+  <section id="view-eval-exam" class="view hidden">
+    <div class="exam-top">
+      <p class="progress" id="eval-progress" aria-live="polite"></p>
+      <p class="timer" id="eval-timer-display" role="timer" aria-live="polite" aria-label="Time remaining"></p>
+    </div>
+    <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="eval-progress-fill" style="width: 0%"></div></div>
+    <article class="exam-card">
+      <p class="card-meta" id="eval-meta"></p>
+      <p class="card-question" id="eval-question"></p>
+      <div id="eval-options" class="options-list" role="group" aria-label="Answer options"></div>
+      <div class="card-actions">
+        <button type="button" class="btn" id="eval-prev">← Previous</button>
+        <button type="button" class="btn" id="eval-flag">⚑ Flag for review</button>
+        <button type="button" class="btn" id="eval-next">Next →</button>
+        <button type="button" class="btn danger" id="eval-submit">Submit exam</button>
+      </div>
+    </article>
+    <div class="navigator-wrap">
+      <h3 id="nav-heading">Question navigator</h3>
+      <div id="eval-nav" class="navigator" role="group" aria-labelledby="nav-heading"></div>
+      <p class="nav-legend" aria-hidden="true">
+        <span><span class="legend-swatch answered"></span> Answered</span>
+        <span><span class="legend-swatch flagged"></span> ⚑ Flagged</span>
+        <span><span class="legend-swatch current"></span> Current</span>
+      </p>
+    </div>
+    <p class="hint">Answered questions are filled in, flagged questions are outlined with a flag, the current question is highlighted. Click a number to jump to it.</p>
+  </section>
+
+  <!-- RESULTS -->
+  <section id="view-results" class="view hidden">
+    <h2>Results</h2>
+    <div id="results-summary" class="results-summary"></div>
+    <h3>Breakdown by topic</h3>
+    <div class="table-wrap">
+    <table class="breakdown" id="results-breakdown">
+      <thead><tr><th scope="col">Topic</th><th scope="col">Correct</th><th scope="col">Total</th><th scope="col">%</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    </div>
+    <h3>Review — all questions</h3>
+    <div id="results-review"></div>
+    <div class="card-actions">
+      <button type="button" class="btn primary" id="results-retake">Retake (new random set)</button>
+      <button type="button" class="btn" id="results-learn-wrong">Review wrong answers in Learn mode</button>
+      <button type="button" class="btn" data-nav="home">Back home</button>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>SC-500 Exam Practice — free and open source (MIT). Original practice questions based on Microsoft Learn. Not affiliated with Microsoft, and not real exam questions.</p>
+    <p>Bank version <span id="bank-version-foot">2026.11.2</span> · <a href="data/bank.json">question bank manifest</a> · <a href="data/SOURCES.md">sources</a> · <a href="CHANGELOG.md">changelog</a></p>
+  </div>
+</footer>
+
+<script src="data/questions.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

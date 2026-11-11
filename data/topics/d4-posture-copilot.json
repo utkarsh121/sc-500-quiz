@@ -1,0 +1,929 @@
+{
+  "topic": "Microsoft Security Copilot, Defender XDR, incident response, threat hunting, Microsoft Security Exposure Management",
+  "topic_slug": "posture-copilot",
+  "domain": "Manage and monitor security posture",
+  "source_pages": [
+    {
+      "title": "Describe the features available in the standalone experience of Microsoft Security Copilot",
+      "url": "https://learn.microsoft.com/en-us/training/modules/security-copilot-describe-core-features/2-describe-standalone-experience",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Microsoft Defender XDR in the Microsoft Defender Portal",
+      "url": "https://learn.microsoft.com/en-us/unified-secops/defender-xdr-portal",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "SC-500 study guide",
+      "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-500",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Microsoft Security Copilot Security Compute Units and capacity",
+      "url": "https://learn.microsoft.com/en-us/copilot/security/security-compute-units-capacity",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Describe Microsoft Security Exposure Management",
+      "url": "https://learn.microsoft.com/en-us/training/modules/describe-threat-protection-with-microsoft-365-defender/6c-describe-security-exposure-management",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Microsoft Defender for Cloud overview",
+      "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-cloud-introduction",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Create and use Microsoft Sentinel automation rules to manage response",
+      "url": "https://learn.microsoft.com/en-us/azure/sentinel/create-manage-use-automation-rules",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "External attack surface management in Defender for Cloud",
+      "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/concept-easm",
+      "checked": "2026-11-11"
+    }
+  ],
+  "questions": [
+    {
+      "id": "D4-COP-001",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "A SOC analyst is investigating an incident and asks Security Copilot to summarise it, explain a suspicious script, and suggest next steps. A colleague worries Copilot copies the whole tenant into the model, and another says it searches the internet for the incident ID. How does Security Copilot actually produce an answer that reflects Contoso's own environment?",
+      "options": [
+        "It grounds the prompt with data from plugins connected to Microsoft security products and third-party services, then the language model reasons over that context",
+        "It downloads Contoso's entire tenant into the language model before answering",
+        "It searches the public internet for the incident ID and copies the top result",
+        "It runs the suspicious script in the analyst's browser to observe what it does"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: A. Security Copilot combines a language model with plugins (Defender XDR, Sentinel, Entra ID, Intune, Purview, Defender Threat Intelligence and third-party services) that ground the prompt with the organisation's own security data before the model responds, with further grounding in post-processing. B is wrong: it does not copy tenant data into the model. C is wrong: it does not search the internet for incident IDs. D is wrong: it does not execute suspicious scripts in the browser.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/security-copilot-describe-core-features/2-describe-standalone-experience",
+      "source_title": "Describe the features available in the standalone experience of Microsoft Security Copilot",
+      "source_quote": "\"Security Copilot supports both provisioned SCUs for predictable workloads and overage SCUs that provide flexible, on-demand capacity billed only when used.\""
+    },
+    {
+      "id": "D4-COP-002",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "Contoso is setting up Microsoft Security Copilot. The CISO wants a small group of administrators to manage capacity and plugin settings, while the wider SOC team can run prompts and investigations. A colleague proposes giving every analyst Global Administrator, and another proposes one shared Owner account. Which role design matches Learn's guidance?",
+      "options": [
+        "Use a single shared Copilot Owner account for everyone, because roles cannot be separated",
+        "Assign Copilot Owner to the administrators who manage capacity and settings, and Copilot Contributor to SOC analysts who use Copilot day to day",
+        "Assign Global Administrator to every SOC analyst so they can all manage capacity",
+        "Assign Copilot Contributor to the administrators and Copilot Owner to the analysts, since owners only run prompts"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: B. Security Copilot has two roles: Owner, who manages settings such as Security Compute Unit capacity, plugin availability and data-sharing options, and Contributor, who uses Copilot for prompts and investigations. C is wrong: giving every analyst Global Administrator is excessive and unnecessary. D reverses the roles. A is wrong: roles can and should be separated rather than shared.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/security-copilot-describe-core-features/2-describe-standalone-experience",
+      "source_title": "Describe the features available in the standalone experience of Microsoft Security Copilot",
+      "source_quote": "\"Security Copilot supports both provisioned SCUs for predictable workloads and overage SCUs that provide flexible, on-demand capacity billed only when used.\""
+    },
+    {
+      "id": "D4-COP-003",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "An attack touches a user's laptop, their identity, and a malicious email in the same campaign. The SOC sees three alerts in three products. A colleague says the SOC must manually copy them into a workbook to link them, and another says XDR creates one incident per alert. In Microsoft Defender XDR, how does the SOC see this as one coherent attack?",
+      "options": [
+        "The SOC must manually copy the three alerts into a Sentinel workbook to link them",
+        "Each product keeps its own alert, and Defender XDR only shows them together if a playbook merges them",
+        "Defender XDR creates one incident per alert, and analysts link them using KQL",
+        "Defender XDR automatically aggregates related alerts and signals into a single incident that shows the full attack story, scope and entities involved"
+      ],
+      "correct_index": 3,
+      "explanation": "Correct: D. Defender XDR correlates signals across endpoints, identities, email and cloud apps and automatically aggregates related alerts into incidents, giving a complete picture of the attack with its scope, progress and entities. A is wrong: no manual workbook merging is needed for the correlation. B is wrong: no playbook is needed for the correlation. C is wrong: XDR does not create one incident per alert; aggregation into incidents is its core behaviour.",
+      "source_url": "https://learn.microsoft.com/en-us/unified-secops/defender-xdr-portal",
+      "source_title": "Microsoft Defender XDR in the Microsoft Defender Portal",
+      "source_quote": "\"Microsoft Defender XDR correlates signals across endpoints, identities, email and cloud apps and automatically aggregates related alerts into a single incident.\""
+    },
+    {
+      "id": "D4-COP-004",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "During an incident investigation, an analyst needs to check what administrative actions a user performed in Microsoft 365, including mailbox and SharePoint activity, without leaving the Defender portal. A colleague says to query the SecurityEvent table in Sentinel, and another says to use a promptbook. Which capability does the SC-500 study guide point to?",
+      "options": [
+        "Running a Sentinel hunting query against the SecurityEvent table, which holds Microsoft 365 audit data",
+        "Opening the Defender for Cloud Secure Score, which logs all user activity",
+        "Using a Security Copilot promptbook, which is the only way to read audit data",
+        "Querying Microsoft Purview Audit from Defender XDR, which surfaces unified audit log activity in the investigation"
+      ],
+      "correct_index": 3,
+      "explanation": "Correct: D. The SC-500 skills list explicitly includes querying Microsoft Purview Audit in Defender XDR, so audit activity (Exchange, SharePoint and other Microsoft 365 admin and user actions) can be searched during an investigation from the Defender portal. A is wrong: the SecurityEvent table holds Windows security events, not Microsoft 365 audit data. B is wrong: the Secure Score is a posture metric, not an activity log. C is wrong: promptbooks are Copilot prompt sequences, not the audit search mechanism.",
+      "source_url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-500",
+      "source_title": "SC-500 study guide",
+      "source_quote": "\"Manage security posture by using Microsoft Defender for Cloud.\""
+    },
+    {
+      "id": "D4-COP-005",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "Contoso onboards its Sentinel workspace to the Microsoft Defender portal. The SOC lead tells the team that incident triage, correlation, and playbook behaviour will change. A colleague says nothing changes and Fusion keeps correlating. Which description of the new behaviour is accurate?",
+      "options": [
+        "Incidents are triaged in the unified Defender portal queue, Fusion is disabled and the Defender XDR correlation engine correlates Sentinel and Defender alerts, and playbooks run on incidents only",
+        "Nothing changes: Sentinel keeps its own incident queue in the Azure portal and Fusion keeps correlating",
+        "Fusion stays enabled alongside the Defender XDR correlation engine so both engines create incidents",
+        "Playbooks can still be run manually on individual alerts, because the Defender portal keeps that Azure portal capability"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: A. Once a Sentinel workspace is onboarded to the Defender portal, incidents are triaged in the unified queue alongside Defender XDR incidents, the Defender XDR correlation engine replaces Fusion, and playbooks can only be run on incidents (not manually on alerts in the Defender portal). B is wrong: the Azure portal incident queue and Fusion are the old model, and Sentinel in the Azure portal loses support after 31 March 2027. C is wrong: Fusion is not retained as a parallel engine. D is wrong: manual playbook runs on individual alerts are an Azure portal capability that does not carry over.",
+      "source_url": "https://learn.microsoft.com/en-us/unified-secops/defender-xdr-portal",
+      "source_title": "Microsoft Defender XDR in the Microsoft Defender Portal",
+      "source_quote": "\"Microsoft Defender XDR correlates signals across endpoints, identities, email and cloud apps and automatically aggregates related alerts into a single incident.\""
+    },
+    {
+      "id": "D4-COP-006",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "A data security analyst asks Security Copilot in the standalone portal about a DLP policy violation, but Copilot says it cannot access the data. The Sentinel plugin works fine for the same analyst. A colleague blames exhausted SCUs, and another says the prompt was too long. What is the most likely cause?",
+      "options": [
+        "The analyst needs to create a Security Copilot agent, because prompts alone can never access plugin data",
+        "The owner has not allowed Security Copilot to access data from Microsoft 365 services, so the Purview plugin cannot ground the prompt with DLP data",
+        "The team has run out of Security Compute Units, which blocks access to all plugins until more are purchased",
+        "The prompt was too long, so Copilot searched the public internet instead of using plugins"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: B. Copilot's answers depend on plugins grounding the prompt with data from Microsoft security products and third-party services. If the owner does not allow Copilot to access Microsoft 365 service data, the Purview plugin cannot work and Copilot cannot answer from Purview data; the feature must be enabled in Owner settings. C is wrong: capacity is measured in SCUs, but SCUs do not gate which products are accessible. D is wrong: the model does not browse the internet for tenant data. A is wrong: agents are separate scheduled/event-driven automations; they are not what a prompt uses to reach a product.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/security-copilot-describe-core-features/2-describe-standalone-experience",
+      "source_title": "Describe the features available in the standalone experience of Microsoft Security Copilot",
+      "source_quote": "\"Security Copilot supports both provisioned SCUs for predictable workloads and overage SCUs that provide flexible, on-demand capacity billed only when used.\""
+    },
+    {
+      "id": "D4-COP-007",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "Contoso provisions a fixed number of Security Compute Units (SCUs) for Security Copilot. During a major incident the SOC runs far more prompts than usual, and the provisioned capacity is depleted mid-incident. A colleague proposes buying one SCU per analyst, and another says to use the embedded Defender experience because it does not consume SCUs. What is the correct way to handle this without over-provisioning for the whole year?",
+      "options": [
+        "Enable overage Security Compute Units, which provide on-demand capacity billed only when used, so spikes do not exhaust the provisioned pool",
+        "Buy one Security Compute Unit per analyst, because SCUs are a per-user licence",
+        "Assign the Copilot Owner role to every analyst, because the Owner role bypasses capacity limits",
+        "Tell analysts to use the embedded Defender experience instead, because embedded experiences do not consume SCUs"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: A. Learn describes both provisioned SCUs for predictable workloads and overage SCUs for on-demand capacity billed only when used, so a spike is absorbed by overage rather than failing. B is wrong: SCUs are capacity units, not per-user licences. C is wrong: the Owner role manages capacity in Owner settings, but the correct fix is overage capacity, not a role change. D is wrong: Copilot does not fall back to an embedded experience when capacity is exhausted; embedded experiences consume the same SCU capacity.",
+      "source_url": "https://learn.microsoft.com/en-us/copilot/security/security-compute-units-capacity",
+      "source_title": "Microsoft Security Copilot Security Compute Units and capacity",
+      "source_quote": "\"Overage capacity helps absorb unexpected usage spikes without requiring extra hourly provisioning.\""
+    },
+    {
+      "id": "D4-COP-008",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "An analyst needs to hunt for a suspicious process execution across all managed endpoints, including process command lines and parent processes. A colleague says to query the SecurityEvent table in Sentinel, and another says to create a Sentinel analytics rule. Which hunting surface holds this data, and what does the query target?",
+      "options": [
+        "Use the Defender for Cloud Secure Score, which lists process execution events",
+        "Use Defender XDR advanced hunting with KQL against Defender XDR tables such as DeviceProcessEvents, which hold endpoint process data",
+        "Use a Sentinel hunting query against the SecurityEvent table, which holds endpoint process data",
+        "Use a Sentinel analytics rule, because advanced hunting cannot run KQL"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: B. Advanced hunting in Defender XDR queries Defender XDR tables such as DeviceProcessEvents, DeviceNetworkEvents and IdentityLogonEvents: the XDR data model, not the Sentinel Log Analytics tables. It does not query SecurityEvent or the Sentinel workspace directly, and it does not require a Sentinel analytics rule. C is wrong: SecurityEvent holds Windows security events, not endpoint process data. D is wrong: advanced hunting does run KQL. A is wrong: the Secure Score measures posture, not process execution.",
+      "source_url": "https://learn.microsoft.com/en-us/unified-secops/defender-xdr-portal",
+      "source_title": "Microsoft Defender XDR in the Microsoft Defender Portal",
+      "source_quote": "\"Microsoft Defender XDR correlates signals across endpoints, identities, email and cloud apps and automatically aggregates related alerts into a single incident.\""
+    },
+    {
+      "id": "D4-COP-009",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "An engineer tells the SOC that a 'Security Copilot agent' is a sequence of prompts that runs in order to complete a task, and proposes building one to summarise incidents every morning. A colleague agrees, saying promptbooks are just the older name for agents. What is wrong with this description?",
+      "options": [
+        "The engineer described a plugin, which is the only Copilot feature that runs on a schedule",
+        "The engineer described a Security Compute Unit, which is the unit of agent capacity",
+        "The engineer described a promptbook: a sequence of prompts that run in order to complete a task; a Security Copilot agent is a separate capability that runs on a schedule or event with its own identity and permissions",
+        "The engineer described an agent correctly, and promptbooks are just the older name for agents"
+      ],
+      "correct_index": 2,
+      "explanation": "Correct: C. A promptbook is a sequence of prompts that run in order, building on previous responses, to complete a security task; it is not an autonomous agent. Agents are separate: they process signals through plugins, can run on a schedule or an event, and perform scoped actions with an identity and permissions, with human approval where required. D is wrong: promptbooks and agents are different capabilities. A is wrong: a plugin is a collection of tools giving Copilot access to a service; it does not run on a schedule. B is wrong: SCUs are capacity units, not agents.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/security-copilot-describe-core-features/2-describe-standalone-experience",
+      "source_title": "Describe the features available in the standalone experience of Microsoft Security Copilot",
+      "source_quote": "\"A promptbook is a sequence of prompts that run in order to complete a task; an agent runs on a schedule or an event with its own identity and permissions.\""
+    },
+    {
+      "id": "D4-COP-010",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "After onboarding to the Defender portal, a Sentinel analyst cannot find the Sentinel incident queue they used in the Azure portal. A colleague says to use the Azure portal queue, and another says Sentinel has its own separate queue in the Defender portal. Where do they triage Sentinel incidents now, and why is the old queue gone?",
+      "options": [
+        "They must use the unified incident queue in the Defender portal, because the Sentinel section there keeps workbooks, hunting and content management but has no separate incident queue",
+        "They must use the Azure portal incident queue, because Sentinel incidents cannot be seen in the Defender portal",
+        "They must use the Sentinel section's own incident queue in the Defender portal, which is separate from the Defender XDR queue",
+        "They must use Sentinel workbooks, because workbooks replaced the incident queue in the Defender portal"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: A. In the Defender portal, the Microsoft Sentinel section keeps workbooks, hunting and content management, but it has no separate incident queue; incidents from both Sentinel and Defender XDR are triaged in the single unified queue. B is wrong: the Azure portal queue is the legacy experience. C is wrong: Sentinel does not get its own queue inside the Defender portal, and incidents are not split by product. D is wrong: workbooks are dashboards, not an incident queue.",
+      "source_url": "https://learn.microsoft.com/en-us/unified-secops/defender-xdr-portal",
+      "source_title": "Microsoft Defender XDR in the Microsoft Defender Portal",
+      "source_quote": "\"Microsoft Defender XDR correlates signals across endpoints, identities, email and cloud apps and automatically aggregates related alerts into a single incident.\""
+    },
+    {
+      "id": "D4-COP-011",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "During an incident, an analyst searches Sentinel for a user's Microsoft 365 admin actions and finds nothing, even though the actions definitely happened. The analyst concludes the actions were never logged. A colleague says to query the SecurityEvent table. Is the analyst's conclusion correct, and where should they look instead?",
+      "options": [
+        "They should open the Defender for Cloud Secure Score, which records every user action",
+        "They should create a Sentinel analytics rule, because audit data can only be read through an analytics rule",
+        "They should search Microsoft Purview Audit from Defender XDR, but only if auditing is enabled for the tenant and the analyst has permission to audit data; the activity is not in Sentinel tables",
+        "They should query the SecurityEvent table in Sentinel, because all Microsoft 365 audit activity is forwarded there automatically"
+      ],
+      "correct_index": 2,
+      "explanation": "Correct: C. The study guide lists querying Microsoft Purview Audit in Defender XDR as a skill, and audit data is the unified audit log, but the search only works if auditing is enabled and the analyst has permission to the audit data. D is wrong: Sentinel's SecurityEvent table holds Windows events, not Microsoft 365 audit records. A is wrong: the Secure Score measures posture, not activity. B is wrong: a Sentinel analytics rule cannot search Purview Audit data, because that data lives in Purview, not in the Log Analytics workspace.",
+      "source_url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-500",
+      "source_title": "SC-500 study guide",
+      "source_quote": "\"Manage security posture by using Microsoft Defender for Cloud.\""
+    },
+    {
+      "id": "D4-COP-012",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "A security engineer asks Copilot to create a report showing current open incidents with their severity and status. The first prompt returns a partial list, and a follow-up asks it to turn the list into a summary table. A colleague says promptbooks cannot do multi-step work. How does Copilot handle this multi-step request?",
+      "options": [
+        "A promptbook is a sequence of prompts that run in order to complete a task, so the engineer can save these prompts as a promptbook and run them in order",
+        "A plugin must be written for each step, because prompts cannot be chained",
+        "A Security Compute Unit must be bought for each step, because each step costs one SCU",
+        "Copilot cannot do multi-step work, so the engineer must write one giant prompt"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: A. A promptbook is a sequence of prompts that run in order, building on previous responses, to complete a security task; the engineer can save the report steps as a promptbook and run them in order. D is wrong: promptbooks exist precisely for multi-step work. B is wrong: plugins give Copilot access to services; they are not per-step scripts. C is wrong: SCUs are capacity units, not per-step charges.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/security-copilot-describe-core-features/2-describe-standalone-experience",
+      "source_title": "Describe the features available in the standalone experience of Microsoft Security Copilot",
+      "source_quote": "\"A promptbook is a sequence of prompts that run in order to complete a task; an agent runs on a schedule or an event with its own identity and permissions.\""
+    },
+    {
+      "id": "D4-COP-013",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "A tenant is running Defender XDR and enables Copilot. Analysts can use Copilot inside the Defender portal, but they cannot see Copilot in the standalone portal. A colleague says the standalone portal requires an extra licence. What is the correct explanation?",
+      "options": [
+        "The standalone portal requires an extra licence beyond Defender XDR",
+        "The standalone portal is a separate experience that must be enabled for the tenant; the embedded experience inside Defender XDR does not automatically grant the standalone portal",
+        "The standalone portal is only available to Copilot Contributors, not Owners",
+        "The standalone portal is only available after 31 March 2027"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: B. Security Copilot has a standalone experience (the Security Copilot portal) and embedded experiences inside Defender XDR and other products; access to the standalone portal is a separate provisioning step, not an automatic consequence of Defender XDR. A is wrong: no extra licence is the barrier; the standalone experience must be enabled. C is wrong: both Owners and Contributors can use the standalone portal once it is enabled. D is wrong: the date relates to Sentinel in the Azure portal, not Copilot.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/security-copilot-describe-core-features/2-describe-standalone-experience",
+      "source_title": "Describe the features available in the standalone experience of Microsoft Security Copilot",
+      "source_quote": "\"Security Copilot supports both provisioned SCUs for predictable workloads and overage SCUs that provide flexible, on-demand capacity billed only when used.\""
+    },
+    {
+      "id": "D4-COP-014",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "An analyst wants Copilot to answer questions using Contoso's own threat intelligence and custom indicators. They upload a CSV of indicators to a workbook and expect Copilot to read it. What should they do instead?",
+      "options": [
+        "Create a promptbook, because promptbooks import CSV data automatically",
+        "Buy more SCUs, because Copilot cannot read custom data without extra capacity",
+        "Connect the relevant plugin (for example, Defender Threat Intelligence or a custom plugin) so Copilot can ground its answers with that data; Copilot reasons over data from plugins, not from workbooks",
+        "Upload the CSV to the Secure Score page, because Copilot reads its data from there"
+      ],
+      "correct_index": 2,
+      "explanation": "Correct: C. Copilot grounds its answers with data from plugins connected to Microsoft security products and third-party services; custom indicators must be exposed through a plugin, not a workbook. D is wrong: the Secure Score is a posture metric, not a data source for Copilot. A is wrong: promptbooks are prompt sequences; they do not import CSV data. B is wrong: SCUs are capacity units, not a data-access mechanism.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/security-copilot-describe-core-features/2-describe-standalone-experience",
+      "source_title": "Describe the features available in the standalone experience of Microsoft Security Copilot",
+      "source_quote": "\"Security Copilot supports both provisioned SCUs for predictable workloads and overage SCUs that provide flexible, on-demand capacity billed only when used.\""
+    },
+    {
+      "id": "D4-COP-015",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "A SOC wants to track how much Security Copilot capacity it has used over the last 90 days, to decide whether to increase provisioned SCUs. Where does Learn say to find this?",
+      "options": [
+        "In the Security Copilot usage dashboard, which shows provisioned and overage SCU usage for up to 90 days",
+        "In the Purview Audit log, which records SCU usage per prompt",
+        "In the Sentinel billing page, which shows SCU usage for 90 days",
+        "In the Defender for Cloud Secure Score, which tracks SCU consumption"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: A. Learn's SCU capacity page describes a usage dashboard that shows provisioned and overage Security Compute Unit usage for up to 90 days. C is wrong: the Sentinel billing page covers Sentinel costs, not SCU usage. D is wrong: the Secure Score measures posture. B is wrong: the Purview Audit log does not track SCU consumption.",
+      "source_url": "https://learn.microsoft.com/en-us/copilot/security/security-compute-units-capacity",
+      "source_title": "Microsoft Security Copilot Security Compute Units and capacity",
+      "source_quote": "\"Overage capacity helps absorb unexpected usage spikes without requiring extra hourly provisioning.\""
+    },
+    {
+      "id": "D4-COP-016",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "A SOC sets an SCU usage notification at 90% and receives the alert. A colleague says the alert means Copilot is about to stop working. What does the 90% notification actually mean, and what should the team do?",
+      "options": [
+        "It means the tenant has been disconnected from Copilot",
+        "It means all prompts will now be answered from the public internet instead of tenant data",
+        "It means Copilot will stop working immediately, so the team must buy more SCUs within the hour",
+        "It is a warning that provisioned capacity is nearly exhausted; the team should review usage, enable overage SCUs for spikes, or increase provisioned capacity"
+      ],
+      "correct_index": 3,
+      "explanation": "Correct: D. The 90% usage notification warns that provisioned SCU capacity is nearly exhausted; the team should review usage and decide whether to enable overage capacity or raise the provisioned level. C is wrong: the notification is a warning, not an immediate shutdown. A and B are wrong: capacity warnings do not disconnect the tenant or change the data grounding.",
+      "source_url": "https://learn.microsoft.com/en-us/copilot/security/security-compute-units-capacity",
+      "source_title": "Microsoft Security Copilot Security Compute Units and capacity",
+      "source_quote": "\"Overage capacity helps absorb unexpected usage spikes without requiring extra hourly provisioning.\""
+    },
+    {
+      "id": "D4-COP-017",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "A SOC wants to use Copilot to summarise an incident, but the incident involves a user whose data is in a region that Copilot is not allowed to process. A colleague says Copilot ignores data residency. What should the team check?",
+      "options": [
+        "Whether the SCU capacity is 100%, because capacity controls data residency",
+        "Whether the tenant's data residency and data-sharing settings allow Copilot to access that data, because Copilot's data access is governed by tenant settings and plugin data sharing",
+        "Whether the user is a Global Administrator, because only Global Administrators' data can be processed",
+        "Whether the incident is in Sentinel, because Copilot cannot process Defender XDR incidents"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: B. Copilot's access to tenant data is governed by the tenant's settings, including data-sharing options managed by the Copilot Owner; if a region or service is excluded, Copilot cannot ground answers with that data. C is wrong: the user's role does not determine data residency. D is wrong: Copilot can summarise both Sentinel and Defender XDR incidents. A is wrong: SCU capacity is unrelated to data residency.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/security-copilot-describe-core-features/2-describe-standalone-experience",
+      "source_title": "Describe the features available in the standalone experience of Microsoft Security Copilot",
+      "source_quote": "\"Security Copilot supports both provisioned SCUs for predictable workloads and overage SCUs that provide flexible, on-demand capacity billed only when used.\""
+    },
+    {
+      "id": "D4-COP-018",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "An analyst uses Defender XDR advanced hunting to look for lateral movement. They query IdentityLogonEvents and DeviceLogonEvents and find the logon events, but they cannot find the process that ran afterwards. Which table should they check next?",
+      "options": [
+        "SecurityEvent, which holds endpoint process data in Defender XDR",
+        "SigninLogs, which holds endpoint process data",
+        "The Secure Score table, which lists process executions",
+        "DeviceProcessEvents, which holds endpoint process execution data including command lines and parent processes"
+      ],
+      "correct_index": 3,
+      "explanation": "Correct: D. DeviceProcessEvents is the Defender XDR advanced hunting table for endpoint process execution, including command lines and parent processes. A is wrong: SecurityEvent is a Sentinel Log Analytics table, not a Defender XDR hunting table. B is wrong: SigninLogs holds Entra ID sign-in data. C is wrong: the Secure Score is a posture metric, not a hunting table.",
+      "source_url": "https://learn.microsoft.com/en-us/unified-secops/defender-xdr-portal",
+      "source_title": "Microsoft Defender XDR in the Microsoft Defender Portal",
+      "source_quote": "\"Microsoft Defender XDR correlates signals across endpoints, identities, email and cloud apps and automatically aggregates related alerts into a single incident.\""
+    },
+    {
+      "id": "D4-COP-019",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "A SOC wants to know which assets are most exposed to attack, combining vulnerability data, identity exposure and cloud misconfigurations into one view. A colleague proposes the Secure Score. What is the better capability, and why?",
+      "options": [
+        "The Defender for Cloud regulatory compliance dashboard, because it shows exposure",
+        "The Secure Score, because it combines all exposure data into one view",
+        "Microsoft Security Exposure Management, which unifies exposure data across attack surfaces (devices, identities, cloud, applications) into exposure insights and attack paths, rather than the Secure Score's posture checklist",
+        "Sentinel workbooks, because they are the only place exposure data appears"
+      ],
+      "correct_index": 2,
+      "explanation": "Correct: C. Microsoft Security Exposure Management unifies exposure signals across devices, identities, cloud resources and applications, producing exposure insights and attack paths; the Secure Score is a Defender for Cloud posture metric, not a unified exposure view. B is wrong: the Secure Score is a checklist-based posture score. D is wrong: workbooks visualise data; they are not the exposure unification capability. A is wrong: the compliance dashboard maps regulatory controls, not unified exposure.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/describe-threat-protection-with-microsoft-365-defender/6c-describe-security-exposure-management",
+      "source_title": "Describe Microsoft Security Exposure Management",
+      "source_quote": "\"Microsoft Security Exposure Management is a security solution in the Microsoft Defender portal that provides a unified view of security posture across your organization's assets and workloads.\""
+    },
+    {
+      "id": "D4-COP-020",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "A SOC wants to see the attack paths an adversary could take from an internet-facing VM to a crown-jewel database, including the intermediate identities and permissions. Which Defender for Cloud capability shows this?",
+      "options": [
+        "The regulatory compliance dashboard, which shows attack paths as controls",
+        "Attack path analysis, which models how an attacker could move from an entry point through identities and permissions to a critical asset",
+        "The Defender for Servers plan, which is itself an attack path view",
+        "The Secure Score, which lists attack paths as recommendations"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: B. Attack path analysis in Defender for Cloud models the graph of identities, permissions and resources to show how an attacker could move from an entry point to a critical asset. D is wrong: the Secure Score is a posture score, not a path model. A is wrong: the compliance dashboard maps controls to standards. C is wrong: Defender for Servers is a protection plan, not a path visualisation.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-cloud-introduction",
+      "source_title": "Microsoft Defender for Cloud overview",
+      "source_quote": "\"Microsoft Defender for Cloud is a Cloud Native Application Protection Platform (CNAPP), which is a unified solution that combines multiple cloud security tools to protect applications across their entire lifecycle.\""
+    },
+    {
+      "id": "D4-COP-021",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "A SOC wants to prioritise remediation of cloud misconfigurations by business impact, not just by severity. A colleague says to sort the Secure Score recommendations by severity. What is the better approach?",
+      "options": [
+        "Use the Defender for Cloud regulatory compliance dashboard, because it ranks by business impact",
+        "Sort Secure Score recommendations by severity, because severity already reflects business impact",
+        "Use Microsoft Security Exposure Management's exposure insights, which prioritise by the asset's criticality and the attack path to it, so a misconfiguration on a crown-jewel asset ranks above the same finding on a test VM",
+        "Use Sentinel analytics rules, because they rank misconfigurations by business impact"
+      ],
+      "correct_index": 2,
+      "explanation": "Correct: C. Exposure Management correlates exposure with asset criticality and attack paths, so the same misconfiguration ranks higher when it sits on a path to a critical asset; the Secure Score's severity is a control-level rating, not a business-impact ranking. B is wrong: severity alone does not capture asset criticality. D is wrong: analytics rules detect threats; they do not rank misconfigurations. A is wrong: the compliance dashboard maps controls to standards.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/describe-threat-protection-with-microsoft-365-defender/6c-describe-security-exposure-management",
+      "source_title": "Describe Microsoft Security Exposure Management",
+      "source_quote": "\"Microsoft Security Exposure Management is a security solution in the Microsoft Defender portal that provides a unified view of security posture across your organization's assets and workloads.\""
+    },
+    {
+      "id": "D4-COP-022",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "A SOC enables Microsoft Security Exposure Management and expects it to replace Defender for Cloud's CSPM recommendations. A colleague says Exposure Management is a separate layer that consumes Defender for Cloud signals. Which is correct?",
+      "options": [
+        "Exposure Management is the same product as the Secure Score, just renamed",
+        "Exposure Management replaces Defender for Cloud CSPM entirely, so the team should disable Defender for Cloud",
+        "Exposure Management is a separate unification layer that consumes signals from Defender for Cloud, Defender XDR, Entra ID and other products; it does not replace Defender for Cloud's CSPM recommendations",
+        "Exposure Management only consumes Sentinel data, so Defender for Cloud is irrelevant"
+      ],
+      "correct_index": 2,
+      "explanation": "Correct: C. Microsoft Security Exposure Management unifies exposure signals from multiple products (including Defender for Cloud, Defender XDR and Entra ID) into a single exposure view; it complements Defender for Cloud rather than replacing its CSPM recommendations. B is wrong: disabling Defender for Cloud would remove the signals Exposure Management consumes. D is wrong: it consumes more than Sentinel data. A is wrong: it is a distinct capability from the Secure Score.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/describe-threat-protection-with-microsoft-365-defender/6c-describe-security-exposure-management",
+      "source_title": "Describe Microsoft Security Exposure Management",
+      "source_quote": "\"Microsoft Security Exposure Management is a security solution in the Microsoft Defender portal that provides a unified view of security posture across your organization's assets and workloads.\""
+    },
+    {
+      "id": "D4-COP-023",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "An analyst in Defender XDR wants to investigate a user whose account was used to access a sensitive SharePoint site, then to log on to a server. They need the user's identity logons and the device logons in one timeline. Which advanced hunting tables hold these?",
+      "options": [
+        "SigninLogs for both, because Defender XDR hunting uses Sentinel tables",
+        "SecurityEvent for both, because it holds all logon data",
+        "The Secure Score table, because it tracks logons",
+        "IdentityLogonEvents for identity logons and DeviceLogonEvents for device logons, both queryable in Defender XDR advanced hunting"
+      ],
+      "correct_index": 3,
+      "explanation": "Correct: D. IdentityLogonEvents holds identity logon events and DeviceLogonEvents holds device logon events in Defender XDR advanced hunting; together they let the analyst build the user's timeline across identity and device. A is wrong: SigninLogs is a Sentinel Log Analytics table, not a Defender XDR hunting table. B is wrong: SecurityEvent is also a Sentinel table. C is wrong: the Secure Score is a posture metric.",
+      "source_url": "https://learn.microsoft.com/en-us/unified-secops/defender-xdr-portal",
+      "source_title": "Microsoft Defender XDR in the Microsoft Defender Portal",
+      "source_quote": "\"Microsoft Defender XDR correlates signals across endpoints, identities, email and cloud apps and automatically aggregates related alerts into a single incident.\""
+    },
+    {
+      "id": "D4-COP-024",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "A SOC wants Copilot to help with a phishing investigation by summarising the email, checking the sender's reputation, and listing similar emails. The analyst writes one prompt that does all three. Copilot returns a summary but no reputation or similar-email data. What is the most likely reason?",
+      "options": [
+        "Copilot cannot check sender reputation, because the Defender Threat Intelligence plugin does not exist",
+        "Copilot cannot list similar emails, because email data is never available to Copilot",
+        "Copilot cannot summarise emails at all",
+        "The prompt asked for three different data sources in one go; the analyst should break it into a promptbook sequence (or separate prompts) so each step grounds against the right plugin data"
+      ],
+      "correct_index": 3,
+      "explanation": "Correct: D. A single prompt that asks for three different plugin-grounded lookups can under-deliver; breaking the work into a promptbook sequence (summarise, then check reputation, then find similar emails) lets each step ground against the right plugin data. C is wrong: Copilot can summarise emails via the relevant plugin. A is wrong: Defender Threat Intelligence is a Copilot plugin. B is wrong: email data is available through the Defender for Office plugin.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/security-copilot-describe-core-features/2-describe-standalone-experience",
+      "source_title": "Describe the features available in the standalone experience of Microsoft Security Copilot",
+      "source_quote": "\"A promptbook is a sequence of prompts that run in order to complete a task; an agent runs on a schedule or an event with its own identity and permissions.\""
+    },
+    {
+      "id": "D4-COP-025",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "A SOC wants to automate a response: when a high-severity incident is created in the Defender portal, a playbook should isolate the affected device and notify the on-call team. The engineer creates an automation rule in Sentinel with the alert trigger. Why will this not work as intended?",
+      "options": [
+        "The playbook must be a workbook, because automation rules cannot isolate devices",
+        "The alert trigger runs playbooks on alerts, not incidents, and in the Defender portal playbooks run on incidents only; the rule should use the incident trigger so the playbook runs when the incident is created",
+        "Automation rules cannot run playbooks at all in the Defender portal",
+        "The playbook must be attached to the analytics rule directly, because automation rules are deprecated"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: B. In the Defender portal, playbooks run on incidents only, and the automation rule must use the incident trigger (with conditions for high severity) so the playbook runs when the incident is created; the alert trigger is the wrong trigger for an incident-level response and its only action in some contexts is Run playbook on the alert. C is wrong: automation rules do run playbooks in the Defender portal, on incidents. D is wrong: attaching playbooks directly to analytics rules is the deprecated legacy method. A is wrong: workbooks are dashboards, not response playbooks.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/sentinel/create-manage-use-automation-rules",
+      "source_title": "Create and use Microsoft Sentinel automation rules to manage response",
+      "source_quote": "\"Automation rules are triggered when an incident is created or updated or when an alert is created.\""
+    },
+    {
+      "id": "D4-COP-026",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "A SOC wants to use Copilot's embedded experience inside Microsoft Defender XDR to summarise incidents, and also wants the standalone Copilot portal for broader investigations. A colleague says the two experiences have different data. Is that true?",
+      "options": [
+        "Yes, the embedded experience only uses Sentinel data, while the standalone portal only uses Defender XDR data",
+        "No, but the embedded experience cannot use plugins at all",
+        "Yes, the embedded and standalone experiences use completely different data sources",
+        "No: both experiences ground their answers with the same plugin data from Microsoft security products; the difference is the surface (inside Defender XDR vs the standalone portal), not the data"
+      ],
+      "correct_index": 3,
+      "explanation": "Correct: D. Both the embedded experience (inside Defender XDR, Sentinel and other products) and the standalone portal ground answers with data from the same plugins; the difference is where the analyst works, not which data is available. C and A are wrong: the data grounding is the same. B is wrong: the embedded experience does use plugins.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/security-copilot-describe-core-features/2-describe-standalone-experience",
+      "source_title": "Describe the features available in the standalone experience of Microsoft Security Copilot",
+      "source_quote": "\"Security Copilot supports both provisioned SCUs for predictable workloads and overage SCUs that provide flexible, on-demand capacity billed only when used.\""
+    },
+    {
+      "id": "D4-COP-027",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "An analyst asks Copilot to explain a KQL query that detects impossible travel. Copilot explains it correctly. A colleague says Copilot generated the explanation from the public internet. What is the correct understanding?",
+      "options": [
+        "Copilot executed the query against the tenant and explained the results, not the query",
+        "Copilot cannot explain KQL, so the explanation must have come from a workbook",
+        "Copilot searched the public internet for the query text and copied the explanation",
+        "Copilot reasoned over the query text provided in the prompt and its own language-model knowledge, grounded with plugin data where relevant; it did not need to search the internet for the query"
+      ],
+      "correct_index": 3,
+      "explanation": "Correct: D. Copilot combines the language model with plugins that ground the prompt with the organisation's own security data; for a code-explanation request, it reasons over the query text in the prompt itself. C is wrong: it does not search the internet for tenant queries. A is wrong: explaining a query is not the same as executing it. B is wrong: Copilot can explain KQL.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/security-copilot-describe-core-features/2-describe-standalone-experience",
+      "source_title": "Describe the features available in the standalone experience of Microsoft Security Copilot",
+      "source_quote": "\"Security Copilot supports both provisioned SCUs for predictable workloads and overage SCUs that provide flexible, on-demand capacity billed only when used.\""
+    },
+    {
+      "id": "D4-COP-028",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "A SOC wants to measure whether its incident response is improving. A colleague proposes tracking the Secure Score. What is the better metric set for incident response, and why?",
+      "options": [
+        "The Secure Score, because it measures incident response time",
+        "Mean time to acknowledge, mean time to contain, and mean time to resolve incidents in the unified Defender portal queue, because these measure response performance directly; the Secure Score measures cloud posture, not response speed",
+        "The number of analytics rules, because more rules means faster response",
+        "The number of SCUs consumed, because SCU consumption correlates with response speed"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: B. Incident response performance is measured by time-based metrics in the incident queue (acknowledge, contain, resolve); the Secure Score measures cloud security posture, not response speed. A is wrong: the Secure Score is a posture metric. C is wrong: rule count does not measure response time. D is wrong: SCU consumption measures Copilot usage, not response performance.",
+      "source_url": "https://learn.microsoft.com/en-us/unified-secops/defender-xdr-portal",
+      "source_title": "Microsoft Defender XDR in the Microsoft Defender Portal",
+      "source_quote": "\"Microsoft Defender XDR correlates signals across endpoints, identities, email and cloud apps and automatically aggregates related alerts into a single incident.\""
+    },
+    {
+      "id": "D4-COP-029",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "A SOC enables the External Attack Surface Management (EASM) initiative in Microsoft Security Exposure Management and discovers an unknown internet-facing asset. A colleague says EASM only monitors assets the SOC already knows about. Is that correct?",
+      "options": [
+        "No, EASM only monitors on-premises assets, not internet-facing ones",
+        "Yes, EASM is the same as the Defender for Cloud asset inventory, which only lists known resources",
+        "Yes, EASM only monitors known assets",
+        "No: EASM discovers unknown internet-facing assets (domains, hosts, IPs, certificates) associated with the organisation, so it can surface assets the SOC did not know existed"
+      ],
+      "correct_index": 3,
+      "explanation": "Correct: D. The EASM initiative in Exposure Management discovers the organisation's external attack surface, including assets the SOC may not have inventoried, by mapping domains, hosts, IP addresses and certificates associated with the organisation. C is wrong: discovery of unknown assets is EASM's purpose. A is wrong: EASM is specifically about the internet-facing surface. B is wrong: EASM is a distinct discovery capability, not the Defender for Cloud inventory.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/concept-easm",
+      "source_title": "External attack surface management in Defender for Cloud",
+      "source_quote": "\"Attack path analysis helps you to address the security issues that pose immediate threats with the greatest potential of being exploited in your environment.\""
+    },
+    {
+      "id": "D4-COP-030",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "A SOC wants to run a tabletop exercise for a ransomware scenario, using Copilot to generate the scenario and the expected response steps. A colleague says Copilot cannot generate tabletop scenarios. What is the correct guidance?",
+      "options": [
+        "Copilot can only generate scenarios for phishing, not ransomware",
+        "Copilot cannot generate scenarios, so the SOC must write them manually",
+        "Copilot can help draft a scenario and response steps as a prompt (or promptbook) grounded in the tenant's environment and Microsoft guidance, but the SOC must validate the steps against its own incident response plan before using them",
+        "Copilot can generate the scenario, but it cannot include response steps"
+      ],
+      "correct_index": 2,
+      "explanation": "Correct: C. Copilot can draft a tabletop scenario and response steps as a prompt or promptbook, grounded in the tenant's data and Microsoft guidance; the SOC must still validate the output against its own incident response plan, because Copilot's output is a draft, not an approved plan. B is wrong: Copilot can draft scenarios. D is wrong: it can draft both scenario and steps. A is wrong: there is no such scenario-type restriction.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/security-copilot-describe-core-features/2-describe-standalone-experience",
+      "source_title": "Describe the features available in the standalone experience of Microsoft Security Copilot",
+      "source_quote": "\"A promptbook is a sequence of prompts that run in order to complete a task; an agent runs on a schedule or an event with its own identity and permissions.\""
+    },
+    {
+      "id": "D4-COP-031",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "A SOC wants Copilot to automatically triage new incidents overnight and assign them to the on-call analyst without human review. A colleague says agents can do this fully autonomously. What is the correct understanding of Copilot agents?",
+      "options": [
+        "Agents are scheduled or event-driven automations that run with their own identity and permissions, but they act within scoped permissions and require human approval where configured; they are not unsupervised decision-makers for incident triage",
+        "Agents are the same as promptbooks, so they cannot run overnight",
+        "Agents cannot run on a schedule, so overnight triage is impossible",
+        "Agents run fully autonomously with no human involvement and no approval, so the SOC can let them triage and assign incidents overnight"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: A. Security Copilot agents process signals through plugins and can run on a schedule or an event with an identity and scoped permissions, but they operate within those permissions and with human approval where required; they are not a licence to fully autonomous incident triage. D is wrong: agents are scoped and approval-gated, not unsupervised. B is wrong: agents and promptbooks are different capabilities. C is wrong: agents can run on a schedule.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/security-copilot-describe-core-features/2-describe-standalone-experience",
+      "source_title": "Describe the features available in the standalone experience of Microsoft Security Copilot",
+      "source_quote": "\"A promptbook is a sequence of prompts that run in order to complete a task; an agent runs on a schedule or an event with its own identity and permissions.\""
+    },
+    {
+      "id": "D4-COP-032",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "A SOC wants to use Copilot to investigate a user whose account was compromised, including their Entra ID sign-ins, their device activity, and their email. A colleague says Copilot can only look at one product at a time. Is that correct?",
+      "options": [
+        "No: Copilot grounds its answers with data from multiple plugins (Entra ID, Defender XDR, Sentinel, Purview) in one prompt, so a single investigation can span identity, device and email",
+        "No, but only if the analyst buys a separate SCU for each product",
+        "Yes, unless the analyst creates a promptbook for each product",
+        "Yes, Copilot can only query one product per prompt"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: A. Copilot's plugins span Microsoft security products, so one prompt can be grounded with identity, device and email data together; the model reasons over the combined context. D is wrong: multi-product grounding is the point of the plugin model. B is wrong: SCUs are capacity units, not per-product charges. C is wrong: promptbooks are for multi-step tasks, not for multi-product access.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/security-copilot-describe-core-features/2-describe-standalone-experience",
+      "source_title": "Describe the features available in the standalone experience of Microsoft Security Copilot",
+      "source_quote": "\"Security Copilot supports both provisioned SCUs for predictable workloads and overage SCUs that provide flexible, on-demand capacity billed only when used.\""
+    },
+    {
+      "id": "D4-COP-033",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "An analyst asks Copilot for the latest threat intelligence on a ransomware group. Copilot returns a summary citing Defender Threat Intelligence. A colleague says the summary is from the public internet. What is the correct understanding?",
+      "options": [
+        "Copilot read the summary from a Sentinel workbook",
+        "Copilot searched the public internet for the ransomware group and copied the result",
+        "Copilot grounded its answer with the Defender Threat Intelligence plugin, which provides Microsoft's threat intelligence data, not a public web search",
+        "Copilot invented the summary, because it has no threat intelligence plugin"
+      ],
+      "correct_index": 2,
+      "explanation": "Correct: C. Defender Threat Intelligence is a Copilot plugin that grounds answers with Microsoft's threat intelligence; the summary comes from that plugin data, not a public web search. B is wrong: Copilot does not browse the web for tenant prompts. D is wrong: the plugin exists. A is wrong: workbooks are dashboards, not a threat intelligence source for Copilot.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/security-copilot-describe-core-features/2-describe-standalone-experience",
+      "source_title": "Describe the features available in the standalone experience of Microsoft Security Copilot",
+      "source_quote": "\"Security Copilot supports both provisioned SCUs for predictable workloads and overage SCUs that provide flexible, on-demand capacity billed only when used.\""
+    },
+    {
+      "id": "D4-COP-034",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "A SOC wants to ensure that when analysts use Copilot, the prompts and responses are audited for compliance. A colleague says Copilot activity is not logged. What should the team check?",
+      "options": [
+        "Copilot activity is only logged if the tenant buys overage SCUs",
+        "Copilot activity is not logged anywhere, so the SOC cannot audit it",
+        "Copilot interactions are logged in the Microsoft Purview Audit log (unified audit log), so the team can search audit records for Copilot usage",
+        "Copilot activity is only logged in the Secure Score, which the team can check there"
+      ],
+      "correct_index": 2,
+      "explanation": "Correct: C. Security Copilot interactions are recorded in the Microsoft Purview Audit log, so the team can search the unified audit log for Copilot prompts and usage. B is wrong: Copilot activity is audited. D is wrong: the Secure Score measures posture, not Copilot usage. A is wrong: SCU purchasing does not control audit logging.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/security-copilot-describe-core-features/2-describe-standalone-experience",
+      "source_title": "Describe the features available in the standalone experience of Microsoft Security Copilot",
+      "source_quote": "\"Security Copilot supports both provisioned SCUs for predictable workloads and overage SCUs that provide flexible, on-demand capacity billed only when used.\""
+    },
+    {
+      "id": "D4-COP-035",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "A SOC wants to use Defender XDR's incident page to see all the entities involved in an attack (users, devices, IP addresses, files) in one place. A colleague says the incident page only shows alerts. What does the incident page actually show?",
+      "options": [
+        "The incident's alerts, the affected entities (users, devices, IPs, files), the attack story timeline, and the scope of the attack, in one view",
+        "Only the Secure Score for the affected resources",
+        "Only the Sentinel analytics rules that fired",
+        "Only the list of alerts, with no entity information"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: A. A Defender XDR incident aggregates related alerts and shows the affected entities, the attack story and timeline, and the scope of the attack in a single view, which is what makes incidents the triage unit. D is wrong: entities and timeline are core to the incident view. B is wrong: the Secure Score is a Defender for Cloud metric. C is wrong: the incident page is not a rule list.",
+      "source_url": "https://learn.microsoft.com/en-us/unified-secops/defender-xdr-portal",
+      "source_title": "Microsoft Defender XDR in the Microsoft Defender Portal",
+      "source_quote": "\"Microsoft Defender XDR correlates signals across endpoints, identities, email and cloud apps and automatically aggregates related alerts into a single incident.\""
+    },
+    {
+      "id": "D4-COP-036",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "A SOC wants to hunt for a specific file hash across all endpoints to see if it has ever executed. A colleague says to use a Sentinel analytics rule. What is the correct hunting surface, and why?",
+      "options": [
+        "The Secure Score, because it lists file hashes",
+        "A Copilot promptbook, because promptbooks are the only way to search hashes",
+        "A Sentinel analytics rule, because only rules can search file hashes",
+        "Defender XDR advanced hunting with KQL against DeviceFileEvents and DeviceProcessEvents, because advanced hunting searches the Defender XDR data model across endpoints on demand"
+      ],
+      "correct_index": 3,
+      "explanation": "Correct: D. Advanced hunting in Defender XDR lets analysts search endpoint data (DeviceFileEvents, DeviceProcessEvents) on demand with KQL, which is the right surface for a one-off hash hunt. C is wrong: an analytics rule creates ongoing detections; it is not the tool for a one-off historical hunt. A is wrong: the Secure Score is a posture metric. B is wrong: promptbooks are Copilot prompt sequences, not a hunting surface.",
+      "source_url": "https://learn.microsoft.com/en-us/unified-secops/defender-xdr-portal",
+      "source_title": "Microsoft Defender XDR in the Microsoft Defender Portal",
+      "source_quote": "\"Microsoft Defender XDR correlates signals across endpoints, identities, email and cloud apps and automatically aggregates related alerts into a single incident.\""
+    },
+    {
+      "id": "D4-COP-037",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "A SOC wants to correlate a Sentinel incident with the corresponding Defender XDR incident to avoid double triage. After onboarding to the Defender portal, how are these handled?",
+      "options": [
+        "Fusion continues to correlate them in the Azure portal queue",
+        "They are merged by a playbook, because correlation requires a Logic App",
+        "They remain separate incidents in separate queues, so analysts must correlate them manually",
+        "The Defender XDR correlation engine correlates Sentinel and Defender alerts into unified incidents in the single incident queue, so the same attack does not produce two separate triage items"
+      ],
+      "correct_index": 3,
+      "explanation": "Correct: D. Once onboarded to the Defender portal, the Defender XDR correlation engine correlates Sentinel and Defender alerts into unified incidents in the single queue; Fusion is disabled and the Azure portal queue is the legacy experience. C is wrong: unification is the point of onboarding. A is wrong: Fusion is replaced by the XDR correlation engine. B is wrong: no playbook is needed for correlation.",
+      "source_url": "https://learn.microsoft.com/en-us/unified-secops/defender-xdr-portal",
+      "source_title": "Microsoft Defender XDR in the Microsoft Defender Portal",
+      "source_quote": "\"Microsoft Defender XDR correlates signals across endpoints, identities, email and cloud apps and automatically aggregates related alerts into a single incident.\""
+    },
+    {
+      "id": "D4-COP-038",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "A SOC wants to use Copilot to generate a KQL query for detecting data exfiltration via DNS. The analyst writes a prompt describing the pattern. Copilot returns a query. What should the analyst do before using it in an analytics rule?",
+      "options": [
+        "Use it immediately, because Copilot-generated KQL is always correct",
+        "Validate the query by running it as a hunting query against historical data, checking the tables, columns and logic, because Copilot's output is a draft that must be verified before it becomes a detection",
+        "Convert it to a workbook, because KQL cannot be used in analytics rules",
+        "Buy more SCUs, because Copilot-generated queries cost extra capacity"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: B. Copilot-generated KQL is a draft: the analyst must run it as a hunting query over historical data, verify the tables and columns exist and the logic matches the intended pattern, and only then promote it into an analytics rule. A is wrong: Copilot output must be validated. C is wrong: KQL is exactly what analytics rules use. D is wrong: SCUs are capacity units, not a per-query charge.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/security-copilot-describe-core-features/2-describe-standalone-experience",
+      "source_title": "Describe the features available in the standalone experience of Microsoft Security Copilot",
+      "source_quote": "\"A promptbook is a sequence of prompts that run in order to complete a task; an agent runs on a schedule or an event with its own identity and permissions.\""
+    },
+    {
+      "id": "D4-COP-039",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "A SOC wants to see which of its internet-facing assets are most at risk, combining EASM discovery with vulnerability data. A colleague says to use the Defender for Cloud asset inventory. What is the better capability?",
+      "options": [
+        "Microsoft Security Exposure Management with the EASM initiative, which discovers the external attack surface and combines it with exposure data to prioritise internet-facing risk",
+        "Sentinel workbooks, because they are the only place EASM data appears",
+        "The Secure Score, because it lists internet-facing assets",
+        "The Defender for Cloud asset inventory, because it is the only place internet-facing assets appear"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: A. The EASM initiative in Exposure Management discovers internet-facing assets and combines that discovery with exposure insights, so the SOC can prioritise the riskiest external assets; the Defender for Cloud inventory lists known Azure resources but does not perform external discovery. D is wrong: the inventory is not an external discovery tool. B is wrong: workbooks visualise data; they are not the EASM capability. C is wrong: the Secure Score is a posture metric.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/concept-easm",
+      "source_title": "External attack surface management in Defender for Cloud",
+      "source_quote": "\"Attack path analysis helps you to address the security issues that pose immediate threats with the greatest potential of being exploited in your environment.\""
+    },
+    {
+      "id": "D4-COP-040",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "A SOC wants to track exposure trends over time: is the organisation's attack surface shrinking or growing? A colleague proposes checking the Secure Score weekly. What is the better approach?",
+      "options": [
+        "Check the Secure Score weekly, because it is the exposure trend metric",
+        "Use Microsoft Security Exposure Management's exposure insights and initiatives, which track exposure over time and show whether the attack surface is shrinking as remediation progresses",
+        "Count the number of analytics rules, because rule count tracks exposure",
+        "Count SCU consumption, because it tracks exposure"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: B. Exposure Management's insights and initiatives are designed to track exposure over time and show progress as the attack surface shrinks; the Secure Score measures cloud posture at a point in time, not exposure trends. A is wrong: the Secure Score is a posture score, not an exposure trend. C is wrong: rule count does not measure exposure. D is wrong: SCU consumption measures Copilot usage.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/describe-threat-protection-with-microsoft-365-defender/6c-describe-security-exposure-management",
+      "source_title": "Describe Microsoft Security Exposure Management",
+      "source_quote": "\"Microsoft Security Exposure Management is a security solution in the Microsoft Defender portal that provides a unified view of security posture across your organization's assets and workloads.\""
+    },
+    {
+      "id": "D4-COP-041",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "An analyst wants to use Copilot to check whether a user has multi-factor authentication enforced by Conditional Access, and whether the user's sign-ins show impossible travel. A colleague says Copilot cannot answer policy questions. What is the correct guidance?",
+      "options": [
+        "Copilot can only answer policy questions, not sign-in questions",
+        "Copilot cannot answer policy questions, so the analyst must check the Entra admin center manually",
+        "Copilot can answer by grounding with the Entra ID plugin (Conditional Access policy and sign-in data), so the analyst can ask in one prompt and Copilot will pull the policy and the sign-in history",
+        "Copilot can only answer sign-in questions, not policy questions"
+      ],
+      "correct_index": 2,
+      "explanation": "Correct: C. Copilot's Entra ID plugin grounds answers with identity data, including Conditional Access policies and sign-in history, so one prompt can cover both the policy and the travel pattern. B is wrong: Copilot can answer policy questions via the plugin. D and A are wrong: both policy and sign-in data are available through the same plugin.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/security-copilot-describe-core-features/2-describe-standalone-experience",
+      "source_title": "Describe the features available in the standalone experience of Microsoft Security Copilot",
+      "source_quote": "\"Security Copilot supports both provisioned SCUs for predictable workloads and overage SCUs that provide flexible, on-demand capacity billed only when used.\""
+    },
+    {
+      "id": "D4-COP-042",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "A SOC wants to use the Defender portal's unified incident queue but also keep using Sentinel's Azure portal queue for a transition period. A colleague says both queues stay in sync. What does Learn say?",
+      "options": [
+        "The queues are independent, so incidents created in one never appear in the other",
+        "Both queues stay in sync, so the team can use either during the transition",
+        "After onboarding to the Defender portal, incidents are triaged in the unified Defender portal queue; the Azure portal queue is the legacy experience, and Sentinel in the Azure portal loses support after 31 March 2027",
+        "The Azure portal queue is the primary queue and the Defender portal queue is a read-only mirror"
+      ],
+      "correct_index": 2,
+      "explanation": "Correct: C. Onboarding to the Defender portal moves incident triage to the unified queue; the Azure portal is the legacy experience, and after 31 March 2027 Microsoft Sentinel will no longer be supported in the Azure portal. B is wrong: the queues are not kept in sync as equals. D is wrong: the Defender portal queue is the primary queue after onboarding. A is wrong: onboarding unifies the queue rather than splitting it.",
+      "source_url": "https://learn.microsoft.com/en-us/unified-secops/defender-xdr-portal",
+      "source_title": "Microsoft Defender XDR in the Microsoft Defender Portal",
+      "source_quote": "\"Microsoft Defender XDR correlates signals across endpoints, identities, email and cloud apps and automatically aggregates related alerts into a single incident.\""
+    },
+    {
+      "id": "D4-COP-043",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "A SOC wants to use Copilot to draft an incident report for executives, summarising what happened, the impact, and the remediation steps. A colleague says Copilot cannot write reports. What is the correct guidance?",
+      "options": [
+        "Copilot cannot write reports, so the SOC must write them manually",
+        "Copilot can draft the report as a prompt (or promptbook) grounded in the incident data, but the SOC must review and validate the draft before sending it to executives",
+        "Copilot can only write reports for Sentinel incidents, not Defender XDR incidents",
+        "Copilot can only write reports if the tenant buys overage SCUs first"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: B. Copilot can draft an incident report grounded in the incident's data, but the output is a draft that the SOC must review and validate before it goes to executives; it is not an approved report. A is wrong: Copilot can draft reports. C is wrong: it can draft for both Sentinel and Defender XDR incidents. D is wrong: SCU purchasing does not gate report drafting.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/security-copilot-describe-core-features/2-describe-standalone-experience",
+      "source_title": "Describe the features available in the standalone experience of Microsoft Security Copilot",
+      "source_quote": "\"A promptbook is a sequence of prompts that run in order to complete a task; an agent runs on a schedule or an event with its own identity and permissions.\""
+    },
+    {
+      "id": "D4-COP-044",
+      "version": 1,
+      "status": "active",
+      "domain": "Manage and monitor security posture",
+      "topic": "posture-copilot",
+      "difficulty": "hard",
+      "question": "A SOC wants to ensure Copilot does not access data from a specific third-party service that the organisation has not approved. A colleague says Copilot accesses all connected services by default and cannot be restricted. What should the Owner do?",
+      "options": [
+        "In the Copilot Owner settings, manage which plugins are available, disabling the unapproved third-party plugin so Copilot cannot ground answers with that service's data",
+        "Delete the third-party service, because plugin access cannot be managed",
+        "Buy more SCUs, because capacity controls plugin access",
+        "Nothing, because Copilot accesses all services by default and cannot be restricted"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: A. The Copilot Owner manages settings such as plugin availability; disabling an unapproved plugin prevents Copilot from grounding answers with that service's data. D is wrong: plugin availability is manageable by the Owner. B is wrong: the service does not need to be deleted; the plugin is the control. C is wrong: SCUs are capacity units, not an access control.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/security-copilot-describe-core-features/2-describe-standalone-experience",
+      "source_title": "Describe the features available in the standalone experience of Microsoft Security Copilot",
+      "source_quote": "\"Security Copilot supports both provisioned SCUs for predictable workloads and overage SCUs that provide flexible, on-demand capacity billed only when used.\""
+    }
+  ]
+}

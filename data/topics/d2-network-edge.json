@@ -1,0 +1,924 @@
+{
+  "topic": "Network security edge",
+  "topic_slug": "network-edge",
+  "domain": "Secure storage, databases, and networking",
+  "source_pages": [
+    {
+      "title": "Azure DNS Private Resolver Overview",
+      "url": "https://learn.microsoft.com/en-us/azure/dns/dns-private-resolver-overview",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Azure DDoS Protection overview",
+      "url": "https://learn.microsoft.com/en-us/azure/networking/design-guide/ddos",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Security admin rules in Azure Virtual Network Manager",
+      "url": "https://learn.microsoft.com/en-us/azure/virtual-network-manager/concept-security-admins",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Azure Virtual WAN Overview",
+      "url": "https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Azure Web Application Firewall on Azure Front Door - Frequently Asked Questions",
+      "url": "https://learn.microsoft.com/en-us/azure/web-application-firewall/afds/waf-faq",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "What is Global Secure Access?",
+      "url": "https://learn.microsoft.com/en-us/entra/global-secure-access/overview-what-is-global-secure-access",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Evaluate solutions that use Microsoft Entra Private Access",
+      "url": "https://learn.microsoft.com/en-us/training/modules/design-solutions-network-security/7-evaluate-solutions-entra-private-access",
+      "checked": "2026-11-11"
+    }
+  ],
+  "questions": [
+    {
+      "id": "D2-EDGE-001",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A web application behind Azure Application Gateway is being probed with SQL injection attempts. The team wants protection against common web exploits using Azure-managed rules, and wants to tune the rules before blocking any traffic. A second team argues for enabling prevention mode immediately on day one. What should they do?",
+      "options": [
+        "Add a network security group rule blocking SQL injection payloads",
+        "Enable DDoS Network Protection, which inspects HTTP request bodies for SQL injection",
+        "Enable Azure Firewall network rules to block the attacker's IP addresses permanently",
+        "Enable Azure Web Application Firewall on the Application Gateway with a managed rule set, starting in detection mode and moving to prevention mode after tuning"
+      ],
+      "correct_index": 3,
+      "explanation": "Correct: WAF on Application Gateway uses Azure-managed rule sets against common exploits such as SQL injection, and the recommended rollout is detection mode first to tune out false positives, then prevention mode. An NSG filters on the five-tuple and cannot inspect HTTP payloads, DDoS Protection works at layers 3 and 4 and does not inspect application-layer payloads, and firewall network rules filter by IP and port rather than SQL injection signatures.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/web-application-firewall/afds/waf-faq",
+      "source_title": "Azure Web Application Firewall on Azure Front Door - Frequently Asked Questions",
+      "source_quote": "Enable the WAF in detection mode to ensure that the WAF doesn't block requests while you're working through this process."
+    },
+    {
+      "id": "D2-EDGE-002",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A team enables a WAF policy in prevention mode on a production web application on day one. Within an hour, legitimate customer requests are being blocked as false positives. The team is not under active attack. What should they have done instead?",
+      "options": [
+        "Start in detection mode, review the logs, add rule exclusions and tune the policy, then switch to prevention mode",
+        "Disable the managed rule sets permanently and rely only on custom rules",
+        "Switch the WAF to an Application Gateway from Front Door, because prevention mode only works on Front Door",
+        "Increase the priority numbers of the managed rules so they are evaluated last"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: when you enable the WAF on an existing application, it is common to have false-positive detections, so the recommended process is to enable the WAF in detection mode to ensure that the WAF does not block requests while tuning, then review logs, add rule exclusions, and finally enable prevention mode. Disabling managed rules removes protection against common exploits, prevention mode works on both Front Door and Application Gateway, and managed rule sets are not reordered by editing priorities.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/web-application-firewall/afds/waf-faq",
+      "source_title": "Azure Web Application Firewall on Azure Front Door - Frequently Asked Questions",
+      "source_quote": "Enable the WAF in detection mode to ensure that the WAF doesn't block requests while you're working through this process."
+    },
+    {
+      "id": "D2-EDGE-003",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A compliance requirement states that traffic between the on-premises datacenter and Azure must never traverse the public internet. The team proposes a site-to-site VPN because the traffic is encrypted with IPsec. Why does this not meet the requirement?",
+      "options": [
+        "A VPN meets the requirement as long as the tunnel uses IKEv2",
+        "A site-to-site VPN runs over the public internet; encryption protects the contents but the traffic still traverses the internet, while ExpressRoute provides private connectivity through a provider network without traversing the internet",
+        "A site-to-site VPN cannot be encrypted, so it fails the requirement on confidentiality grounds",
+        "ExpressRoute also traverses the public internet, so neither option meets the requirement"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: a site-to-site VPN is an encrypted tunnel over the public internet. IPsec provides confidentiality and integrity, but the path is still the internet, so a requirement that traffic never traverse the public internet is not met. ExpressRoute is the option that provides private connectivity through a provider network without traversing the internet. The IKE version changes key exchange rather than the underlying public path.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about",
+      "source_title": "Azure Virtual WAN Overview",
+      "source_quote": "All hubs are connected in full mesh in a Standard Virtual WAN making it easy for the user to use the Microsoft backbone for any-to-any (any spoke) connectivity."
+    },
+    {
+      "id": "D2-EDGE-004",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A web application is hit by an HTTP flood, a layer 7 attack sending a huge volume of apparently valid HTTP requests. The application already has DDoS Network Protection enabled, but the attack is not mitigated. Why?",
+      "options": [
+        "The attack is being absorbed by the free infrastructure protection, which disables Network Protection",
+        "DDoS Protection requires an Azure Firewall in front of the application to inspect HTTP traffic",
+        "DDoS Protection operates at layers 3 and 4; layer 7 HTTP floods require a Web Application Firewall",
+        "DDoS Network Protection only protects virtual machines, not web applications"
+      ],
+      "correct_index": 2,
+      "explanation": "Correct: Azure DDoS Protection protects at layer 3 (network) and layer 4 (transport); for web applications, protection at layer 7 requires a WAF offering, which can rate-limit and block HTTP floods. Infrastructure protection and Network Protection are complementary tiers rather than mutually exclusive, Azure Firewall is not a prerequisite for DDoS Protection, and Network Protection covers resources in virtual networks including web application front ends.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/networking/design-guide/ddos",
+      "source_title": "Azure DDoS Protection overview",
+      "source_quote": "Azure DDoS Protection protects at layer 3 (network) and layer 4 (transport); for web applications, protection at layer 7 requires a WAF offering."
+    },
+    {
+      "id": "D2-EDGE-005",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A company runs the same web application in three regions behind Azure Front Door with a WAF policy, and also runs a regional application behind Application Gateway with WAF. The team asks how the two WAF deployments differ in scope. What is the answer?",
+      "options": [
+        "Both are global; the WAF policy applies worldwide in both cases",
+        "Azure Web Application Firewall on Azure Front Door is a globally distributed, edge security solution, while Azure Web Application Firewall on Application Gateway is a regional, dedicated solution, so the Front Door policy is global and the Application Gateway policy is regional",
+        "Both are regional; Front Door WAF must be configured separately in each region",
+        "Front Door WAF is regional and Application Gateway WAF is global"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Azure Web Application Firewall on Azure Front Door is a globally distributed, edge security solution, while Azure Web Application Firewall on Application Gateway is a regional, dedicated solution. The recommendation is to choose a solution based on overall performance and security requirements. A Front Door WAF policy is therefore a global resource, while an Application Gateway WAF policy applies to its region.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/web-application-firewall/afds/waf-faq",
+      "source_title": "Azure Web Application Firewall on Azure Front Door - Frequently Asked Questions",
+      "source_quote": "Azure Web Application Firewall on Azure Front Door is a globally distributed, edge security solution. Azure Web Application Firewall on Application Gateway is a regional, dedicated solution."
+    },
+    {
+      "id": "D2-EDGE-006",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A team enables a WAF policy on Front Door and wants to use rate limiting to throttle aggressive clients, and to use the Azure-managed Default Rule Set. They also want to use Core Rule Set 3.2. Which of these are supported on Front Door WAF, and which only on Application Gateway WAF?",
+      "options": [
+        "Rate limiting and Azure-managed DRS rules are supported only with Azure Web Application Firewall on Azure Front Door, while Core Rule Set (CRS) 3.0, 3.1, and 3.2 rules are supported only with Azure Web Application Firewall on Application Gateway",
+        "All three are supported on both platforms with no differences",
+        "Rate limiting is only on Application Gateway, and CRS 3.2 is only on Front Door",
+        "DRS rules are only on Application Gateway, and rate limiting is on neither"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: rate limiting and Azure-managed DRS rules are supported only with Azure Web Application Firewall on Azure Front Door, while Core Rule Set 3.0, 3.1, and 3.2 rules are supported only with Azure Web Application Firewall on Application Gateway. The platforms have different feature sets, so a rule set that works on one may not exist on the other.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/web-application-firewall/afds/waf-faq",
+      "source_title": "Azure Web Application Firewall on Azure Front Door - Frequently Asked Questions",
+      "source_quote": "Enable the WAF in detection mode to ensure that the WAF doesn't block requests while you're working through this process."
+    },
+    {
+      "id": "D2-EDGE-007",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A Front Door Premium profile in subscription A needs a WAF policy that currently exists in subscription B. The team tries to associate it and the operation fails. What is the rule?",
+      "options": [
+        "The Azure Front Door profile and the WAF policy need to be in the same subscription, so the policy must be recreated in subscription A",
+        "WAF policies can be shared across subscriptions, so the failure must be a permissions issue",
+        "WAF policies can only be associated with profiles in the same resource group, not just the same subscription",
+        "Front Door Premium does not support WAF policies at all"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: you cannot apply an Azure Front Door WAF policy to front-end hosts in Azure Front Door Premium profiles that belong to different subscriptions. The Azure Front Door profile and the WAF policy need to be in the same subscription, so the team must create the policy in subscription A.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/web-application-firewall/afds/waf-faq",
+      "source_title": "Azure Web Application Firewall on Azure Front Door - Frequently Asked Questions",
+      "source_quote": "Enable the WAF in detection mode to ensure that the WAF doesn't block requests while you're working through this process."
+    },
+    {
+      "id": "D2-EDGE-008",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A company is under an active credential-stuffing attack against its login page. The security team proposes the standard WAF rollout: detection mode first, tune for several weeks, then prevention mode. What should they do instead, and why?",
+      "options": [
+        "Follow the standard rollout anyway, because prevention mode is never appropriate on day one",
+        "Deploy the WAF in prevention mode immediately, because if you are under attack or imminent threat you might want to deploy the WAF in prevention mode immediately and then tune over time, accepting that some legitimate traffic may be blocked",
+        "Disable the WAF entirely until the attack stops, because tuning during an attack is impossible",
+        "Switch to detection mode permanently, because prevention mode cannot stop credential stuffing"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: the standard process describes enabling the WAF when the priority is to minimise disturbance to users. If you are under attack or imminent threat, you might want to instead deploy the WAF in prevention mode immediately, and then use the tuning process to monitor and tune the WAF over time. This approach will probably cause some legitimate traffic to be blocked, which is why it is recommended only when under threat.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/web-application-firewall/afds/waf-faq",
+      "source_title": "Azure Web Application Firewall on Azure Front Door - Frequently Asked Questions",
+      "source_quote": "Enable the WAF in detection mode to ensure that the WAF doesn't block requests while you're working through this process."
+    },
+    {
+      "id": "D2-EDGE-009",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A WAF policy has custom rules that block a specific malicious IP range and managed rules that detect SQL injection. A request arrives from the malicious IP range containing a SQL injection payload. Which rules are evaluated first, and what happens?",
+      "options": [
+        "Managed rules are evaluated first, so the SQL injection rule blocks it",
+        "Custom rules are processed before managed rules, so the custom IP block applies first and the request is blocked without reaching the managed rules",
+        "Custom and managed rules are evaluated in parallel, so both must match for a block",
+        "Managed rules always override custom rules, so the IP block is ignored"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: in Azure WAF, custom rules are processed before managed rules. A request from the blocked IP range is therefore denied by the custom rule before the managed rule set is evaluated. Managed rules do not override custom rules, and both do not need to match for a block.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/web-application-firewall/afds/waf-faq",
+      "source_title": "Azure Web Application Firewall on Azure Front Door - Frequently Asked Questions",
+      "source_quote": "Enable the WAF in detection mode to ensure that the WAF doesn't block requests while you're working through this process."
+    },
+    {
+      "id": "D2-EDGE-010",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A team updates a managed rule set version in a WAF policy and asks how Microsoft keeps managed rules current. What does the WAF FAQ say about managed rule set updates?",
+      "options": [
+        "Managed rule sets are never updated after they are first deployed",
+        "When Microsoft updates a rule, it is added to the Default Rule Set (DRS) with a new version number, and teams should review and adopt new DRS versions to stay current with the changing threat landscape",
+        "Managed rules are updated automatically with no versioning, so teams never need to act",
+        "Managed rule sets are updated only when the WAF is in prevention mode"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Microsoft does its best to keep up with the changing threat landscape, and when it updates a rule, it adds it to the Default Rule Set with a new version number. Teams should track new DRS versions and adopt them so their protection stays current, rather than assuming rules are frozen or updated silently.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/web-application-firewall/afds/waf-faq",
+      "source_title": "Azure Web Application Firewall on Azure Front Door - Frequently Asked Questions",
+      "source_quote": "Enable the WAF in detection mode to ensure that the WAF doesn't block requests while you're working through this process."
+    },
+    {
+      "id": "D2-EDGE-011",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A Front Door deployment absorbs a large volumetric DDoS attack at the edge, but HTTP flood requests still reach the back end. The team asks whether Front Door alone stops layer 7 floods. What is the answer?",
+      "options": [
+        "Front Door absorbs and geographically isolates large-volume attacks at the edge, and you can create a custom WAF policy to automatically block and rate limit HTTP and HTTPS attacks that have known signatures; Front Door alone does not inspect HTTP request content without a WAF policy",
+        "Front Door blocks all HTTP floods automatically with no WAF policy needed",
+        "Front Door cannot absorb volumetric attacks; only DDoS Network Protection can",
+        "HTTP floods must be blocked by Azure Firewall, because Front Door cannot rate limit"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: Azure Front Door is globally distributed at Azure network edges and can absorb and geographically isolate large-volume attacks. You can create a custom WAF policy to automatically block and rate limit HTTP and HTTPS attacks that have known signatures, and you can also enable DDoS Network Protection on the virtual network where the back ends are deployed. Without a WAF policy, Front Door does not inspect HTTP request content for floods.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/web-application-firewall/afds/waf-faq",
+      "source_title": "Azure Web Application Firewall on Azure Front Door - Frequently Asked Questions",
+      "source_quote": "Enable the WAF in detection mode to ensure that the WAF doesn't block requests while you're working through this process."
+    },
+    {
+      "id": "D2-EDGE-012",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A back end behind Front Door is directly accessible from the internet, bypassing Front Door and its WAF. The team wants only Front Door to reach the back end. What should they configure?",
+      "options": [
+        "Nothing can be done; back ends behind Front Door are always directly reachable",
+        "Configure an IP access control list on the back end to allow only Azure Front Door outbound IP address ranges by using an Azure Front Door service tag and deny any direct access from the internet, and verify that the X-Forwarded-Host HTTP header field is valid for the web application",
+        "Enable a private endpoint on the back end, because Front Door cannot use service tags",
+        "Block the Front Door service tag, because it is the source of the bypass"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: you can configure an IP access control list in your back end to allow for only Azure Front Door outbound IP address ranges by using an Azure Front Door service tag and deny any direct access from the internet. Service tags are supported for your virtual network. Additionally, you can verify that the X-Forwarded-Host HTTP header field is valid for your web application, which helps confirm the request came through Front Door.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/web-application-firewall/afds/waf-faq",
+      "source_title": "Azure Web Application Firewall on Azure Front Door - Frequently Asked Questions",
+      "source_quote": "Enable the WAF in detection mode to ensure that the WAF doesn't block requests while you're working through this process."
+    },
+    {
+      "id": "D2-EDGE-013",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A web application terminates TLS at Front Door, and the team asks whether the WAF can inspect the decrypted request content. What is the answer?",
+      "options": [
+        "No, because the WAF only sees encrypted traffic and cannot inspect it",
+        "Yes, because Azure Front Door offers TLS offloading, and Azure Web Application Firewall is natively integrated with Azure Front Door and can inspect a request after it is decrypted",
+        "Yes, but only if the back end also terminates TLS a second time",
+        "No, because WAF inspection requires the application to terminate TLS itself"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Azure Front Door offers Transport Layer Security (TLS) offloading, and Azure Web Application Firewall is natively integrated with Azure Front Door and can inspect a request after it is decrypted. TLS offloading at the edge is what makes WAF inspection of the request content possible.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/web-application-firewall/afds/waf-faq",
+      "source_title": "Azure Web Application Firewall on Azure Front Door - Frequently Asked Questions",
+      "source_quote": "Enable the WAF in detection mode to ensure that the WAF doesn't block requests while you're working through this process."
+    },
+    {
+      "id": "D2-EDGE-014",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A team updates a WAF policy on Front Door and asks how long it will take for the change to apply globally. What should they expect?",
+      "options": [
+        "Most WAF policy deployments finish in less than 20 minutes, and the policy takes effect as soon as the update is completed across all edge locations globally",
+        "WAF policy changes apply instantly in all regions with no propagation delay",
+        "WAF policy changes take up to 24 hours to propagate globally",
+        "WAF policy changes require a Front Door profile restart, which takes several hours"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: most WAF policy deployments finish in less than 20 minutes. You can expect the policy to take effect as soon as the update is completed across all edge locations globally. The change is not instant and does not require a profile restart, but it is much faster than 24 hours.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/web-application-firewall/afds/waf-faq",
+      "source_title": "Azure Web Application Firewall on Azure Front Door - Frequently Asked Questions",
+      "source_quote": "Enable the WAF in detection mode to ensure that the WAF doesn't block requests while you're working through this process."
+    },
+    {
+      "id": "D2-EDGE-015",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A company chooses between Front Door WAF and Application Gateway WAF for a single-region application that needs low latency to a regional back end and dedicated capacity. Which is the better fit, and why?",
+      "options": [
+        "Front Door WAF, because it is the only option that supports managed rule sets",
+        "Application Gateway WAF, because Azure Web Application Firewall on Application Gateway is a regional, dedicated solution, which fits a single-region workload that needs dedicated capacity, while Front Door is the globally distributed edge solution",
+        "Front Door WAF, because Application Gateway cannot run WAF at all",
+        "Neither, because WAF requires a multi-region deployment"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Azure Web Application Firewall on Application Gateway is a regional, dedicated solution, while Azure Web Application Firewall on Azure Front Door is a globally distributed, edge security solution. The recommendation is to choose based on overall performance and security requirements, so a single-region application needing dedicated regional capacity fits Application Gateway WAF.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/web-application-firewall/afds/waf-faq",
+      "source_title": "Azure Web Application Firewall on Azure Front Door - Frequently Asked Questions",
+      "source_quote": "Azure Web Application Firewall on Azure Front Door is a globally distributed, edge security solution. Azure Web Application Firewall on Application Gateway is a regional, dedicated solution."
+    },
+    {
+      "id": "D2-EDGE-016",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A team creates a Basic Virtual WAN and then tries to add an ExpressRoute connection and a point-to-site user VPN gateway to it. What will happen?",
+      "options": [
+        "Both will work, because Basic supports all connectivity types",
+        "Neither will work: Basic Virtual WAN supports site-to-site VPN only, while Standard supports ExpressRoute, user VPN (point-to-site), site-to-site VPN, inter-hub and VNet-to-VNet transiting, Azure Firewall, and NVA in a virtual WAN",
+        "ExpressRoute will work but point-to-site will not, because Basic supports ExpressRoute only",
+        "Point-to-site will work but ExpressRoute will not, because Basic supports user VPN only"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: there are two types of virtual WANs. Basic supports site-to-site VPN only, while Standard supports ExpressRoute, user VPN (point-to-site), VPN (site-to-site), inter-hub and VNet-to-VNet transiting through the virtual hub, Azure Firewall, and NVA in a virtual WAN. The team must upgrade to Standard for ExpressRoute and point-to-site connectivity.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about",
+      "source_title": "Azure Virtual WAN Overview",
+      "source_quote": "All hubs are connected in full mesh in a Standard Virtual WAN making it easy for the user to use the Microsoft backbone for any-to-any (any spoke) connectivity."
+    },
+    {
+      "id": "D2-EDGE-017",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A team upgrades a Basic Virtual WAN to Standard to add ExpressRoute. A month later they want to downgrade back to Basic to save cost. What will they find?",
+      "options": [
+        "They can downgrade at any time with no loss of configuration",
+        "You can upgrade from Basic to Standard, but you cannot revert from Standard back to Basic, so the downgrade is not possible",
+        "They can downgrade, but only if no ExpressRoute circuit is attached",
+        "They can downgrade, but the hub must be deleted and recreated first"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: you can upgrade from Basic to Standard, but you cannot revert from Standard back to Basic. The upgrade is one-way, so the team cannot downgrade to save cost after moving to Standard.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about",
+      "source_title": "Azure Virtual WAN Overview",
+      "source_quote": "You can upgrade from Basic to Standard, but can't revert from Standard back to Basic."
+    },
+    {
+      "id": "D2-EDGE-018",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A virtual network is connected to a Virtual WAN hub in East US. The team tries to connect the same virtual network to a second hub in West Europe for redundancy. What will happen?",
+      "options": [
+        "It will work, because a virtual network can connect to multiple hubs for redundancy",
+        "One virtual network can be connected to only one virtual hub, so the second connection is not possible; redundancy is provided by the hub-to-hub full mesh rather than dual hub connections",
+        "It will work if the virtual network is in a different resource group",
+        "It will work, but only for Standard Virtual WAN, not Basic"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: one virtual network can be connected to only one virtual hub. The team cannot connect the same VNet to two hubs. Hub-to-hub connectivity in a Standard Virtual WAN provides the any-to-any connectivity between hubs instead.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about",
+      "source_title": "Azure Virtual WAN Overview",
+      "source_quote": "All hubs are connected in full mesh in a Standard Virtual WAN making it easy for the user to use the Microsoft backbone for any-to-any (any spoke) connectivity."
+    },
+    {
+      "id": "D2-EDGE-019",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A company has two separate Virtual WANs, one for production and one for development, and expects a branch connected to the production hub to reach a VNet in the development hub. What will happen?",
+      "options": [
+        "It will work, because all hubs in Azure are connected in a full mesh",
+        "Virtual WANs are isolated from each other and cannot contain a common hub, and virtual hubs in different virtual WANs do not communicate with each other, so the branch cannot reach the development VNet through the hubs",
+        "It will work if the branch uses a site-to-site VPN to both hubs",
+        "It will work, because hub-to-hub connections span virtual WANs automatically"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: a virtualWAN resource is a collection of multiple resources, and virtual WANs are isolated from each other and cannot contain a common hub. Virtual hubs in different virtual WANs do not communicate with each other, so production and development remain isolated by design.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about",
+      "source_title": "Azure Virtual WAN Overview",
+      "source_quote": "All hubs are connected in full mesh in a Standard Virtual WAN making it easy for the user to use the Microsoft backbone for any-to-any (any spoke) connectivity."
+    },
+    {
+      "id": "D2-EDGE-020",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A Standard Virtual WAN has hubs in East US and West Europe. A branch connected to the East US hub needs to reach a VNet connected to the West Europe hub. How does this work?",
+      "options": [
+        "It does not work, because hubs are isolated per region",
+        "All hubs are connected in full mesh in a Standard Virtual WAN, making it easy to use the Microsoft backbone for any-to-any connectivity, so the branch can reach the VNet through the hub-to-hub mesh",
+        "The branch must create a separate VPN connection to the West Europe hub",
+        "The VNet must be peered directly to the branch office network"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Azure regions serve as hubs that you can choose to connect to, and all hubs are connected in full mesh in a Standard Virtual WAN, making it easy to use the Microsoft backbone for any-to-any connectivity. A branch, user, or VNet connected to a local hub can therefore communicate with another branch or VNet through the connected hubs.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about",
+      "source_title": "Azure Virtual WAN Overview",
+      "source_quote": "All hubs are connected in full mesh in a Standard Virtual WAN making it easy for the user to use the Microsoft backbone for any-to-any (any spoke) connectivity."
+    },
+    {
+      "id": "D2-EDGE-021",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A Virtual WAN hub shows a routing status of None. The team assumes the hub router has failed. What does None actually mean, and when does it occur?",
+      "options": [
+        "None indicates the hub router failed and must be reset immediately",
+        "A None status indicates that the virtual hub did not provision the router, which can happen if the Virtual WAN is of type Basic, or if the virtual hub was deployed prior to the service being made available",
+        "None means the hub has no routes configured, and adding a route will change it to Provisioned",
+        "None means the hub is in a different virtual WAN, so no router is needed"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: a None status indicates that the virtual hub did not provision the router. This can happen if the Virtual WAN is of type Basic, or if the virtual hub was deployed prior to the service being made available. A Failed status is the one that indicates failure during instantiation, and the router can be reset from the hub overview page.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about",
+      "source_title": "Azure Virtual WAN Overview",
+      "source_quote": "All hubs are connected in full mesh in a Standard Virtual WAN making it easy for the user to use the Microsoft backbone for any-to-any (any spoke) connectivity."
+    },
+    {
+      "id": "D2-EDGE-022",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A VPN-connected branch and an ExpressRoute-connected datacenter both connect to the same Virtual WAN hub, but they cannot communicate with each other. What is missing for transit connectivity between them?",
+      "options": [
+        "Virtual WAN allows transit connectivity between VPN and ExpressRoute, but it requires the Branch-to-branch flag to be enabled and BGP to be supported in VPN and ExpressRoute connections",
+        "Transit between VPN and ExpressRoute is not supported in Virtual WAN at all",
+        "The branch must use a point-to-site VPN instead of site-to-site",
+        "The ExpressRoute circuit must be moved to a different hub"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: Virtual WAN allows transit connectivity between VPN and ExpressRoute, which implies that VPN-connected sites or remote users can communicate with ExpressRoute-connected sites. There is also an implicit assumption that the Branch-to-branch flag is enabled and BGP is supported in VPN and ExpressRoute connections. Without the flag and BGP, the transit path is not established.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about",
+      "source_title": "Azure Virtual WAN Overview",
+      "source_quote": "All hubs are connected in full mesh in a Standard Virtual WAN making it easy for the user to use the Microsoft backbone for any-to-any (any spoke) connectivity."
+    },
+    {
+      "id": "D2-EDGE-023",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A compliance requirement states that traffic over an ExpressRoute circuit to Azure must be encrypted, but the team does not want the traffic to traverse the public internet. Which Virtual WAN capability meets this?",
+      "options": [
+        "IPsec over ExpressRoute for Virtual WAN, which provides an encrypted transit between the on-premises networks and Azure virtual networks over ExpressRoute, without going over the public internet or using public IP addresses",
+        "A site-to-site VPN, because it is the only way to encrypt ExpressRoute traffic",
+        "ExpressRoute with Microsoft peering, because Microsoft peering encrypts traffic by default",
+        "Azure Firewall, because it encrypts ExpressRoute traffic automatically"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: Azure Virtual WAN provides the ability to encrypt your ExpressRoute traffic, and the technique provides an encrypted transit between the on-premises networks and Azure virtual networks over ExpressRoute, without going over the public internet or using public IP addresses. A site-to-site VPN would traverse the public internet, Microsoft peering does not provide this encryption, and Azure Firewall does not encrypt ExpressRoute traffic.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about",
+      "source_title": "Azure Virtual WAN Overview",
+      "source_quote": "All hubs are connected in full mesh in a Standard Virtual WAN making it easy for the user to use the Microsoft backbone for any-to-any (any spoke) connectivity."
+    },
+    {
+      "id": "D2-EDGE-024",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A team connects VNets to a Virtual WAN hub and expects each VNet to need its own virtual network gateway for scale. What does Virtual WAN provide instead?",
+      "options": [
+        "Each VNet still needs its own virtual network gateway, because hubs do not provide gateways",
+        "A hub gateway is not the same as a virtual network gateway: when using Virtual WAN, you do not create a site-to-site connection from on-premises directly to your VNet, and your VNets do not need their own virtual network gateway, because traffic always goes through the hub gateway",
+        "VNets do not need any gateway at all, because hubs do not route traffic",
+        "Only the first VNet connected to a hub needs a gateway, and the rest share it"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: a hub gateway is not the same as a virtual network gateway that you use for ExpressRoute and VPN Gateway. When using Virtual WAN, you do not create a site-to-site connection from your on-premises site directly to your VNet; instead, you create a site-to-site connection to the hub, and traffic always goes through the hub gateway. Your VNets do not need their own virtual network gateway, and Virtual WAN lets your VNets take advantage of scaling through the virtual hub and the hub gateway.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about",
+      "source_title": "Azure Virtual WAN Overview",
+      "source_quote": "All hubs are connected in full mesh in a Standard Virtual WAN making it easy for the user to use the Microsoft backbone for any-to-any (any spoke) connectivity."
+    },
+    {
+      "id": "D2-EDGE-025",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A company manages 300 virtual networks across 5 subscriptions and wants to connect them to Virtual WAN hubs at scale with consistent routing behaviour. Which Virtual Network Manager capability helps, and how?",
+      "options": [
+        "At-scale spoke onboarding with Azure Virtual Network Manager: use Virtual Network Manager network groups and connectivity configurations to connect many virtual networks to a Virtual WAN hub and apply routing behaviour consistently by using a connection policy",
+        "Security admin rules, because they connect VNets to hubs",
+        "Azure Firewall Manager, because it onboards VNets to hubs",
+        "VNet peering, because it is the only way to connect VNets at scale"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: Virtual WAN offers at-scale spoke onboarding with Azure Virtual Network Manager, using Virtual Network Manager network groups and connectivity configurations to connect many virtual networks to a Virtual WAN hub and apply routing behaviour consistently by using a connection policy. Security admin rules govern traffic rather than hub onboarding, and peering each VNet individually does not scale.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about",
+      "source_title": "Azure Virtual WAN Overview",
+      "source_quote": "All hubs are connected in full mesh in a Standard Virtual WAN making it easy for the user to use the Microsoft backbone for any-to-any (any spoke) connectivity."
+    },
+    {
+      "id": "D2-EDGE-026",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A network team creates a Virtual Network Manager instance at the management group scope and groups 200 virtual networks into network groups. A colleague argues that network groups can only contain VNets from one subscription. What is the actual scope?",
+      "options": [
+        "Network groups can span subscriptions within the scope of the Virtual Network Manager instance, because security admin rules apply to all virtual networks within a network group and the manager can be scoped to a management group covering multiple subscriptions",
+        "Network groups are limited to a single subscription, so the team needs one manager per subscription",
+        "Network groups can only contain VNets from one resource group",
+        "Network groups cannot span regions, so the team needs one manager per region"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: security admin rules are global network security rules that apply to all virtual networks within a network group, and these network groups can only consist of virtual networks within the scope of the virtual network manager instance. When the manager is scoped to a management group, its network groups can span the subscriptions under that management group, which is how central governance is applied at scale.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/virtual-network-manager/concept-security-admins",
+      "source_title": "Security admin rules in Azure Virtual Network Manager",
+      "source_quote": "Security admin rules are global network security rules that enforce security policies defined in the rule collection on virtual networks."
+    },
+    {
+      "id": "D2-EDGE-027",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A team uses Virtual Network Manager connectivity configurations to connect their VNets. They ask whether they should use a mesh or a hub-and-spoke topology. What is the difference, and which does Virtual Network Manager support?",
+      "options": [
+        "Virtual Network Manager supports only hub-and-spoke, because mesh requires VNet peering",
+        "Virtual Network Manager connectivity configurations support both full mesh and hub-and-spoke topologies between virtual networks within the scope, so the team can choose mesh for any-to-any connectivity or hub-and-spoke for centralised inspection",
+        "Virtual Network Manager supports only mesh, because hub-and-spoke requires Virtual WAN",
+        "Topology is not a Virtual Network Manager concept; it only manages security rules"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Virtual Network Manager connectivity enables the ability to create a full mesh or hub and spoke network topology between virtual networks within the scope. The team can choose mesh for direct any-to-any connectivity between VNets, or hub-and-spoke to route traffic through a central hub for inspection. Both are connectivity configuration options in the same service.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/virtual-network-manager/concept-security-admins",
+      "source_title": "Security admin rules in Azure Virtual Network Manager",
+      "source_quote": "Security admin rules are global network security rules that enforce security policies defined in the rule collection on virtual networks."
+    },
+    {
+      "id": "D2-EDGE-028",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "Remote users currently connect through a VPN that grants them access to the entire corporate network once the tunnel is established. The security team wants per-application access with identity and device checks on every connection, without a VPN. Which service provides this, and how does it differ from the VPN?",
+      "options": [
+        "Microsoft Entra Private Access, which is the Zero Trust Network Access component of the Security Service Edge solution: where traditional VPNs grant broad network-level access once a tunnel is established, Private Access restricts connectivity to only the specific FQDNs, IP addresses, and ports defined, with each connection brokered through the Global Secure Access service",
+        "Azure VPN Gateway point-to-site, because it already provides per-application access",
+        "Azure Bastion, because it replaces VPNs for all remote access",
+        "Azure Firewall, because it enforces per-application access for remote users"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: Microsoft Entra Private Access is the Zero Trust Network Access component of the Security Service Edge solution. Where traditional VPNs grant broad network-level access once a tunnel is established, Private Access restricts connectivity to only the specific FQDNs, IP addresses, and ports defined, and each connection is brokered through the Global Secure Access service, which evaluates identity, device compliance, and Conditional Access policies before allowing traffic. The identity-centric model means users never sit directly on the corporate network.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/design-solutions-network-security/7-evaluate-solutions-entra-private-access",
+      "source_title": "Evaluate solutions that use Microsoft Entra Private Access",
+      "source_quote": "Private Access relies on private network connectors - lightweight agents installed on Windows Server machines inside your network. Connectors create outbound-only connections to the Global Secure Access cloud service."
+    },
+    {
+      "id": "D2-EDGE-029",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A team deploys private network connectors for Entra Private Access on Windows Servers inside the corporate network. The firewall team asks which inbound ports must be opened to the internet for the connectors. What is the answer?",
+      "options": [
+        "No inbound ports need to be opened: connectors create outbound-only connections to the Global Secure Access cloud service, so you do not need to open inbound firewall ports or expose internal resources to the internet",
+        "TCP 443 inbound must be opened to each connector server",
+        "TCP 3389 inbound must be opened, because connectors use RDP",
+        "UDP 500 and 4500 inbound must be opened, because connectors use IPsec"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: private network connectors are lightweight agents installed on Windows Server machines inside the network, and connectors create outbound-only connections to the Global Secure Access cloud service. Because traffic initiates outbound, you do not need to open inbound firewall ports or expose internal resources to the internet. Connectors require outbound access on ports 80 and 443.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/design-solutions-network-security/7-evaluate-solutions-entra-private-access",
+      "source_title": "Evaluate solutions that use Microsoft Entra Private Access",
+      "source_quote": "Private Access relies on private network connectors - lightweight agents installed on Windows Server machines inside your network. Connectors create outbound-only connections to the Global Secure Access cloud service."
+    },
+    {
+      "id": "D2-EDGE-030",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A company wants to replace its VPN quickly with minimal configuration, and later move to granular per-application access. Which Entra Private Access model should they start with, and what is the recommended journey?",
+      "options": [
+        "Per-app access immediately, because Quick Access cannot be migrated from",
+        "Quick Access, which is a single enterprise application that serves as the primary container for all private resources to tunnel through the service, and Microsoft recommends using Quick Access as a transition step and then migrating to per-app access to achieve application-level segmentation and granular controls",
+        "Quick Access permanently, because per-app access is deprecated",
+        "Neither, because Private Access cannot replace a VPN"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: Quick Access is a single enterprise application that serves as the primary container for all private resources to tunnel through the service, and it is the fastest path to replacing a VPN with one application, one connector group, and one set of user assignments. Microsoft recommends using Quick Access as a transition step in the Zero Trust journey, and after it replaces the VPN, migrating to per-app access to achieve application-level segmentation and granular controls.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/design-solutions-network-security/7-evaluate-solutions-entra-private-access",
+      "source_title": "Evaluate solutions that use Microsoft Entra Private Access",
+      "source_quote": "Private Access relies on private network connectors - lightweight agents installed on Windows Server machines inside your network. Connectors create outbound-only connections to the Global Secure Access cloud service."
+    },
+    {
+      "id": "D2-EDGE-031",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A user needs access to a private application through Entra Private Access. The team asks what licences are required for the user. What is the answer?",
+      "options": [
+        "No licence is required, because Private Access is included with every Microsoft Entra tenant",
+        "To use Microsoft Entra Private Access, users need a Microsoft Entra ID P1 or Microsoft Entra ID P2 license, plus a Microsoft Entra Private Access licence, which is included in the Microsoft Entra Suite licence and available standalone",
+        "Only a Microsoft Entra ID Free licence is needed, because Private Access is a free feature",
+        "Only a Microsoft 365 E5 licence is needed, and Entra ID P1 is not sufficient"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: to use Microsoft Entra Private Access and Microsoft Entra Internet Access, users need a Microsoft Entra ID P1 or Microsoft Entra ID P2 license. Microsoft Entra Private Access capabilities are included in the Microsoft Entra Suite license and standalone. Entra ID Free does not include Private Access, and a Microsoft 365 licence alone is not the requirement.",
+      "source_url": "https://learn.microsoft.com/en-us/entra/global-secure-access/overview-what-is-global-secure-access",
+      "source_title": "What is Global Secure Access?",
+      "source_quote": "Remote users connect to private apps across hybrid and multicloud environments, private networks, and data centers from any device and network without requiring a VPN."
+    },
+    {
+      "id": "D2-EDGE-032",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A remote user connects to an on-premises file server through Entra Private Access. The security team wants Conditional Access to evaluate the user, device, and risk on every connection, rather than only at VPN login. How does Private Access handle this?",
+      "options": [
+        "It cannot, because Conditional Access only applies at VPN login",
+        "Remote users connect to private apps without requiring a VPN, and the service offers per-app adaptive access based on Conditional Access policies, for more granular security than a VPN, with the Global Secure Access service evaluating identity, device compliance, and Conditional Access policies before allowing traffic",
+        "Conditional Access applies only to the connector servers, not to the users",
+        "Private Access uses only network-level checks, not identity checks"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: remote users connect to private apps across hybrid and multicloud environments, private networks, and data centers from any device and network without requiring a VPN. The service offers per-app adaptive access based on Conditional Access policies, for more granular security than a VPN, and each connection is brokered through the Global Secure Access service, which evaluates identity, device compliance, and Conditional Access policies before allowing traffic to reach the private resource.",
+      "source_url": "https://learn.microsoft.com/en-us/entra/global-secure-access/overview-what-is-global-secure-access",
+      "source_title": "What is Global Secure Access?",
+      "source_quote": "Remote users connect to private apps across hybrid and multicloud environments, private networks, and data centers from any device and network without requiring a VPN."
+    },
+    {
+      "id": "D2-EDGE-033",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A team configures Entra Private Access for an internal HR application that uses Kerberos authentication, and users need to reach it by its short internal name rather than a fully qualified name. Which Private Access features address these two needs?",
+      "options": [
+        "Private DNS, which lets users access internal resources by short name or internal FQDN without configuring each resource individually, and Kerberos-based single sign-on, which provides a seamless authentication experience for on-premises resources",
+        "Quick Access, because it provides Kerberos authentication automatically",
+        "Per-app access, because it replaces DNS entirely",
+        "Connector groups, because they provide single sign-on"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: private DNS lets users access internal resources by short name or internal FQDN without configuring each resource individually, and Kerberos SSO provides a seamless authentication experience for on-premises resources. These are two features that extend Private Access beyond basic tunnel replacement. Quick Access and per-app access are application models rather than DNS or SSO features, and connector groups organise connectors rather than providing SSO.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/design-solutions-network-security/7-evaluate-solutions-entra-private-access",
+      "source_title": "Evaluate solutions that use Microsoft Entra Private Access",
+      "source_quote": "Private Access relies on private network connectors - lightweight agents installed on Windows Server machines inside your network. Connectors create outbound-only connections to the Global Secure Access cloud service."
+    },
+    {
+      "id": "D2-EDGE-034",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A Private Access deployment has three connector groups in different datacenters, and five applications that each need to use a specific connector group. How are applications mapped to connector groups?",
+      "options": [
+        "Each application maps to a specific connector group, and connectors are organised into connector groups, so each Private Access application is associated with the connector group that can reach its back-end resources",
+        "All applications must use all connector groups at the same time",
+        "Connector groups are assigned per user rather than per application",
+        "Applications cannot be mapped to connector groups; the mapping is automatic and cannot be controlled"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: connectors are organised into connector groups, and each Private Access application maps to a specific connector group. This lets the team place connectors close to each application back end and control which network path each application uses.",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/design-solutions-network-security/7-evaluate-solutions-entra-private-access",
+      "source_title": "Evaluate solutions that use Microsoft Entra Private Access",
+      "source_quote": "Private Access relies on private network connectors - lightweight agents installed on Windows Server machines inside your network. Connectors create outbound-only connections to the Global Secure Access cloud service."
+    },
+    {
+      "id": "D2-EDGE-035",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A team reads that Microsoft Entra Internet Access and Microsoft Entra Private Access together form a Security Service Edge solution. What is the unifying term, and what are the two components?",
+      "options": [
+        "Global Secure Access is the unifying term for both Microsoft Entra Internet Access and Microsoft Entra Private Access, which together comprise Microsoft's Security Service Edge (SSE) solution, built upon the core principles of Zero Trust to use least privilege, verify explicitly, and assume breach",
+        "Azure Firewall Manager is the unifying term for both components",
+        "Microsoft Defender for Cloud Apps is the unifying term, and the two components are VPN and ExpressRoute",
+        "Zero Trust Network Access is the unifying term, and the two components are Bastion and Firewall"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: Microsoft Entra Internet Access and Microsoft Entra Private Access comprise Microsoft's Security Service Edge (SSE) solution. Global Secure Access is the unifying term used for both, and it is the unified location in the Microsoft Entra admin center, built upon the core principles of Zero Trust to use least privilege, verify explicitly, and assume breach.",
+      "source_url": "https://learn.microsoft.com/en-us/entra/global-secure-access/overview-what-is-global-secure-access",
+      "source_title": "What is Global Secure Access?",
+      "source_quote": "Microsoft Entra Internet Access and Microsoft Entra Private Access comprise Microsoft's Security Service Edge (SSE) solution. Global Secure Access is the unifying term used for both Microsoft Entra Internet Access and Microsoft Entra Private Access."
+    },
+    {
+      "id": "D2-EDGE-036",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A team enables Microsoft Entra Internet Access and asks which of these it provides: web content filtering, TLS inspection, and Universal Tenant Restrictions. Which are Internet Access features, and which belong to a different profile?",
+      "options": [
+        "All three are Private Access features, and Internet Access provides none of them",
+        "Web content filtering and TLS inspection are Internet Access features, while Universal Tenant Restrictions is a Microsoft traffic profile feature available with a Microsoft Entra ID P1 or P2 licence",
+        "Universal Tenant Restrictions is an Internet Access feature, while web content filtering belongs to Private Access",
+        "None of the three exist in Global Secure Access at all"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: the feature comparison shows web category filtering, FQDN filtering, TLS inspection, threat intelligence, and data loss prevention under the Internet Access licence, while Universal Tenant Restrictions, Compliant Network check, and source IP restoration are under the Microsoft traffic profile with a Microsoft Entra ID P1 or P2 licence. Universal Tenant Restrictions reduces the risk of data exfiltration to unauthorised foreign tenants or personal accounts, and it is not an Internet Access feature.",
+      "source_url": "https://learn.microsoft.com/en-us/entra/global-secure-access/overview-what-is-global-secure-access",
+      "source_title": "What is Global Secure Access?",
+      "source_quote": "Remote users connect to private apps across hybrid and multicloud environments, private networks, and data centers from any device and network without requiring a VPN."
+    },
+    {
+      "id": "D2-EDGE-037",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "An on-premises DNS server must resolve Azure private DNS zone names for a private endpoint, and an Azure VM must resolve on-premises domain names. The team deploys Azure DNS Private Resolver. Which endpoint serves each direction?",
+      "options": [
+        "An inbound endpoint enables name resolution from on-premises or other private locations through an IP address in the virtual network address space, so on-premises resolvers forward Azure private zone queries to it, while an outbound endpoint enables conditional forwarding name resolution from Azure to on-premises, other cloud providers, or external DNS servers",
+        "An outbound endpoint serves on-premises to Azure, and an inbound endpoint serves Azure to on-premises",
+        "Both directions use inbound endpoints only",
+        "Both directions use outbound endpoints only"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: an inbound endpoint enables name resolution from on-premises or other private locations through an IP address that is part of the private virtual network address space, so the on-premises DNS conditional forwarder sends Azure private zone queries to it. An outbound endpoint enables conditional forwarding name resolution from Azure to on-premises, other cloud providers, or external DNS servers, using a DNS forwarding ruleset.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/dns/dns-private-resolver-overview",
+      "source_title": "Azure DNS Private Resolver Overview",
+      "source_quote": "An inbound endpoint enables name resolution from on-premises or other private locations through an IP address that's part of your private virtual network address space."
+    },
+    {
+      "id": "D2-EDGE-038",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A DNS forwarding ruleset has rules for contoso.com pointing to an on-premises DNS server and for corp.contoso.com pointing to a different on-premises DNS server. A query arrives for app.corp.contoso.com. Which rule is used?",
+      "options": [
+        "The contoso.com rule, because it was created first",
+        "The corp.contoso.com rule, because if multiple matches are present, the longest suffix is used",
+        "Both rules are used and the answers are merged",
+        "Neither rule is used, because nested suffixes are not supported"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: when DNS forwarding rules are evaluated, if a suffix match is found the query is forwarded to the specified address, and if multiple matches are present, the longest suffix is used. The query for app.corp.contoso.com matches both contoso.com and corp.contoso.com, so the longer suffix corp.contoso.com wins.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/dns/dns-private-resolver-overview",
+      "source_title": "Azure DNS Private Resolver Overview",
+      "source_quote": "If multiple matches are present, the longest suffix is used."
+    },
+    {
+      "id": "D2-EDGE-039",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A team creates a DNS Private Resolver with an inbound endpoint and an outbound endpoint in the same virtual network. The deployment fails with a subnet error. What is the subnet requirement?",
+      "options": [
+        "Both endpoints can share one subnet, so the error must be something else",
+        "Each endpoint requires its own dedicated subnet, delegated to Microsoft.Network/dnsResolvers, with a minimum of /28 and a maximum of /24 address space, and multiple DNS resolver endpoints cannot share a subnet",
+        "Endpoints do not need subnets at all; they use the virtual network directly",
+        "A single subnet of /25 is required for both endpoints together"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: the inbound endpoint requires a subnet that can only be delegated to Microsoft.Network/dnsResolvers and cannot be used for other services, and the outbound endpoint requires a dedicated subnet with no other service running in it. A subnet must be a minimum of /28 address space or a maximum of /24 address space, and multiple DNS resolver endpoints cannot share a subnet, so each endpoint needs its own delegated subnet.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/dns/dns-private-resolver-overview",
+      "source_title": "Azure DNS Private Resolver Overview",
+      "source_quote": "An inbound endpoint enables name resolution from on-premises or other private locations through an IP address that's part of your private virtual network address space."
+    },
+    {
+      "id": "D2-EDGE-040",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A team wants to deploy a DNS Private Resolver in a virtual network that has VNet encryption enabled, and to share one resolver across two virtual networks in different regions. What will they find?",
+      "options": [
+        "Both are supported without restriction",
+        "VNets with encryption enabled do not support Azure DNS Private Resolver, a DNS resolver can only reference a virtual network in the same region as the resolver, and a single DNS resolver can reference only one virtual network, so neither plan works as proposed",
+        "Encryption is supported, but cross-region sharing is not",
+        "Cross-region sharing is supported, but encryption is not"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: the restrictions state that VNets with encryption enabled do not support Azure DNS Private Resolver, a DNS resolver can only reference a virtual network in the same region as the DNS resolver, and a single DNS resolver can reference only one virtual network, while multiple DNS resolvers cannot share the same virtual network. Both parts of the plan are therefore blocked.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/dns/dns-private-resolver-overview",
+      "source_title": "Azure DNS Private Resolver Overview",
+      "source_quote": "An inbound endpoint enables name resolution from on-premises or other private locations through an IP address that's part of your private virtual network address space."
+    },
+    {
+      "id": "D2-EDGE-041",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A DNS forwarding ruleset is linked to 600 virtual networks and has 1,200 rules, and the team asks whether these exceed the limits. What are the limits?",
+      "options": [
+        "A DNS forwarding ruleset is a group of up to 1,000 DNS forwarding rules, and virtual network links per DNS forwarding ruleset are limited to 500, so the ruleset has too many rules and too many links",
+        "There are no limits on rules or links",
+        "The limit is 100 rules and 50 links, so both are far over",
+        "The limit is 10,000 rules and 5,000 links, so both are within limits"
+      ],
+      "correct_index": 0,
+      "explanation": "Correct: a DNS forwarding ruleset is a group of up to 1,000 DNS forwarding rules that you can apply to one or more outbound endpoints or link to one or more virtual networks, and the documented limits are 1,000 forwarding rules per ruleset and 500 virtual network links per ruleset. The team's 1,200 rules and 600 links both exceed the limits.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/dns/dns-private-resolver-overview",
+      "source_title": "Azure DNS Private Resolver Overview",
+      "source_quote": "An inbound endpoint enables name resolution from on-premises or other private locations through an IP address that's part of your private virtual network address space."
+    },
+    {
+      "id": "D2-EDGE-042",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A hybrid network has no ExpressRoute and no VPN between on-premises and Azure. The team deploys a DNS Private Resolver and expects on-premises clients to resolve Azure private DNS zones through it. What will happen?",
+      "options": [
+        "It will work, because the resolver does not need any network connectivity",
+        "It will not work, because DNS resolution between Azure virtual networks and on-premises networks requires Azure ExpressRoute or a VPN, and the on-premises DNS conditional forwarder must have a network connection to the virtual network",
+        "It will work for Azure to on-premises resolution but not for on-premises to Azure",
+        "It will work if the resolver is deployed in the on-premises network instead"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: DNS resolution between Azure virtual networks and on-premises networks requires Azure ExpressRoute or a VPN. The inbound endpoint receives DNS queries that ingress to Azure, and the on-premises DNS conditional forwarder must have a network connection to the virtual network. Without that connectivity, on-premises clients cannot reach the inbound endpoint.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/dns/dns-private-resolver-overview",
+      "source_title": "Azure DNS Private Resolver Overview",
+      "source_quote": "An inbound endpoint enables name resolution from on-premises or other private locations through an IP address that's part of your private virtual network address space."
+    },
+    {
+      "id": "D2-EDGE-043",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A private DNS zone named privatelink.database.windows.net is linked to a virtual network, and a VM in that network queries myserver.database.windows.net. The team asks how the query is resolved. What is the flow?",
+      "options": [
+        "The query goes to the public internet DNS, because private zones are only for on-premises clients",
+        "If you configure Default (Azure-provided) DNS servers in the virtual network, and there are Private DNS zones linked to the same virtual network, these zones are consulted, so the private zone returns the private endpoint IP for the server",
+        "The query is forwarded to the on-premises DNS server first, because private zones are checked last",
+        "The query fails, because private DNS zones cannot contain privatelink records"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: if you configure Default (Azure-provided) DNS servers in the virtual network, and there are Private DNS zones linked to the same virtual network, these zones are consulted. The privatelink zone linked to the VNet therefore returns the private endpoint IP for the database server, rather than the public IP.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/dns/dns-private-resolver-overview",
+      "source_title": "Azure DNS Private Resolver Overview",
+      "source_quote": "An inbound endpoint enables name resolution from on-premises or other private locations through an IP address that's part of your private virtual network address space."
+    },
+    {
+      "id": "D2-EDGE-044",
+      "version": 1,
+      "status": "active",
+      "domain": "Secure storage, databases, and networking",
+      "topic": "network-edge",
+      "difficulty": "hard",
+      "question": "A point-to-site VPN user and a site-to-site VPN branch both connect to Azure. The team asks which VPN type each uses and how they differ. What is the answer?",
+      "options": [
+        "Both use site-to-site VPN, because point-to-site is the same as site-to-site",
+        "Site-to-site VPN connects an on-premises network to Azure over an IPsec/IKE (IKEv2) connection using a VPN device, while point-to-site user VPN connects individual remote users over an IPsec/IKE (IKEv2) or OpenVPN connection using a VPN client configured on the client computer",
+        "Point-to-site connects whole branch networks, while site-to-site connects individual users",
+        "Site-to-site uses OpenVPN only, and point-to-site uses IKEv2 only"
+      ],
+      "correct_index": 1,
+      "explanation": "Correct: you can connect to your resources in Azure over a site-to-site IPsec/IKE (IKEv2) connection, which requires a VPN device, while user VPN point-to-site connections use an IPsec/IKE (IKEv2) or OpenVPN connection and require a VPN client configured on the client computer. Site-to-site connects a network, point-to-site connects individual users.",
+      "source_url": "https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about",
+      "source_title": "Azure Virtual WAN Overview",
+      "source_quote": "All hubs are connected in full mesh in a Standard Virtual WAN making it easy for the user to use the Microsoft backbone for any-to-any (any spoke) connectivity."
+    }
+  ]
+}

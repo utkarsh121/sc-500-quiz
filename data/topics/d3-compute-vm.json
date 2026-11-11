@@ -1,0 +1,929 @@
+{
+  "topic": "VMs: disk encryption, JIT VM access, Defender for Servers, update management, host security, Azure Arc",
+  "topic_slug": "compute-vm",
+  "domain": "Secure compute",
+  "source_pages": [
+    {
+      "title": "What is Azure Bastion?",
+      "url": "https://learn.microsoft.com/en-us/azure/bastion/bastion-overview",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Enable File Integrity Monitoring",
+      "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/file-integrity-monitoring-enable-defender-endpoint",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Select a Defender for Servers plan",
+      "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/plan-defender-for-servers-select-plan",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Introduction to Azure security",
+      "url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/overview",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Security features used with Azure VMs",
+      "url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/virtual-machines-overview",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Multilayered protection for Azure virtual machines",
+      "url": "https://learn.microsoft.com/en-us/training/modules/design-solutions-securing-server-client-endpoints/7-design-solution-secure-remote-access",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Design a solution for integrating hybrid and multicloud environments by using Azure Arc",
+      "url": "https://learn.microsoft.com/en-us/training/modules/design-solutions-security-posture-management-hybrid-multicloud-environments/7-integrate-hybrid-multi-cloud-environments-azure-arc",
+      "checked": "2026-11-11"
+    },
+    {
+      "title": "Defender for Servers",
+      "url": "https://learn.microsoft.com/en-us/training/modules/microsoft-defender-cloud-threat-protection/3-defender-servers",
+      "checked": "2026-11-11"
+    }
+  ],
+  "questions": [
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: server-side encryption encrypts every managed disk at rest by default with platform-managed keys, and encryption at host extends that to temporary disks and disk caches. Azure Disk Encryption is in-guest BitLocker or DM-Crypt with keys in Key Vault, but it is scheduled for retirement on 15 September 2028, so it is not the design for new VMs. A is wrong: disks are encrypted by default. C is wrong: server-side encryption is at-rest protection, not transit-only. D is wrong: Azure Disk Encryption is retiring and is not recommended for new builds.",
+      "id": "D3-VM-001",
+      "options": [
+        "Azure Disk Encryption replaces server-side encryption and remains the recommended design for all new VMs",
+        "Managed disks are unencrypted by default, so Azure Disk Encryption is the only way to get any at-rest protection",
+        "Managed disks are encrypted at rest by default with platform-managed keys; encryption at host extends protection to temporary disks and caches, while in-guest Azure Disk Encryption is retiring on 15 September 2028",
+        "Server-side encryption only protects data in transit, so Azure Disk Encryption is required for any at-rest protection"
+      ],
+      "question": "A regulated workload runs on Windows VMs. The auditor asks how the OS disks, data disks and temporary disks are protected at rest, and the platform team proposes standardising on Azure Disk Encryption for every new VM. Which statement correctly describes the default, the temporary-disk gap, and the retirement trap?",
+      "source_quote": "Server-side encryption (SSE) is always enabled and automatically encrypts data on Azure managed disks when persisting to storage clusters. However, SSE does not encrypt temp disks or disk caches.",
+      "source_title": "Security features used with Azure VMs",
+      "source_url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/virtual-machines-overview",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Bastion is a fully managed PaaS service giving RDP and SSH over TLS on port 443 from the portal or a native client, and VMs need no public IP, agent or special client software. B is wrong: opening 3389 to the internet, even to one office range, is the exposure Bastion removes. C is wrong: disk encryption protects data at rest, not remote-access connectivity. D is wrong: JIT only time-bounds when a port is open; it does not carry the RDP or SSH session, and it is normally combined with Bastion.",
+      "id": "D3-VM-002",
+      "options": [
+        "Azure Bastion, which provides secure browser-based RDP and SSH over TLS without a public IP or exposed management ports on the VMs",
+        "A network security group rule opening port 3389 to the internet, restricted to the administrators office IP range",
+        "Azure Disk Encryption, which encrypts the RDP session as well as the disk",
+        "Just-in-time VM access on its own, which replaces the need for any RDP connectivity method"
+      ],
+      "question": "Administrators need RDP access to Azure VMs that have no public IP addresses, from laptops with no VPN client installed. The security team wants browser-based RDP and SSH without exposing any management port to the internet. Which service meets this requirement, and why do the alternatives fail?",
+      "source_quote": "When you connect via Azure Bastion, your virtual machines do not need a public IP address, agent, or special client software.",
+      "source_title": "What is Azure Bastion?",
+      "source_url": "https://learn.microsoft.com/en-us/azure/bastion/bastion-overview",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: JIT keeps management ports closed by default and opens them only when an authorised user requests access, for a limited time and from specified source IPs, then restores the block. A is wrong: JIT does not permanently block legitimate access. C is wrong: JIT is a network-access control, not a password replacement. D is wrong: JIT does not encrypt RDP; it controls port exposure, and it requires Defender for Servers Plan 2.",
+      "id": "D3-VM-003",
+      "options": [
+        "It replaces the VM administrator password with a one-time code for every sign-in",
+        "It encrypts the RDP traffic so brute-force attempts can no longer reach the VM",
+        "It permanently closes port 3389 and blocks all future RDP access to the VM",
+        "It allows access only when needed, on the ports needed, and for the time needed, with the port closed until an approved time-bound request opens it"
+      ],
+      "question": "A VM has RDP port 3389 open to the internet and is receiving brute-force sign-in attempts. The team enables just-in-time (JIT) VM access in Defender for Cloud. What does JIT actually change, and what does it not do?",
+      "source_quote": "Just-in-time (JIT) VM access keeps ports like RDP (3389) and SSH (22) closed by default and opens them only when an authorized user requests access, for a limited time window and from specified source IP addresses.",
+      "source_title": "Design a solution for secure remote access",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/design-solutions-securing-server-client-endpoints/7-design-solution-secure-remote-access",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Defender for Servers gives posture recommendations and threat protection, integrating Defender for Endpoint for EDR and Defender Vulnerability Management. A is wrong: it does not replace OS patching; update assessment is a separate Plan 2 capability. C is wrong: disk encryption is a separate control. D is wrong: Bastion provides RDP and SSH connectivity, not Defender for Servers. Note the plan matters: JIT, agentless scanning and file integrity monitoring need Plan 2, not Plan 1.",
+      "id": "D3-VM-004",
+      "options": [
+        "It provides RDP and SSH connectivity to VMs that have no public IP address",
+        "It replaces the operating system patching service and applies Windows updates automatically",
+        "It provides recommendations to improve machine posture and protects against threats, integrating Defender for Endpoint for endpoint detection and response (EDR) and Defender Vulnerability Management",
+        "It encrypts all VM disks and manages the encryption keys without any Key Vault"
+      ],
+      "question": "A company enables Defender for Servers in Defender for Cloud for its Azure VMs. A vendor claims the plan also patches the OS, encrypts the disks and provides remote access. Which capability is actually central to Defender for Servers, and which claims are false?",
+      "source_quote": "Defender for Servers Plan 1 is entry-level, and focuses on the endpoint detection and response (EDR) capabilities provided by the Defender for Endpoint integration with Defender for Cloud.",
+      "source_title": "Select a Defender for Servers plan",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/plan-defender-for-servers-select-plan",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Learn recommends onboarding non-Azure machines as Azure Arc-enabled VMs so they take full advantage of Defender for Servers features, including Azure Policy and machine configuration. A is wrong: direct Defender for Endpoint install without Arc gives only Plan 1 functionality, plus premium vulnerability-management features in Plan 2, not full functionality. C is wrong: exposing RDP is not an onboarding method. D is wrong: Defender for Servers explicitly protects Azure, AWS, GCP and on-premises machines.",
+      "id": "D3-VM-005",
+      "options": [
+        "Open RDP port 3389 on each server so Defender for Cloud can scan it over the internet",
+        "Move the servers to Azure; Defender for Servers cannot protect any machine outside Azure",
+        "Install only the Defender for Endpoint agent directly; that gives full Defender for Servers Plan 2 functionality",
+        "Onboard them as Azure Arc-enabled servers, so they appear as Azure resources and receive full Defender for Servers functionality"
+      ],
+      "question": "A company has Windows servers in its own datacentre and wants them covered by Defender for Servers with full functionality, including Azure Policy enforcement, extension management and file integrity monitoring. How should those servers be onboarded, and why does the shortcut fail?",
+      "source_quote": "We recommend that you onboard machines in non-Azure clouds and on-premises to Azure as Azure Arc-enabled VMs. Enabling as Azure Arc VMs allows machines to take full advantage of Defender for Servers features.",
+      "source_title": "Select a Defender for Servers plan",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/plan-defender-for-servers-select-plan",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Trusted Launch comprises Secure Boot, a virtual Trusted Platform Module (vTPM) and integrity monitoring, and it is the default for newly created Generation 2 VMs. A is wrong: Trusted Launch is not a disk, network or backup encryption bundle. C is wrong: JIT and Bastion are separate network-access controls. D is wrong: patching, vulnerability scanning and file integrity monitoring are Defender for Servers capabilities, not Trusted Launch itself.",
+      "id": "D3-VM-006",
+      "options": [
+        "Automatic patching, vulnerability scanning, and file integrity monitoring with no agent",
+        "Disk encryption, network encryption, and backup encryption in a single setting",
+        "Secure Boot, a virtual Trusted Platform Module (vTPM), and integrity monitoring to protect against boot-level malware and rootkits",
+        "Just-in-time access, Azure Bastion connectivity, and Defender for Endpoint in one toggle"
+      ],
+      "question": "A security engineer enables Trusted Launch on a new Generation 2 Azure VM. An auditor asks which protections that single setting actually provides against boot kits and rootkits. Which answer is correct?",
+      "source_quote": "Trusted launch is the default for newly created Generation 2 Azure VMs and Virtual Machine Scale Sets. Trusted launch protects against advanced and persistent attack techniques including boot kits, rootkits, and kernel-level malware.",
+      "source_title": "Security features used with Azure VMs",
+      "source_url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/virtual-machines-overview",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: agentless scanning periodically scans disk snapshots out of band without an in-guest agent, and Azure Machine Configuration enforces in-guest settings such as a required secure configuration. A is wrong: agentless scanning does not run inside the guest. C is wrong: shutting VMs down is not how agentless scanning works. D is wrong: they are two distinct capabilities, one for scanning and one for configuration enforcement.",
+      "id": "D3-VM-007",
+      "options": [
+        "Scan VMs only during a maintenance window by shutting them down",
+        "Agentless scanning and Machine Configuration are the same feature with two names",
+        "Install an agent on every VM to scan its disk; that is what agentless scanning means",
+        "Use agentless scanning for out-of-band vulnerability scanning of disk snapshots, and Azure Machine Configuration to enforce the in-guest configuration"
+      ],
+      "question": "A security team wants vulnerability scanning of Azure VMs without installing an agent on each VM, and enforcement of secure in-guest settings, for example that a required security setting stays applied. Which two Defender for Cloud capabilities match those needs?",
+      "source_quote": "Defender for Servers Plan 2 provides agentless machine scanning. Without the need for an agent on endpoints, you can scan software inventory, assess machines for vulnerabilities, scan for machine secrets, and detect malware threats.",
+      "source_title": "Defender for Servers",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/microsoft-defender-cloud-threat-protection/3-defender-servers",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Azure Disk Encryption is scheduled for retirement on 15 September 2028, after which encrypted disks will fail to unlock after VM reboots; Learn directs migration to encryption at host, and the migration requires new upload disks and a new VM, not snapshots. A is wrong: waiting is the risk, not a fix. C is wrong: server-side encryption alone does not encrypt the temporary disk and is not a migration off Azure Disk Encryption. D is wrong: snapshots do not migrate an ADE-encrypted VM to encryption at host.",
+      "id": "D3-VM-008",
+      "options": [
+        "Snapshot the ADE-encrypted disks and restore them onto encryption-at-host VMs",
+        "Keep Azure Disk Encryption and renew the Key Vault keys annually; there is no retirement date",
+        "Migrate the VMs to encryption at host before 15 September 2028, rebuilding with new upload disks and a new VM, because after that date ADE-encrypted disks fail to unlock on reboot",
+        "Switch to platform-managed server-side encryption only and keep the existing VMs untouched; that is a full migration off Azure Disk Encryption"
+      ],
+      "question": "A regulated workload runs on Windows VMs encrypted with Azure Disk Encryption (BitLocker in the guest, keys in Key Vault). The platform team says encryption is encryption and there is nothing to do. A review notes a retirement date for Azure Disk Encryption. What must actually happen, and why?",
+      "source_quote": "Azure Disk Encryption is scheduled for retirement on September 15, 2028. On September 15, 2028, ADE-enabled workloads will continue to run, but encrypted disks will fail to unlock after VM reboots, resulting in service disruption.",
+      "source_title": "Security features used with Azure VMs",
+      "source_url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/virtual-machines-overview",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: JIT requires Defender for Servers Plan 2 on the subscription; configuring a policy needs the jitNetworkAccessPolicies write action plus virtualMachines write, while requesting access needs only initiate and action plus read permissions, so a user who can request cannot necessarily configure. A is wrong: Plan 1 does not include JIT, and Reader cannot configure policies. C is wrong: an NSG rule is not the JIT mechanism; JIT temporarily modifies effective access through the policy. D is wrong: the two actions are distinct in the permission model.",
+      "id": "D3-VM-009",
+      "options": [
+        "Open port 3389 in the NSG permanently and call that JIT, because JIT is just an NSG naming convention",
+        "Grant every administrator the initiate and action permission, because that single permission both configures policies and requests access",
+        "Enable Defender for Servers Plan 1, then grant the admins the Reader role, because Reader alone lets them configure JIT policies",
+        "Enable Defender for Servers Plan 2, then grant the admins jitNetworkAccessPolicies write (plus virtualMachines write) to configure policies; the helpdesk only needs initiate and action plus read permissions to request access"
+      ],
+      "question": "A company on Defender for Servers Plan 1 enables a JIT policy on a VM, but the policy never takes effect, and the helpdesk, who should only request access, can edit the policy. Two faults are present. Which fix addresses both?",
+      "source_quote": "Just-in-time (JIT) VM access requires Defender for Servers Plan 2. JIT keeps ports like RDP (3389) and SSH (22) closed by default and opens them only when an authorized user requests access.",
+      "source_title": "Design a solution for secure remote access",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/design-solutions-securing-server-client-endpoints/7-design-solution-secure-remote-access",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Bastion provides RDP and SSH without a public IP on the VM, and JIT under Defender for Servers Plan 2 time-bounds the port; opening 3389 in an NSG, even to a trusted range, reintroduces the exposure both controls exist to remove. A is wrong: Bastion does not require a public IP on the VM. C is wrong: the NSG rule defeats both Bastion and JIT, and JIT is a Plan 2 feature, not Plan 1. D is wrong: JIT does not encrypt the RDP session, and Plan 1 would not enable it.",
+      "id": "D3-VM-010",
+      "options": [
+        "Disable Bastion and rely on JIT alone, because JIT encrypts the RDP session",
+        "Keep the public IP, because Bastion requires the VM to have a public IP to connect",
+        "Deploy Azure Bastion (no public IP on the VM) and enable JIT under Defender for Servers Plan 2; remove the NSG rule opening 3389",
+        "Add an NSG rule opening 3389 to the office IP range and enable JIT under Plan 1, because that is equivalent to Bastion"
+      ],
+      "question": "A VM has a public IP and an NSG rule opening 3389 to the internet. The team proposes: keep the public IP because Bastion needs it, open 3389 to the office range for convenience, and enable JIT on Defender for Servers Plan 1. Which response correctly fixes this design?",
+      "source_quote": "Azure Bastion is deployed directly in your virtual network and supports all VMs in the virtual network using private IP addresses. When you connect via Azure Bastion, your virtual machines do not need a public IP address.",
+      "source_title": "What is Azure Bastion?",
+      "source_url": "https://learn.microsoft.com/en-us/azure/bastion/bastion-overview",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: on-premises machines onboarded by directly installing the Defender for Endpoint agent without Azure Arc get only Plan 1 functionality, and in Plan 2 only the premium Defender Vulnerability Management features are added. A is wrong: the install method determines functionality, not the plan toggle alone. C is wrong: EDR is included in both plans; the gap is the Arc-dependent Plan 2 features. D is wrong: the servers are not unprotected; they get Plan 1 functionality.",
+      "id": "D3-VM-011",
+      "options": [
+        "The Plan 2 toggle was applied at the wrong scope; re-enabling it at the subscription will unlock JIT on those servers",
+        "The servers were onboarded by direct Defender for Endpoint agent install instead of Azure Arc, so only Plan 1 functionality is available (plus premium vulnerability management in Plan 2)",
+        "Defender for Endpoint was not installed, so no Defender for Servers features work at all",
+        "The servers must be migrated to Azure; on-premises machines cannot receive any Defender for Servers protection"
+      ],
+      "question": "A company enables Defender for Servers Plan 2. Its Azure VMs get JIT access and file integrity monitoring, but its on-premises servers, onboarded by installing the Defender for Endpoint agent directly without Azure Arc, do not. Why?",
+      "source_quote": "Although you onboard on-premises machines by directly installing the Defender for Endpoint agent instead of onboarding machines with Azure Arc, Defender for Servers Plan functionality remains available. For Defender for Servers Plan 2, in addition to Plan 1 features, only the premium Defender Vulnerability Management features are available.",
+      "source_title": "Select a Defender for Servers plan",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/plan-defender-for-servers-select-plan",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: server-side encryption with platform-managed keys encrypts managed disks at rest by default, while encryption at host encrypts data on the host before it reaches storage, including temporary disks, and supports customer-managed keys through a Disk Encryption Set. Azure Disk Encryption is in-guest BitLocker or DM-Crypt and is retiring. A is wrong: it describes Azure Disk Encryption, which is retiring and is not the host-level option. C is wrong: server-side encryption alone does not cover the temporary disk or the host layer. D is wrong: confidential disk encryption applies to confidential VM sizes, not every VM.",
+      "id": "D3-VM-012",
+      "options": [
+        "Azure Disk Encryption, because it encrypts data on the host before it reaches storage",
+        "Encryption at host with a customer-managed key in a Disk Encryption Set, because it encrypts on the host including temporary disks, unlike platform-managed server-side encryption alone",
+        "Platform-managed server-side encryption alone, because it already encrypts temporary disks and the host layer",
+        "Confidential disk encryption, which is available on every VM size and replaces all other encryption options"
+      ],
+      "question": "A new workload needs the OS disk, data disks AND the temporary (ephemeral) disk encrypted, with the customer holding the key, on a standard (non-confidential) VM. Azure Disk Encryption is ruled out because it is retiring. Which option fits, and what distinguishes it from the default?",
+      "source_quote": "Encryption at host enhances SSE by encrypting temp disks and disk caches at rest, with data flowing encrypted to storage clusters.",
+      "source_title": "Security features used with Azure VMs",
+      "source_url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/virtual-machines-overview",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Defender for Servers Plan 2 adds agentless scanning for machine posture, vulnerability assessment, threat protection, malware scanning and secrets scanning, plus JIT, file integrity monitoring and OS update assessment. Plan 1 is entry-level EDR only. A is wrong: Plan 1 does not include JIT or agentless scanning. B is wrong: Plan 2 is a superset of Plan 1, not a replacement with different EDR. D is wrong: the plans differ in capability, not merely in price.",
+      "id": "D3-VM-013",
+      "options": [
+        "Plan 1 includes just-in-time VM access and agentless scanning; Plan 2 only adds reporting dashboards",
+        "Plan 2 replaces Plan 1 entirely and removes Defender for Endpoint integration",
+        "Plan 1 focuses on endpoint detection and response through Defender for Endpoint; Plan 2 adds agentless scanning, just-in-time VM access, file integrity monitoring and OS update assessment",
+        "The two plans are identical in capability and differ only in per-machine price"
+      ],
+      "question": "A CISO must choose between Defender for Servers Plan 1 and Plan 2 for a fleet of Azure VMs. The board wants EDR everywhere, but the security team also needs agentless vulnerability scanning, just-in-time access and file integrity monitoring. Which plan statement is correct?",
+      "source_quote": "Defender for Servers Plan 2 provides the same features as Plan 1, and more: Agentless scanning for machine posture scanning, vulnerability assessment, threat protection, malware scanning, and secrets scanning.",
+      "source_title": "Select a Defender for Servers plan",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/plan-defender-for-servers-select-plan",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: file integrity monitoring is a Plan 2 feature, it is not enabled by default, and it needs the Defender for Endpoint agent plus agentless machine scanning for extra coverage and custom paths, with non-Azure machines connected through Azure Arc. A is wrong: FIM is not on by default. C is wrong: Plan 1 does not include FIM. D is wrong: agentless scanning alone gives 24-hour cadence data; near-real-time change events come from the Defender for Endpoint agent.",
+      "id": "D3-VM-014",
+      "options": [
+        "Enable Defender for Servers Plan 2, then explicitly turn file integrity monitoring on, with the Defender for Endpoint agent deployed and agentless machine scanning enabled for extra coverage",
+        "Enable Defender for Servers Plan 1, because file integrity monitoring is on by default in every plan",
+        "Enable agentless scanning only and assume file integrity monitoring starts automatically",
+        "Rely on the Log Analytics agent, because the Defender for Endpoint based file integrity monitoring experience is the legacy one"
+      ],
+      "question": "A team enables Defender for Servers Plan 2 and expects file integrity monitoring of OS files and Windows registries to start working immediately. Nothing is monitored. What is the correct enablement sequence, and which assumption is wrong?",
+      "source_quote": "File Integrity Monitoring is not enabled by default. You can enable it in the Microsoft Defender for Cloud portal. You must enable Defender for Servers Plan 2 on your subscription.",
+      "source_title": "Enable File Integrity Monitoring",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/file-integrity-monitoring-enable-defender-endpoint",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: FIM data collection uses the Defender for Endpoint agent for near-real-time change events and agentless scanning on a 24-hour cadence, so a change found only by agentless scanning can be up to a day old. A is wrong: agentless data is not real-time. B is wrong: the agent path is the near-real-time one, not the 24-hour one. C is wrong: the Log Analytics agent path is the legacy, deprecated collection method.",
+      "id": "D3-VM-015",
+      "options": [
+        "Agentless scanning streams change events in near real time, while the Defender for Endpoint agent reports once a day",
+        "Both collection paths stream change events in near real time with identical latency",
+        "The Log Analytics agent is the current near-real-time collector and agentless scanning is its backup",
+        "The Defender for Endpoint agent streams change events in near real time, while agentless scanning streams them on a 24-hour cadence"
+      ],
+      "question": "During an incident, a registry change on a server is visible in file integrity monitoring a day after it happened. The SOC asks why the detection was not near real time. Which statement about FIM data collection explains the delay?",
+      "source_quote": "Change events collected via Defender for Endpoint are streamed to your selected workspace in near realtime. Change events collected via agentless scanning are streamed to your selected workspace on a 24-hour cadence.",
+      "source_title": "Enable File Integrity Monitoring",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/file-integrity-monitoring-enable-defender-endpoint",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: agentless scanning is a Plan 2 capability that scans disk snapshots out of band for software inventory, vulnerabilities, secrets and malware, without an in-guest agent. A is wrong: agentless scanning is not a Plan 1 feature. C is wrong: it scans snapshots, not live guest memory in real time. D is wrong: agentless scanning is in addition to agent-based scanning, not a replacement for the Defender for Endpoint sensor.",
+      "id": "D3-VM-016",
+      "options": [
+        "Agentless scanning is included in Defender for Servers Plan 1 and runs inside the guest operating system",
+        "Agentless scanning is a Plan 2 capability that assesses disk snapshots out of band for vulnerabilities, secrets and malware without an in-guest agent",
+        "Agentless scanning monitors live guest memory in real time and replaces the Defender for Endpoint agent",
+        "Agentless scanning only works on Azure VMs and never on Arc-enabled servers"
+      ],
+      "question": "A security team wants vulnerability and secrets scanning of VMs without deploying any agent, and a vendor claims agentless scanning is in Plan 1 and replaces EDR. Which statement is correct?",
+      "source_quote": "Vulnerability scanning (agentless) is supported in Plan 2 only. As part of its agentless scanning capabilities, Defender for Cloud provides agentless vulnerability assessment, using Defender Vulnerability Management.",
+      "source_title": "Defender for Servers",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/microsoft-defender-cloud-threat-protection/3-defender-servers",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Azure Arc projects on-premises and other-cloud machines into Azure Resource Manager, after which Defender for Cloud, Azure Policy and Sentinel can target them, and the Connected Machine agent connects outbound over port 443. A is wrong: Arc does not move workloads into Azure. C is wrong: inbound RDP is not required; the agent connects outbound. D is wrong: Arc is the prerequisite for full Defender for Servers functionality on non-Azure machines.",
+      "id": "D3-VM-017",
+      "options": [
+        "Onboard the servers with the Azure Arc Connected Machine agent, which projects them into Azure Resource Manager over outbound HTTPS on port 443 so Defender for Cloud and Azure Policy can manage them",
+        "Migrate the servers into Azure VMs, because Arc cannot manage machines that stay on premises",
+        "Open inbound RDP and SSH from the internet so Defender for Cloud can reach each server directly",
+        "Install only the Defender for Endpoint sensor, because Arc adds nothing for servers that already have EDR"
+      ],
+      "question": "A company runs servers in its own datacentre and in AWS. It wants one Defender for Cloud inventory, Azure Policy enforcement and Sentinel coverage for all of them without migrating any workload. Which Arc design is correct?",
+      "source_quote": "Azure Arc projects resources from on-premises datacenters, other clouds (AWS, GCP), and edge locations into Azure Resource Manager. Once projected, these resources can use Azure security services including Defender for Cloud, Azure Policy, and Microsoft Sentinel.",
+      "source_title": "Design a solution for integrating hybrid and multicloud environments by using Azure Arc",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/design-solutions-security-posture-management-hybrid-multicloud-environments/7-integrate-hybrid-multi-cloud-environments-azure-arc",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the Connected Machine agent supports local lockdown through azcmagent, and at-scale onboarding should use a dedicated service principal with the Azure Connected Machine Onboarding role scoped to specific resource groups, not a shared admin account. A is wrong: interactive admin credentials do not scale and are not least privilege. B is wrong: the Log Analytics gateway is not supported as a proxy for the Connected Machine agent. D is wrong: agent settings can be locked down locally; there is no requirement to leave the agent fully open.",
+      "id": "D3-VM-018",
+      "options": [
+        "Onboard every server interactively with one global admin account and leave the agent at default settings",
+        "Route the Connected Machine agent through the Log Analytics gateway as a proxy to save firewall rules",
+        "Onboard at scale with a dedicated service principal holding the Azure Connected Machine Onboarding role scoped to specific resource groups, and lock down agent settings locally with azcmagent",
+        "The Connected Machine agent cannot be locked down locally, so any local administrator can reconfigure it without restriction"
+      ],
+      "question": "A team must onboard 800 on-premises servers to Azure Arc. The proposed runbook uses one shared global admin account for interactive onboarding and routes agent traffic through the Log Analytics gateway. Which design is correct, and what is wrong with the runbook?",
+      "source_quote": "For at-scale deployment, use a service principal rather than interactive authentication. Create a dedicated service principal with the Azure Connected Machine Onboarding role and limit its scope to specific resource groups.",
+      "source_title": "Design a solution for integrating hybrid and multicloud environments by using Azure Arc",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/design-solutions-security-posture-management-hybrid-multicloud-environments/7-integrate-hybrid-multi-cloud-environments-azure-arc",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the multicloud connector can automatically onboard the Arc agent to AWS and GCP servers, giving agentless features through the connector and Arc-dependent features once Arc is deployed. A is wrong: the connector does not give JIT and file integrity monitoring without Arc. C is wrong: agentless features work through the connector even before Arc is deployed. D is wrong: direct Defender for Endpoint install is a different onboarding path with reduced functionality.",
+      "id": "D3-VM-019",
+      "options": [
+        "The multicloud connector alone gives AWS and GCP servers full Plan 2 features including JIT and file integrity monitoring",
+        "Use the Defender for Cloud multicloud connector with automatic Arc agent onboarding: agentless features come through the connector, and Arc-dependent features such as file integrity monitoring arrive once Arc is deployed",
+        "Agentless scanning cannot work on AWS or GCP machines at all, even through the connector",
+        "Directly install the Defender for Endpoint agent on every EC2 instance instead, because that gives more functionality than Arc"
+      ],
+      "question": "A company runs EC2 instances in AWS and Compute Engine VMs in GCP and wants Defender for Servers coverage with the least operational effort. Which onboarding design is correct?",
+      "source_quote": "When you use the Defender for Cloud multicloud connector to connect to Amazon Web Service (AWS) accounts and Google Cloud Platform (GCP) projects, you can automatically onboard the Azure Arc agent to AWS or GCP servers.",
+      "source_title": "Select a Defender for Servers plan",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/plan-defender-for-servers-select-plan",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Bastion Premium adds session recording for compliance and private-only deployment without a public IP, while Basic, Standard and Premium require a dedicated AzureBastionSubnet and a public IP. A is wrong: session recording is a Premium feature, not Basic. C is wrong: the Developer SKU is for dev and test, not production session recording. D is wrong: Bastion is a PaaS service, not a self-managed jump VM.",
+      "id": "D3-VM-020",
+      "options": [
+        "Use the Premium SKU, which includes session recording for compliance and supports private-only deployment without a public IP",
+        "Use the Basic SKU, which includes session recording and private-only deployment",
+        "Use the Developer SKU in production, because it is free and includes all Standard features",
+        "Deploy a self-managed jump VM with a public IP instead, because Bastion cannot record sessions"
+      ],
+      "question": "A regulated bank needs RDP access to production VMs with every session recorded for compliance, and the Bastion host itself must have no public IP address. Which Bastion SKU and design meet both requirements?",
+      "source_quote": "Premium includes all Standard features plus session recording for compliance and private-only deployment. Basic, Standard, and Premium require a dedicated subnet (AzureBastionSubnet) and public IP address. Premium supports private-only deployment without a public IP.",
+      "source_title": "What is Azure Bastion?",
+      "source_url": "https://learn.microsoft.com/en-us/azure/bastion/bastion-overview",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: JIT and Bastion solve different problems and combine for defence in depth: Bastion provides the secure channel, JIT provides time-bounded port control, and JIT requires Defender for Servers Plan 2. A is wrong: Bastion alone does not time-bound port exposure. B is wrong: JIT alone still needs a connectivity path and does not carry the session. C is wrong: PIM governs role activation, not network port exposure.",
+      "id": "D3-VM-021",
+      "options": [
+        "Bastion alone, because Bastion time-bounds management ports automatically",
+        "JIT alone, because JIT carries the RDP session over TLS on port 443",
+        "Microsoft Entra PIM alone, because PIM opens and closes network ports",
+        "Bastion plus JIT: Bastion provides the secure access channel while JIT provides time-bounded port control, and JIT requires Defender for Servers Plan 2"
+      ],
+      "question": "An architect must design administrative access so that no management port is ever internet-reachable AND no port stays open longer than needed. A colleague argues one control is enough. Which layered design is correct?",
+      "source_quote": "Combine Azure Bastion with JIT for defense-in-depth: Bastion provides the secure channel, JIT provides time-bounded port access. JIT requires Microsoft Defender for Servers Plan 2.",
+      "source_title": "Design a solution for secure remote access",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/design-solutions-securing-server-client-endpoints/7-design-solution-secure-remote-access",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: a customer-managed key needs a Disk Encryption Set backed by Key Vault or Managed HSM, and if that key is disabled or deleted the disks cannot be decrypted, so key loss is data loss. A is wrong: platform-managed keys need no Disk Encryption Set and Microsoft manages them. C is wrong: double encryption is a second layer, not the mechanism that makes CMK work. D is wrong: key rotation does not remove the dependency on the key vault.",
+      "id": "D3-VM-022",
+      "options": [
+        "Use platform-managed keys, because they require a Disk Encryption Set and the customer holds the key",
+        "Use a customer-managed key in a Disk Encryption Set backed by Key Vault or Managed HSM, and accept that disabling or deleting the key makes the disks undecryptable",
+        "Enable double encryption, because that alone gives the customer control of the key without Key Vault",
+        "Use a customer-managed key but store it in the VM, so Key Vault availability never matters"
+      ],
+      "question": "A compliance team requires customer-managed keys for managed disks, with the customer able to revoke access. The team proposes platform-managed keys plus a Disk Encryption Set. What is the correct design, and what is the revocation consequence?",
+      "source_quote": "Server-side encryption with customer-managed keys: Manage your own encryption keys through Azure Key Vault or Azure Key Vault Managed HSM.",
+      "source_title": "Introduction to Azure security",
+      "source_url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/overview",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Trusted Launch is the default for newly created Generation 2 VMs, and it protects the boot chain with Secure Boot, vTPM and integrity monitoring. A Generation 1 VM cannot be converted in place; the workload must be rebuilt as Generation 2. B is wrong: Trusted Launch is not an agent you install. C is wrong: disk encryption does not provide Secure Boot or vTPM. D is wrong: Trusted Launch is a platform feature, not a Defender for Servers plan feature.",
+      "id": "D3-VM-023",
+      "options": [
+        "Rebuild the workload as a Generation 2 VM, because Trusted Launch is the default for newly created Generation 2 VMs and cannot be added to a Generation 1 VM in place",
+        "Install the Trusted Launch agent on the Generation 1 VM and enable it in the guest operating system",
+        "Enable Azure Disk Encryption instead, because that provides Secure Boot and a virtual TPM",
+        "Enable Defender for Servers Plan 2, because Trusted Launch is included in that plan for any VM generation"
+      ],
+      "question": "A team wants Trusted Launch protection against boot kits on an existing Generation 1 VM. The engineer proposes enabling it in place. What is the correct answer, and why?",
+      "source_quote": "Trusted launch is the default for newly created Generation 2 Azure VMs and Virtual Machine Scale Sets.",
+      "source_title": "Security features used with Azure VMs",
+      "source_url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/virtual-machines-overview",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Defender for Cloud collects machine information using the Azure machine configuration extension, and Plan 2 OS baseline recommendations cover Linux and Windows compute security baselines. A is wrong: Machine Configuration is the enforcement mechanism, not a manual checklist. B is wrong: agentless scanning assesses snapshots; it does not enforce in-guest settings. D is wrong: the Log Analytics agent path is legacy.",
+      "id": "D3-VM-024",
+      "options": [
+        "Rely on agentless scanning, because scanning a disk snapshot enforces the in-guest configuration",
+        "Use a manual quarterly checklist, because Azure has no mechanism to enforce in-guest VM settings",
+        "Use Azure Machine Configuration through the machine configuration extension, with Defender for Servers Plan 2 OS baseline recommendations for Windows and Linux",
+        "Use the Log Analytics agent guest configuration, because the machine configuration extension is only for Arc servers"
+      ],
+      "question": "A team must prove that a security baseline stays applied on 200 Azure VMs and drift is corrected, not just reported once. Which mechanism enforces in-guest configuration, and which plan feature assesses the baseline?",
+      "source_quote": "Defender for Cloud assesses and enforces security configurations using built-in Azure policy initiatives. Defender for Cloud collects machine information using the Azure machine configuration extension.",
+      "source_title": "Defender for Servers",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/microsoft-defender-cloud-threat-protection/3-defender-servers",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: JIT requires a supported network-control path, an NSG or Azure Firewall, because it works by temporarily adjusting those rules; without one there is nothing for the policy to modify. A is wrong: JIT does not create network controls from nothing. C is wrong: a public IP is not the requirement; the NSG or firewall is. D is wrong: JIT is a Plan 2 feature, but the plan alone does not create the network path.",
+      "id": "D3-VM-025",
+      "options": [
+        "Enable JIT anyway, because JIT creates its own network security group automatically",
+        "Attach a network security group or place the VM behind Azure Firewall first, because JIT works by temporarily adjusting those rules and needs a supported network-control path",
+        "Assign a public IP to the VM, because JIT only works on VMs with public IPs",
+        "Upgrade to Defender for Servers Plan 2 only, because the plan alone creates the network path JIT needs"
+      ],
+      "question": "A VM in a virtual network has no network security group and is not behind Azure Firewall. The team enables a JIT policy, but requests fail. What is the missing prerequisite?",
+      "source_quote": "JIT requires Microsoft Defender for Servers Plan 2 and supports VMs deployed through Azure Resource Manager and VMs protected by Azure Firewalls.",
+      "source_title": "Design a solution for secure remote access",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/design-solutions-securing-server-client-endpoints/7-design-solution-secure-remote-access",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: JIT restores the NSG or firewall rules automatically when the time window expires, so access is time-bound by design. A is wrong: the port does not stay open. B is wrong: JIT does not change the VM password. C is wrong: JIT does not disable the account; it closes the network path.",
+      "id": "D3-VM-026",
+      "options": [
+        "The port stays open until an administrator manually closes it",
+        "The VM administrator password is rotated automatically when the window ends",
+        "The administrator account is disabled until the next request is approved",
+        "Defender for Cloud automatically restores the NSG or Azure Firewall rules to block inbound traffic when the time window expires"
+      ],
+      "question": "An administrator requests JIT access to a VM for two hours from one source IP. What happens automatically when the two hours expire?",
+      "source_quote": "When the time window expires, Defender for Cloud automatically restores the NSG or Azure Firewall rules to block inbound traffic.",
+      "source_title": "Design a solution for secure remote access",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/design-solutions-securing-server-client-endpoints/7-design-solution-secure-remote-access",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: server-side encryption is always enabled with 256-bit AES, FIPS 140-2 compliant, at no extra cost and with no performance effect, but it does not encrypt temp disks or disk caches. B is wrong: SSE has no extra cost and does not affect disk performance. C is wrong: SSE is at-rest encryption of managed disks, not a network control. D is wrong: SSE is always on; it cannot be disabled to save cost.",
+      "id": "D3-VM-027",
+      "options": [
+        "Server-side encryption is always enabled, uses 256-bit AES, has no extra cost and no performance effect, but does not encrypt temporary disks or disk caches",
+        "Server-side encryption adds significant cost and slows disk performance, so it should be disabled for production VMs",
+        "Server-side encryption encrypts network traffic between the VM and the storage cluster only",
+        "Server-side encryption is optional and off by default, and must be enabled per disk"
+      ],
+      "question": "A finance team asks whether the default disk encryption on Azure VMs costs extra or slows disks, and a developer claims the default also covers the temporary disk. Which statement is correct?",
+      "source_quote": "Server-side encryption (SSE) is always enabled and automatically encrypts data on Azure managed disks when persisting to storage clusters. Data is encrypted transparently using 256-bit AES encryption, which is FIPS 140-2 compliant. SSE does not affect disk performance and has no extra cost. However, SSE does not encrypt temp disks or disk caches.",
+      "source_title": "Security features used with Azure VMs",
+      "source_url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/virtual-machines-overview",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: encryption at host encrypts data on the host before it reaches storage, covering temporary disks, OS and data disk caches and the data flow to storage, using AES 256 without consuming VM CPU. A is wrong: that describes in-guest Azure Disk Encryption. B is wrong: encryption at host is a VM-level setting, not a Key Vault feature. D is wrong: encryption at host works on standard VMs; confidential disk encryption is the confidential-VM option.",
+      "id": "D3-VM-028",
+      "options": [
+        "Enable BitLocker inside the guest, because that is what encryption at host means",
+        "Enable encryption at host in Key Vault, because it is a vault setting not a VM setting",
+        "Enable encryption at host on the VM, which encrypts temporary disks, disk caches and the data flow to storage on the host without consuming VM CPU",
+        "Use confidential disk encryption, because encryption at host only works on confidential VM sizes"
+      ],
+      "question": "A workload writes sensitive data to the temporary disk and the OS disk cache. Server-side encryption alone leaves both unencrypted. Which option closes that gap, and how does it work?",
+      "source_quote": "Encryption at host is an optional virtual machine setting that extends encryption to temporary disks, OS and data disk caches, and data flows between the compute host and Azure Storage.",
+      "source_title": "Introduction to Azure security",
+      "source_url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/overview",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Defender for Servers Plan 2 OS update assessment is integrated with Azure Updates, and it is a Plan 2 capability, not a patching service that applies updates itself. A is wrong: Defender assesses updates; it does not replace the patching service. C is wrong: update assessment is Plan 2 only. D is wrong: Azure Arc is for non-Azure machines, not the update mechanism for Azure VMs.",
+      "id": "D3-VM-029",
+      "options": [
+        "Defender for Servers Plan 1, because update assessment is included in Plan 1 and applies patches automatically",
+        "Defender for Servers Plan 2, which provides OS update assessment integrated with Azure Updates, while the patching itself remains a separate update-management action",
+        "Defender for Servers Plan 2, because it applies Windows updates automatically with no maintenance window",
+        "Azure Arc, because update assessment for Azure VMs requires the Connected Machine agent"
+      ],
+      "question": "A team wants Defender for Cloud to assess whether its Azure VMs are missing OS updates, and a vendor claims the plan will also install the patches. Which plan and which correction are right?",
+      "source_quote": "OS updates assessment with Azure Updates integrated into Defender for Servers. Defender for Servers Plan 2 provides the same features as Plan 1, and more.",
+      "source_title": "Select a Defender for Servers plan",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/plan-defender-for-servers-select-plan",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: agentless secrets scanning is a Plan 2 capability that locates plain-text secrets on machines from disk snapshots, which is why it can find a key the running agent never saw. B is wrong: secrets scanning is Plan 2 only. C is wrong: agentless scanning works from snapshots; it does not need the secret to be in a running process. D is wrong: the finding is real; agentless scanning is designed to find secrets at rest on the disk.",
+      "id": "D3-VM-030",
+      "options": [
+        "Agentless machine secrets scanning in Defender for Servers Plan 2, which scans disk snapshots for plain-text secrets without an in-guest agent",
+        "Agentless secrets scanning in Plan 1, because all scanning features are in Plan 1",
+        "The Defender for Endpoint agent, because agentless scanning cannot see secrets that are only on disk",
+        "A false positive, because secrets at rest on a disk cannot be found without a running agent"
+      ],
+      "question": "A scan flags a plain-text private key sitting in a backup folder on a VM disk, but no agent ever ran on that VM. Which capability found it, and why is the finding credible?",
+      "source_quote": "Machine secrets scanning (agentless) is supported in Plan 2 only. As part of its agentless secrets scanning capabilities, Defender for Cloud provides machine secrets scanning to locate plain text secrets on machines.",
+      "source_title": "Defender for Servers",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/microsoft-defender-cloud-threat-protection/3-defender-servers",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the new FIM experience uses the Defender for Endpoint agent and agentless scanning, requires a minimum agent version, and the MMA and AMA collection methods are deprecated and must be migrated. A is wrong: the MMA path is the legacy one being retired. B is wrong: FIM needs the MDE agent version and Plan 2. C is wrong: agentless scanning adds coverage and custom paths; it does not replace the agent for near-real-time events.",
+      "id": "D3-VM-031",
+      "options": [
+        "Keep the Log Analytics agent (MMA) collection, because it is the current recommended method",
+        "Enable FIM on Plan 1 with any Defender for Endpoint agent version",
+        "Enable agentless scanning only, because it fully replaces the Defender for Endpoint agent for FIM",
+        "Migrate to the Defender for Endpoint based FIM experience with the minimum agent version, since the MMA and AMA collection methods are deprecated"
+      ],
+      "question": "A team still runs file integrity monitoring through the Log Analytics agent (MMA). Microsoft has deprecated that collection method. What must the team do, and what is the current collection model?",
+      "source_quote": "If you are currently using file integrity monitoring with legacy agent-based methods (Log Analytics agent or Microsoft Monitoring Agent (MMA) or Azure Monitor Agent (AMA)), you need to migrate to the MDE-based (Microsoft Defender for Endpoint) approach.",
+      "source_title": "Enable File Integrity Monitoring",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/file-integrity-monitoring-enable-defender-endpoint",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Bastion connects over TLS on port 443 from the portal or native client, and the VM needs no public IP. A is wrong: Bastion does not need 3389 open to the internet. C is wrong: Bastion is a managed PaaS service, not a jump VM you patch. D is wrong: the Developer SKU is for dev and test, not a production replacement for Standard or Premium.",
+      "id": "D3-VM-032",
+      "options": [
+        "Open port 3389 to the internet and use Bastion only as a backup path",
+        "Connect through Bastion over TLS on port 443 from the portal or native client, with no public IP and no open management port on the VM",
+        "Deploy Bastion as a VM in the virtual network and patch it like any other server",
+        "Use the Developer SKU for production, because it has the same features as Standard"
+      ],
+      "question": "A firewall team will only allow outbound port 443 from administrator laptops. The team needs RDP to VMs with no public IPs. Which Bastion connectivity statement is correct?",
+      "source_quote": "Azure Bastion is a fully managed PaaS service that provides secure and seamless RDP/SSH connectivity to your virtual machines directly over TLS from the Azure portal, or via the native SSH or RDP client already installed on your local computer.",
+      "source_title": "What is Azure Bastion?",
+      "source_url": "https://learn.microsoft.com/en-us/azure/bastion/bastion-overview",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: enabling the plan at the subscription covers Azure VMs, while non-Azure machines need Arc onboarding to get full functionality; direct Defender for Endpoint install gives only Plan 1 functionality. A is wrong: the subscription toggle does not onboard on-premises servers. C is wrong: Defender for Servers protects on-premises and multicloud machines when onboarded correctly. D is wrong: Plan 1 per VM is for Azure VMs, not a substitute for Arc onboarding.",
+      "id": "D3-VM-033",
+      "options": [
+        "Enable the plan on the subscription; that automatically onboards the datacentre servers too",
+        "Enable the plan on the subscription for the Azure VMs and onboard the datacentre servers through Azure Arc for full Plan 2 functionality",
+        "Move the datacentre servers to Azure, because Defender for Servers cannot protect on-premises machines",
+        "Enable Plan 1 per VM on the datacentre servers, because that is the same as Arc onboarding"
+      ],
+      "question": "A company has 300 Azure VMs and 150 datacentre servers. The CISO enables Defender for Servers Plan 2 on the subscription and declares the whole estate covered. What is missing?",
+      "source_quote": "We recommend that you onboard on-premises machines as Azure Arc-enabled. Although you onboard on-premises machines by directly installing the Defender for Endpoint agent instead of onboarding machines with Azure Arc, Defender for Servers Plan functionality remains available. For Defender for Servers Plan 2, in addition to Plan 1 features, only the premium Defender Vulnerability Management features are available.",
+      "source_title": "Select a Defender for Servers plan",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/plan-defender-for-servers-select-plan",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: double encryption uses a platform-managed key and a customer-managed key, so it is for customers who need two layers of at-rest encryption, and it is distinct from encryption at host, which covers temp disks. B is wrong: double encryption is not the same as encryption at host. C is wrong: a customer-managed key alone is single encryption with a customer key. D is wrong: double encryption is a managed-disk option, not a replacement for in-guest BitLocker.",
+      "id": "D3-VM-034",
+      "options": [
+        "Enable double encryption on the managed disks, which layers a platform-managed key and a customer-managed key for two layers of at-rest encryption",
+        "Enable encryption at host, because that is the same as double encryption",
+        "Use a single customer-managed key, because that already counts as double encryption",
+        "Use Azure Disk Encryption, because double encryption is only available in the guest"
+      ],
+      "question": "A defence customer requires two independent layers of encryption at rest on its managed disks, one with a Microsoft-managed key and one with a customer-managed key. Which option meets that requirement?",
+      "source_quote": "Server-side encryption with customer-managed keys: Manage your own encryption keys through Azure Key Vault or Azure Key Vault Managed HSM. For more information, see Overview of managed disk encryption options.",
+      "source_title": "Introduction to Azure security",
+      "source_url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/overview",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: JIT is a Defender for Cloud feature that restricts network access to VMs by applying deny rules and only allowing temporary access when requested, and the temporary allow rule has higher priority than the deny rule. A is wrong: JIT does not authenticate the user; Entra ID and PIM do that. C is wrong: JIT does not encrypt anything. D is wrong: JIT does not remove the public IP; Bastion or removing the IP does that.",
+      "id": "D3-VM-035",
+      "options": [
+        "JIT authenticates the administrator with MFA and replaces the need for Entra ID",
+        "JIT applies a deny rule on management ports and adds a higher-priority temporary allow rule only when access is requested, then removes it",
+        "JIT encrypts the RDP session so the open port is safe",
+        "JIT removes the public IP from the VM permanently"
+      ],
+      "question": "An engineer asks how JIT actually enforces time-bound access at the network layer. Which mechanism is correct?",
+      "source_quote": "JIT VM access is a Defender for Cloud feature that restricts network access to VMs. JIT minimizes the attack surface by applying deny rules and only allowing temporary access when requested. When a user requests access to the VM, the service adds a temporary allow rule to the network security group.",
+      "source_title": "Multilayered protection for Azure virtual machines",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/design-solutions-securing-server-client-endpoints/7-design-solution-secure-remote-access",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Secure Boot, vTPM and integrity monitoring protect the boot chain against boot kits, rootkits and kernel-level malware, which is the Trusted Launch threat model. A is wrong: disk encryption does not stop a boot kit. B is wrong: JIT controls network access, not the boot chain. D is wrong: vulnerability scanning finds known software flaws; it does not prevent boot-level tampering.",
+      "id": "D3-VM-036",
+      "options": [
+        "Azure Disk Encryption, because encrypting the disk stops a boot kit from running",
+        "Just-in-time VM access, because closing port 3389 stops boot-level malware",
+        "Defender for Servers vulnerability scanning, because scanning finds boot kits before they run",
+        "Trusted Launch with Secure Boot, vTPM and integrity monitoring, because it protects the boot chain against boot kits, rootkits and kernel-level malware"
+      ],
+      "question": "A threat model identifies boot kits and rootkits that load before the operating system as the top VM risk. Which control addresses that threat, and why do the others not?",
+      "source_quote": "Trusted launch protects against advanced and persistent attack techniques including boot kits, rootkits, and kernel-level malware.",
+      "source_title": "Security features used with Azure VMs",
+      "source_url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/virtual-machines-overview",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Arc-enabled servers appear in Defender for Cloud inventory alongside Azure VMs, and enabling Defender for Servers deploys Defender for Endpoint, vulnerability assessment and just-in-time access for them. B is wrong: Arc-enabled servers do get a Secure Score like native resources. C is wrong: the Connected Machine agent connects outbound over 443; no inbound opening is needed. D is wrong: Arc is the recommended path for full functionality.",
+      "id": "D3-VM-037",
+      "options": [
+        "Arc-enabled servers appear in Defender for Cloud inventory alongside Azure VMs, and Defender for Servers then deploys Defender for Endpoint, vulnerability assessment and just-in-time access",
+        "Arc-enabled servers are visible in inventory but never receive a Secure Score",
+        "Arc-enabled servers require inbound port 3389 from Defender for Cloud to be protected",
+        "Arc-enabled servers cannot receive just-in-time access even after Defender for Servers is enabled"
+      ],
+      "question": "After onboarding datacentre servers through Azure Arc, what does the team actually get in Defender for Cloud, and which common belief about Arc servers is wrong?",
+      "source_quote": "Once resources connect through Arc, enable Defender for Cloud protection: Servers: Arc-enabled servers appear in Defender for Cloud inventory alongside Azure VMs. Enable Defender for Servers to deploy Microsoft Defender for Endpoint, vulnerability assessment, and just-in-time access.",
+      "source_title": "Design a solution for integrating hybrid and multicloud environments by using Azure Arc",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/design-solutions-security-posture-management-hybrid-multicloud-environments/7-integrate-hybrid-multi-cloud-environments-azure-arc",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: agentless scanning works from disk snapshots, so an encrypted disk it cannot read, or a disk in an unsupported host, produces no agentless findings, while the agent-based path still works. A is wrong: agentless scanning does not run in the guest. B is wrong: agentless findings depend on snapshot readability and host support. D is wrong: Plan 2 includes both paths, and the gap is a coverage limitation, not a billing error.",
+      "id": "D3-VM-038",
+      "options": [
+        "The VM is turned off, so no scanning of any kind can ever run",
+        "Agentless scanning runs inside the guest, so it must have failed because the agent crashed",
+        "Agentless scanning assesses disk snapshots out of band, so an unreadable or unsupported disk yields no agentless findings even though agent-based scanning still works",
+        "The subscription was charged for Plan 1 instead of Plan 2, so all scanning stopped"
+      ],
+      "question": "A VM shows agent-based vulnerability findings but zero agentless findings, while a sibling VM shows both. What best explains the gap?",
+      "source_quote": "Agentless scanning for machines is supported in Plan 2 only. Agentless assessment is in addition to agent-based vulnerability scanning.",
+      "source_title": "Defender for Servers",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/microsoft-defender-cloud-threat-protection/3-defender-servers",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: the 30-day trial begins when Defender for Servers is enabled, and there is no way to stop, pause or extend it, so a trial must be planned, not started casually. A is wrong: the trial cannot be paused or extended. C is wrong: the trial is 30 days, not 90. D is wrong: the trial starts on enablement, not on first alert.",
+      "id": "D3-VM-039",
+      "options": [
+        "The trial can be paused and resumed whenever the team is ready",
+        "The trial runs for 30 days from enablement and cannot be stopped, paused or extended, so the team should plan the evaluation before enabling it",
+        "The trial lasts 90 days and auto-extends if no alerts fire",
+        "The trial only starts when the first threat alert is generated"
+      ],
+      "question": "A team wants to evaluate Defender for Servers Plan 2 in a trial before committing. What is the trial trap they must plan around?",
+      "source_quote": "Trial period: 30-day trial period begins. There is no way to stop, pause, or extend this trial period.",
+      "source_title": "Defender for Servers",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/microsoft-defender-cloud-threat-protection/3-defender-servers",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: FIM examines OS files, Windows registries, application software and Linux system files for changes that might indicate an attack, and it is configured after enabling Plan 2. B is wrong: FIM does not block changes; it detects and reports them. C is wrong: FIM is not a backup or restore feature. D is wrong: FIM is a Plan 2 feature, not part of free foundational posture management.",
+      "id": "D3-VM-040",
+      "options": [
+        "File integrity monitoring in Defender for Servers Plan 2, which scans operating system files, Windows registries, application software and Linux system files for changes that might indicate an attack",
+        "File integrity monitoring in Plan 1, which blocks any change to a monitored file automatically",
+        "Azure Backup, because FIM restores changed files from backup",
+        "Free foundational posture management, because FIM needs no paid plan"
+      ],
+      "question": "An attacker modifies a system binary and a registry key on a server. The SOC wants a control that detects exactly those changes. Which capability is it, and what does it not do?",
+      "source_quote": "The file integrity monitoring feature in Microsoft Defender for Cloud Defender for Servers Plan 2 scans operating system files, Windows registries, application software, and Linux system files.",
+      "source_title": "Enable File Integrity Monitoring",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/file-integrity-monitoring-enable-defender-endpoint",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 2,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: a custom FIM rule can monitor a specific folder path, with up to 500 rules, and agentless scanning enables custom paths in addition to recommended resources. A is wrong: FIM does not monitor arbitrary paths by default; custom rules are needed. B is wrong: recommended resources are a starting set, not a hard limit. D is wrong: the limit is 500 rules, not five.",
+      "id": "D3-VM-041",
+      "options": [
+        "FIM only monitors the recommended resources and cannot be extended to custom paths",
+        "FIM monitors every file on the disk by default with no configuration",
+        "Create a custom FIM rule for the application folder path, because custom rules can monitor specific files or folders, up to 500 rules, and agentless scanning adds custom-path coverage",
+        "FIM allows at most five custom rules per subscription"
+      ],
+      "question": "A team must monitor a custom application folder that is not in the recommended FIM set. How do they add it, and what is the limit?",
+      "source_quote": "Defender for Cloud recommends resources to monitor with file integrity monitoring. With agentless scanning, you can define custom paths for monitoring in addition to recommended resources. The maximum number of rules that can be applied is 500.",
+      "source_title": "Enable File Integrity Monitoring",
+      "source_url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/file-integrity-monitoring-enable-defender-endpoint",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 1,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: Bastion Standard adds native client, shareable links, IP-based connections, custom ports and file transfer over Basic, while Premium adds session recording and private-only deployment. A is wrong: Basic does not include file transfer or native client. C is wrong: session recording is Premium, not Standard. D is wrong: the Developer SKU is free for dev and test, not a production Standard equivalent.",
+      "id": "D3-VM-042",
+      "options": [
+        "Basic, because it includes native client access and file transfer",
+        "Standard, because it includes native client, IP-based connections, custom ports and file transfer, while session recording stays a Premium feature",
+        "Standard, because it includes session recording for compliance",
+        "Developer, because it is free and identical to Standard in production"
+      ],
+      "question": "Administrators need to connect with their native RDP client, use custom ports and transfer files, but the compliance team has not required session recording. Which Bastion SKU is the right fit, and why not the others?",
+      "source_quote": "Standard includes all Basic features plus scalability and advanced features (native client, shareable links, IP-based connections, custom ports, file transfer). Premium includes all Standard features plus session recording for compliance and private-only deployment.",
+      "source_title": "What is Azure Bastion?",
+      "source_url": "https://learn.microsoft.com/en-us/azure/bastion/bastion-overview",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 0,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: OS baseline misconfiguration recommendations based on the Linux and Windows compute security baselines are Plan 2 only, while other MCSB recommendations remain in free foundational posture management, and the machine configuration extension collects the data. B is wrong: OS baselines are Plan 2 only. C is wrong: the baselines are assessed, not automatically remediated without policy. D is wrong: the machine configuration extension is the collection mechanism.",
+      "id": "D3-VM-043",
+      "options": [
+        "OS baseline misconfigurations are assessed under Plan 2 only, using the machine configuration extension, while other Microsoft Cloud Security Benchmark recommendations stay in free foundational posture management",
+        "OS baseline misconfigurations are included in Plan 1 and in the free tier",
+        "Enabling Plan 2 automatically remediates every OS baseline misconfiguration with no policy needed",
+        "OS baselines are assessed by agentless scanning alone, with no machine configuration extension involved"
+      ],
+      "question": "A compliance report shows OS baseline misconfigurations for some VMs but not others, and the team is on mixed plans. Which plan statement explains the gap?",
+      "source_quote": "OS baseline misconfigurations: OS recommendations based on Linux and Windows compute security baselines are supported in Plan 2 only. Defender for Cloud collects machine information using the Azure machine configuration extension.",
+      "source_title": "Defender for Servers",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/microsoft-defender-cloud-threat-protection/3-defender-servers",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    },
+    {
+      "correct_index": 3,
+      "difficulty": "hard",
+      "domain": "Secure compute",
+      "explanation": "Correct: agentless malware scanning is a Plan 2 capability, in addition to the next-generation antimalware protection from the Defender for Endpoint integration, so it can catch malware the endpoint agent missed or that arrived on a disk the agent never scanned. A is wrong: malware scanning is Plan 2 only. B is wrong: agentless scanning is additional to agent-based protection, not a replacement. C is wrong: agentless scanning works from snapshots and does not need a running process.",
+      "id": "D3-VM-044",
+      "options": [
+        "Agentless malware scanning is in Plan 1 and replaces Defender for Endpoint antimalware",
+        "Agentless malware scanning replaces the Defender for Endpoint agent entirely",
+        "Agentless malware scanning only works on running processes, so it cannot find dormant malware",
+        "Agentless malware scanning in Plan 2 scans disk snapshots for malware in addition to the Defender for Endpoint antimalware protection"
+      ],
+      "question": "A dormant malware file sits on a VM disk but the endpoint agent never flagged it. Which Plan 2 capability can still find it, and how?",
+      "source_quote": "Malware scanning (agentless) is supported in Plan 2 only. In addition to the next-generation antimalware protection provided by the Defender for Endpoint integration, Defender for Servers Plan 2 provides malware scanning as part of its agentless scanning capabilities.",
+      "source_title": "Defender for Servers",
+      "source_url": "https://learn.microsoft.com/en-us/training/modules/microsoft-defender-cloud-threat-protection/3-defender-servers",
+      "status": "active",
+      "topic": "compute-vm",
+      "version": 1
+    }
+  ]
+}
