@@ -1,0 +1,224 @@
+{
+  "bank_version": "2026.11.2",
+  "bank_name": "SC-500 Exam Practice — Question Bank",
+  "last_updated": "2026-11-11",
+  "total_questions": 1020,
+  "counts": {
+    "by_domain": {
+      "Manage identity, access, and governance": 268,
+      "Secure storage, databases, and networking": 266,
+      "Secure compute": 220,
+      "Manage and monitor security posture": 266
+    },
+    "by_topic": {
+      "ai-foundry": 44,
+      "ai-identity": 44,
+      "compute-app": 44,
+      "compute-containers": 44,
+      "compute-vm": 44,
+      "identity-apps": 40,
+      "identity-ca": 52,
+      "identity-gov": 44,
+      "identity-pim": 44,
+      "identity-rbac": 40,
+      "network-core": 44,
+      "network-edge": 44,
+      "posture-backup": 44,
+      "posture-copilot": 44,
+      "posture-defender": 44,
+      "posture-purview": 44,
+      "posture-sentinel": 44,
+      "storage-data": 44,
+      "storage-db": 44,
+      "storage-kv": 44,
+      "x-data-protection": 46,
+      "x-governance": 48,
+      "x-incident": 46
+    },
+    "by_difficulty": {
+      "hard": 1020
+    }
+  },
+  "files": [
+    {
+      "file": "data/topics/d1-identity-apps.json",
+      "topic": "Entra applications, service principals, and managed identities",
+      "topic_slug": "identity-apps",
+      "domain": "Manage identity, access, and governance",
+      "count": 40
+    },
+    {
+      "file": "data/topics/d1-identity-ca.json",
+      "topic": "Conditional Access",
+      "topic_slug": "identity-ca",
+      "domain": "Manage identity, access, and governance",
+      "count": 52
+    },
+    {
+      "file": "data/topics/d1-identity-gov.json",
+      "topic": "Identity governance",
+      "topic_slug": "identity-gov",
+      "domain": "Manage identity, access, and governance",
+      "count": 44
+    },
+    {
+      "file": "data/topics/d1-identity-pim.json",
+      "topic": "Privileged Identity Management",
+      "topic_slug": "identity-pim",
+      "domain": "Manage identity, access, and governance",
+      "count": 44
+    },
+    {
+      "file": "data/topics/d1-identity-rbac.json",
+      "topic": "Entra RBAC, Azure RBAC, and Azure Policy governance",
+      "topic_slug": "identity-rbac",
+      "domain": "Manage identity, access, and governance",
+      "count": 40
+    },
+    {
+      "file": "data/topics/d2-network-core.json",
+      "topic": "Network security core",
+      "topic_slug": "network-core",
+      "domain": "Secure storage, databases, and networking",
+      "count": 44
+    },
+    {
+      "file": "data/topics/d2-network-edge.json",
+      "topic": "Network security edge",
+      "topic_slug": "network-edge",
+      "domain": "Secure storage, databases, and networking",
+      "count": 44
+    },
+    {
+      "file": "data/topics/d2-storage-data.json",
+      "topic": "Storage security",
+      "topic_slug": "storage-data",
+      "domain": "Secure storage, databases, and networking",
+      "count": 44
+    },
+    {
+      "file": "data/topics/d2-storage-db.json",
+      "topic": "SQL and Cosmos DB security",
+      "topic_slug": "storage-db",
+      "domain": "Secure storage, databases, and networking",
+      "count": 44
+    },
+    {
+      "file": "data/topics/d2-storage-kv.json",
+      "topic": "Key Vault",
+      "topic_slug": "storage-kv",
+      "domain": "Secure storage, databases, and networking",
+      "count": 44
+    },
+    {
+      "file": "data/topics/d3-ai-foundry.json",
+      "topic": "Azure AI / Foundry: model deployment security, content filters, data grounding, prompt injection, data exfiltration, network isolation for AI",
+      "topic_slug": "ai-foundry",
+      "domain": "Secure compute",
+      "count": 44
+    },
+    {
+      "file": "data/topics/d3-ai-identity.json",
+      "topic": "Entra Agent ID, Purview DSPM for AI, AI agent permissions, OAuth for agents, managed identities for AI workloads, AI guardrails",
+      "topic_slug": "ai-identity",
+      "domain": "Secure compute",
+      "count": 44
+    },
+    {
+      "file": "data/topics/d3-compute-app.json",
+      "topic": "App Service / Functions / Logic Apps: authentication, Managed Identity, network isolation, Key Vault references, Logic Apps connectors/security",
+      "topic_slug": "compute-app",
+      "domain": "Secure compute",
+      "count": 44
+    },
+    {
+      "file": "data/topics/d3-compute-containers.json",
+      "topic": "Containers: AKS security, Defender for Containers, image scanning, pod security, Container Instances / Container Apps, registry security",
+      "topic_slug": "compute-containers",
+      "domain": "Secure compute",
+      "count": 44
+    },
+    {
+      "file": "data/topics/d3-compute-vm.json",
+      "topic": "VMs: disk encryption, JIT VM access, Defender for Servers, update management, host security, Azure Arc",
+      "topic_slug": "compute-vm",
+      "domain": "Secure compute",
+      "count": 44
+    },
+    {
+      "file": "data/topics/d4-posture-backup.json",
+      "topic": "Azure Backup security, recovery, immutable vaults, soft delete, cross-region restore; IaC governance: Bicep/ARM, Azure Policy as Code, template security",
+      "topic_slug": "posture-backup",
+      "domain": "Manage and monitor security posture",
+      "count": 44
+    },
+    {
+      "file": "data/topics/d4-posture-copilot.json",
+      "topic": "Microsoft Security Copilot, Defender XDR, incident response, threat hunting, Microsoft Security Exposure Management",
+      "topic_slug": "posture-copilot",
+      "domain": "Manage and monitor security posture",
+      "count": 44
+    },
+    {
+      "file": "data/topics/d4-posture-defender.json",
+      "topic": "Defender for Cloud: CSPM, Secure Score, Defender plans, recommendations, attack path analysis, regulatory compliance",
+      "topic_slug": "posture-defender",
+      "domain": "Manage and monitor security posture",
+      "count": 44
+    },
+    {
+      "file": "data/topics/d4-posture-purview.json",
+      "topic": "Microsoft Purview governance: sensitivity labels, DLP, data classification, insider risk, information protection, retention",
+      "topic_slug": "posture-purview",
+      "domain": "Manage and monitor security posture",
+      "count": 44
+    },
+    {
+      "file": "data/topics/d4-posture-sentinel.json",
+      "topic": "Microsoft Sentinel: KQL, analytics rules, incidents, SOAR/automation, data connectors, workbooks, archive/search jobs",
+      "topic_slug": "posture-sentinel",
+      "domain": "Manage and monitor security posture",
+      "count": 44
+    },
+    {
+      "file": "data/topics/x-data-protection.json",
+      "topic": "Cross-cutting data protection",
+      "topic_slug": "x-data-protection",
+      "domain": "Secure storage, databases, and networking",
+      "count": 46
+    },
+    {
+      "file": "data/topics/x-governance.json",
+      "topic": "Cross-cutting governance",
+      "topic_slug": "x-governance",
+      "domain": "Manage identity, access, and governance",
+      "count": 48
+    },
+    {
+      "file": "data/topics/x-incident.json",
+      "topic": "Cross-cutting incident response",
+      "topic_slug": "x-incident",
+      "domain": "Manage and monitor security posture",
+      "count": 46
+    }
+  ],
+  "sources_count": 131,
+  "versioning_policy": "Questions are never deleted. A question that becomes outdated is marked status 'deprecated' or 'superseded', kept in the bank and in git history, and replaced by a new versioned question. Corrections bump the question version and are recorded in CHANGELOG.md.",
+  "changelog": [
+    {
+      "version": "2026.11.2",
+      "date": "2026-11-11",
+      "note": "Bank grown to 1020 hard questions (all difficulty hard), in per-topic files under data/topics/ (23 topics). All 200 original questions re-verified against Microsoft Learn / Azure docs, upgraded to hard scenario style, and given source_url, source_title and source_quote. 131 distinct official source pages cited. Gaps from v2026.11.1 now covered: Azure Backup security, IaC governance, Virtual Network Manager, Virtual WAN, Entra Private Access, Logic Apps, Container Instances / Container Apps."
+    },
+    {
+      "version": "2026.11.1",
+      "date": "2026-11-11",
+      "note": "Full syllabus, Learn-only: 200 questions, 100 standard / 100 hard, 4 domains."
+    },
+    {
+      "version": "2026.11.0",
+      "date": "2026-11-10",
+      "note": "Initial bank: 40 Section 5 questions."
+    }
+  ]
+}
