@@ -1,0 +1,137 @@
+# Sources — every Microsoft Learn / Azure page cited
+
+Checked 2026-11-11. Every question in the bank cites one of these official pages with a source_url, source_title and a short quoted source_quote. No third-party blogs, no dump sites, no real exam content.
+
+Total distinct source pages: 131. Total questions: 1020.
+
+- **Incident response overview for Azure** — <https://learn.microsoft.com/azure/security/fundamentals/incident-response-overview> — supports 12 question(s), topics: x-incident
+- **Azure operational security best practices** — <https://learn.microsoft.com/azure/security/fundamentals/operational-best-practices> — supports 3 question(s), topics: x-governance
+- **Data Residency for Microsoft Purview** — <https://learn.microsoft.com/en-au/microsoft-365/enterprise/m365-dr-service-purview?view=o365-worldwide> — supports 2 question(s), topics: x-data-protection
+- **Azure role-based access control versus access policies** — <https://learn.microsoft.com/en-us/azure/Key-Vault/general/rbac-access-policy> — supports 7 question(s), topics: storage-kv
+- **Enforce Token Limits for Models** — <https://learn.microsoft.com/en-us/azure/ai-foundry/control-plane/how-to-enforce-limits-models> — supports 11 question(s), topics: ai-foundry
+- **Configure content filters** — <https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/content-filters> — supports 16 question(s), topics: ai-foundry
+- **Secure your Azure App Service deployment** — <https://learn.microsoft.com/en-us/azure/app-service/overview-security> — supports 9 question(s), topics: compute-app
+- **Integrate your app with an Azure virtual network** — <https://learn.microsoft.com/en-us/azure/app-service/overview-vnet-integration> — supports 5 question(s), topics: compute-app
+- **DevSecOps on Azure Kubernetes Service (AKS)** — <https://learn.microsoft.com/en-us/azure/architecture/guide/devsecops/devsecops-on-aks> — supports 6 question(s), topics: compute-containers
+- **Baseline Highly Available Zone-Redundant App Services Web Application** — <https://learn.microsoft.com/en-us/azure/architecture/web-apps/app-service/architectures/baseline-zone-redundant> — supports 5 question(s), topics: compute-app
+- **Configure connections to remote services in Azure Functions** — <https://learn.microsoft.com/en-us/azure/azure-functions/functions-identity-based-connections-tutorial> — supports 6 question(s), topics: compute-app
+- **Create and deploy Azure deployment stacks in Bicep** — <https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/deployment-stacks> — supports 4 question(s), topics: posture-backup
+- **Lock your Azure resources to protect your infrastructure - Azure Resource Manager** — <https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources> — supports 10 question(s), topics: identity-rbac
+- **Auditing for Azure SQL Database** — <https://learn.microsoft.com/en-us/azure/azure-sql/database/auditing-overview> — supports 5 question(s), topics: storage-db
+- **Use Microsoft Entra authentication with SQL** — <https://learn.microsoft.com/en-us/azure/azure-sql/database/authentication-mfa-ssms-overview?view=azuresql> — supports 4 question(s), topics: storage-db
+- **Configure firewall settings for Azure SQL Database** — <https://learn.microsoft.com/en-us/azure/azure-sql/database/firewall-configure?view=azuresql-db> — supports 5 question(s), topics: storage-db
+- **Azure Kubernetes Service (AKS) backup support matrix - Azure Backup** — <https://learn.microsoft.com/en-us/azure/backup/azure-kubernetes-service-cluster-backup-support-matrix> — supports 2 question(s), topics: posture-backup
+- **Multiuser Authorization Using Resource Guard - Azure Backup** — <https://learn.microsoft.com/en-us/azure/backup/multi-user-authorization-concept> — supports 3 question(s), topics: posture-backup
+- **Overview of security and cyber recovery in Azure Backup** — <https://learn.microsoft.com/en-us/azure/backup/security-overview> — supports 25 question(s), topics: posture-backup
+- **What is Azure Bastion?** — <https://learn.microsoft.com/en-us/azure/bastion/bastion-overview> — supports 10 question(s), topics: compute-vm, network-core
+- **Configure IP firewall in Azure Cosmos DB** — <https://learn.microsoft.com/en-us/azure/cosmos-db/how-to-configure-firewall> — supports 5 question(s), topics: storage-db
+- **Azure Cosmos DB for NoSQL frequently asked questions** — <https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/faq> — supports 4 question(s), topics: storage-db
+- **AI threat protection** — <https://learn.microsoft.com/en-us/azure/defender-for-cloud/ai-threat-protection> — supports 7 question(s), topics: ai-foundry, ai-identity
+- **Cloud security posture management in Defender for Cloud** — <https://learn.microsoft.com/en-us/azure/defender-for-cloud/concept-cloud-security-posture-management> — supports 8 question(s), topics: posture-defender
+- **External attack surface management in Defender for Cloud** — <https://learn.microsoft.com/en-us/azure/defender-for-cloud/concept-easm> — supports 9 question(s), topics: posture-copilot, posture-defender
+- **Microsoft Defender for Cloud overview** — <https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-cloud-introduction> — supports 3 question(s), topics: posture-copilot, posture-defender
+- **Container security architecture** — <https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-containers-architecture> — supports 11 question(s), topics: compute-containers
+- **Defender for Containers on Azure (AKS) - Overview** — <https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-containers-azure-overview> — supports 9 question(s), topics: compute-containers
+- **What is Microsoft Defender for Key Vault?** — <https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-key-vault-introduction> — supports 3 question(s), topics: storage-kv
+- **Overview of Defender for Servers in Defender for Cloud** — <https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-servers-overview> — supports 6 question(s), topics: posture-defender
+- **What is Microsoft Defender for Storage?** — <https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-storage-introduction> — supports 6 question(s), topics: storage-data
+- **Common questions about protecting containers** — <https://learn.microsoft.com/en-us/azure/defender-for-cloud/faq-defender-for-containers> — supports 9 question(s), topics: compute-containers
+- **Enable File Integrity Monitoring** — <https://learn.microsoft.com/en-us/azure/defender-for-cloud/file-integrity-monitoring-enable-defender-endpoint> — supports 5 question(s), topics: compute-vm
+- **Select a Defender for Servers plan** — <https://learn.microsoft.com/en-us/azure/defender-for-cloud/plan-defender-for-servers-select-plan> — supports 9 question(s), topics: compute-vm, posture-defender
+- **Improve regulatory compliance in Microsoft Defender for Cloud** — <https://learn.microsoft.com/en-us/azure/defender-for-cloud/regulatory-compliance-dashboard> — supports 4 question(s), topics: posture-defender
+- **Secure score in Microsoft Defender for Cloud** — <https://learn.microsoft.com/en-us/azure/defender-for-cloud/secure-score-security-controls> — supports 9 question(s), topics: posture-defender
+- **Enable vulnerability assessment for Azure SQL** — <https://learn.microsoft.com/en-us/azure/defender-for-cloud/sql-azure-vulnerability-assessment-enable> — supports 4 question(s), topics: storage-db
+- **Azure DNS Private Resolver Overview** — <https://learn.microsoft.com/en-us/azure/dns/dns-private-resolver-overview> — supports 7 question(s), topics: network-edge
+- **Azure Firewall FAQ** — <https://learn.microsoft.com/en-us/azure/firewall/firewall-faq> — supports 14 question(s), topics: network-core
+- **Azure Blueprints retirement FAQ** — <https://learn.microsoft.com/en-us/azure/governance/blueprints/blueprint-retirement-faq> — supports 7 question(s), topics: x-governance
+- **Organize your resources with management groups** — <https://learn.microsoft.com/en-us/azure/governance/management-groups/overview> — supports 11 question(s), topics: x-governance
+- **Overview of Azure Policy - Azure Policy** — <https://learn.microsoft.com/en-us/azure/governance/policy/overview> — supports 42 question(s), topics: identity-rbac, posture-backup, x-governance
+- **Regulatory Compliance details for FedRAMP Moderate - Azure Policy** — <https://learn.microsoft.com/en-us/azure/governance/policy/samples/fedramp-moderate> — supports 6 question(s), topics: x-governance
+- **Tutorial: Configure certificate auto-rotation in Azure Key Vault** — <https://learn.microsoft.com/en-us/azure/key-vault/certificates/tutorial-rotate-certificates> — supports 5 question(s), topics: storage-kv
+- **Configure Azure Key Vault networking settings** — <https://learn.microsoft.com/en-us/azure/key-vault/general/network-security> — supports 7 question(s), topics: storage-kv
+- **Azure Key Vault Overview** — <https://learn.microsoft.com/en-us/azure/key-vault/general/overview> — supports 6 question(s), topics: x-data-protection
+- **Integrate Key Vault with Azure Private Link** — <https://learn.microsoft.com/en-us/azure/key-vault/general/private-link-service> — supports 5 question(s), topics: network-core, storage-kv
+- **Azure Key Vault soft-delete overview** — <https://learn.microsoft.com/en-us/azure/key-vault/general/soft-delete-overview> — supports 9 question(s), topics: storage-kv
+- **Configure cryptographic key auto-rotation in Azure Key Vault** — <https://learn.microsoft.com/en-us/azure/key-vault/keys/how-to-configure-key-rotation> — supports 7 question(s), topics: storage-kv
+- **Secure access and data in workflows - Azure Logic Apps** — <https://learn.microsoft.com/en-us/azure/logic-apps/logic-apps-securing-a-logic-app> — supports 8 question(s), topics: compute-app
+- **Azure DDoS Protection overview** — <https://learn.microsoft.com/en-us/azure/networking/design-guide/ddos> — supports 3 question(s), topics: network-core, network-edge
+- **What is Azure role-based access control (Azure RBAC)?** — <https://learn.microsoft.com/en-us/azure/role-based-access-control/overview> — supports 11 question(s), topics: identity-rbac
+- **Encryption at rest in Azure** — <https://learn.microsoft.com/en-us/azure/security/fundamentals/encryption-atrest> — supports 8 question(s), topics: storage-data, storage-db
+- **Choose a key management solution** — <https://learn.microsoft.com/en-us/azure/security/fundamentals/key-management-choose> — supports 5 question(s), topics: storage-kv
+- **Introduction to Azure security** — <https://learn.microsoft.com/en-us/azure/security/fundamentals/overview> — supports 3 question(s), topics: compute-vm
+- **Security features used with Azure VMs** — <https://learn.microsoft.com/en-us/azure/security/fundamentals/virtual-machines-overview> — supports 7 question(s), topics: compute-vm
+- **Automate threat response in Microsoft Sentinel with automation rules** — <https://learn.microsoft.com/en-us/azure/sentinel/automate-incident-handling-with-automation-rules> — supports 2 question(s), topics: posture-sentinel
+- **Automation in Microsoft Sentinel** — <https://learn.microsoft.com/en-us/azure/sentinel/automation/automation> — supports 12 question(s), topics: x-incident
+- **Automate and run Microsoft Sentinel playbooks** — <https://learn.microsoft.com/en-us/azure/sentinel/automation/run-playbooks> — supports 4 question(s), topics: posture-sentinel
+- **Plan costs and understand pricing and billing - Microsoft Sentinel** — <https://learn.microsoft.com/en-us/azure/sentinel/billing> — supports 3 question(s), topics: posture-sentinel
+- **Create and use Microsoft Sentinel automation rules to manage response** — <https://learn.microsoft.com/en-us/azure/sentinel/create-manage-use-automation-rules> — supports 4 question(s), topics: posture-copilot, posture-sentinel
+- **Hunting capabilities in Microsoft Sentinel** — <https://learn.microsoft.com/en-us/azure/sentinel/hunting> — supports 20 question(s), topics: posture-sentinel
+- **Onboard to Microsoft Sentinel** — <https://learn.microsoft.com/en-us/azure/sentinel/quickstart-onboard> — supports 9 question(s), topics: posture-sentinel
+- **Immutable storage for Azure Blob Storage** — <https://learn.microsoft.com/en-us/azure/storage/blobs/immutable-storage-overview> — supports 8 question(s), topics: storage-data
+- **Create a user delegation SAS for a container or blob** — <https://learn.microsoft.com/en-us/azure/storage/blobs/sas-service-create-user-delegation> — supports 3 question(s), topics: storage-data
+- **Security recommendations for Azure Storage** — <https://learn.microsoft.com/en-us/azure/storage/blobs/security-recommendations> — supports 18 question(s), topics: storage-data
+- **Security admin rules in Azure Virtual Network Manager** — <https://learn.microsoft.com/en-us/azure/virtual-network-manager/concept-security-admins> — supports 8 question(s), topics: network-core, network-edge
+- **Network security groups overview** — <https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview> — supports 13 question(s), topics: network-core
+- **Azure Virtual WAN Overview** — <https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about> — supports 12 question(s), topics: network-edge
+- **Azure Web Application Firewall on Azure Front Door - Frequently Asked Questions** — <https://learn.microsoft.com/en-us/azure/web-application-firewall/afds/waf-faq> — supports 13 question(s), topics: network-edge
+- **Microsoft Security Copilot Security Compute Units and capacity** — <https://learn.microsoft.com/en-us/copilot/security/security-compute-units-capacity> — supports 3 question(s), topics: posture-copilot
+- **SC-500 study guide** — <https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-500> — supports 11 question(s), topics: posture-copilot, posture-defender, posture-sentinel
+- **Automatic attack disruption in Microsoft Defender** — <https://learn.microsoft.com/en-us/defender-xdr/automatic-attack-disruption> — supports 10 question(s), topics: x-incident
+- **Investigate data loss alerts with Microsoft Defender XDR** — <https://learn.microsoft.com/en-us/defender-xdr/dlp-investigate-alerts-defender> — supports 2 question(s), topics: x-incident
+- **Summarize incidents with Microsoft Copilot in Microsoft Defender** — <https://learn.microsoft.com/en-us/defender-xdr/security-copilot-m365d-incident-summary> — supports 5 question(s), topics: x-incident
+- **Best practices for Microsoft Entra Agent ID** — <https://learn.microsoft.com/en-us/entra/agent-id/best-practices-agent-id> — supports 2 question(s), topics: ai-identity
+- **What are agent identities?** — <https://learn.microsoft.com/en-us/entra/agent-id/what-are-agent-identities> — supports 10 question(s), topics: ai-identity
+- **Quickstart: Add a guest user and send an invitation** — <https://learn.microsoft.com/en-us/entra/external-id/b2b-quickstart-add-guest-users-portal> — supports 1 question(s), topics: identity-rbac
+- **What is Microsoft Entra B2B collaboration?** — <https://learn.microsoft.com/en-us/entra/external-id/what-is-b2b> — supports 6 question(s), topics: x-data-protection
+- **What is Global Secure Access?** — <https://learn.microsoft.com/en-us/entra/global-secure-access/overview-what-is-global-secure-access> — supports 4 question(s), topics: network-edge
+- **What are access reviews? - Microsoft Entra ID Governance** — <https://learn.microsoft.com/en-us/entra/id-governance/access-reviews-overview> — supports 10 question(s), topics: identity-gov, identity-pim
+- **What is entitlement management? - Microsoft Entra ID Governance** — <https://learn.microsoft.com/en-us/entra/id-governance/entitlement-management-overview> — supports 12 question(s), topics: identity-gov
+- **What is Privileged Identity Management? - Microsoft Entra ID Governance** — <https://learn.microsoft.com/en-us/entra/id-governance/privileged-identity-management/pim-configure> — supports 41 question(s), topics: identity-pim
+- **What are lifecycle workflows? - Microsoft Entra ID Governance** — <https://learn.microsoft.com/en-us/entra/id-governance/what-are-lifecycle-workflows> — supports 11 question(s), topics: identity-gov
+- **What is Microsoft Entra ID Protection? - Microsoft Entra ID Protection** — <https://learn.microsoft.com/en-us/entra/id-protection/overview-identity-protection> — supports 3 question(s), topics: identity-ca
+- **Apps & service principals in Microsoft Entra ID - Microsoft identity platform** — <https://learn.microsoft.com/en-us/entra/identity-platform/app-objects-and-service-principals> — supports 12 question(s), topics: identity-apps
+- **Microsoft Entra authentication overview - Microsoft Entra ID** — <https://learn.microsoft.com/en-us/entra/identity/authentication/concept-authentication-methods> — supports 5 question(s), topics: identity-ca
+- **Overview of Conditional Access Authentication Strengths - Microsoft Entra ID** — <https://learn.microsoft.com/en-us/entra/identity/authentication/concept-authentication-strengths> — supports 10 question(s), topics: identity-ca
+- **Self-service password reset deep dive - Microsoft Entra ID** — <https://learn.microsoft.com/en-us/entra/identity/authentication/concept-sspr-howitworks> — supports 3 question(s), topics: identity-ca
+- **Configure a Temporary Access Pass in Microsoft Entra ID to register passwordless authentication methods - Microsoft Entra ID** — <https://learn.microsoft.com/en-us/entra/identity/authentication/howto-authentication-temporary-access-pass> — supports 5 question(s), topics: identity-ca
+- **Conditional Access Policy Insights: Monitoring and Evaluation - Microsoft Entra ID** — <https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-report-only> — supports 4 question(s), topics: identity-ca
+- **Conditional Access: Manage Session Controls Effectively - Microsoft Entra ID** — <https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-session> — supports 6 question(s), topics: identity-ca
+- **How Token Protection Enhances Conditional Access Policies - Microsoft Entra ID** — <https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-token-protection> — supports 4 question(s), topics: identity-ca
+- **Microsoft Entra Conditional Access: Zero Trust Policy Engine - Microsoft Entra ID** — <https://learn.microsoft.com/en-us/entra/identity/conditional-access/overview> — supports 6 question(s), topics: identity-ca
+- **Set Up Microsoft Entra Terms of Use with Conditional Access - Microsoft Entra ID** — <https://learn.microsoft.com/en-us/entra/identity/conditional-access/terms-of-use> — supports 8 question(s), topics: identity-gov
+- **Configure the admin consent workflow - Microsoft Entra ID** — <https://learn.microsoft.com/en-us/entra/identity/enterprise-apps/configure-admin-consent-workflow> — supports 5 question(s), topics: identity-apps
+- **Overview of user and admin consent - Microsoft Entra ID** — <https://learn.microsoft.com/en-us/entra/identity/enterprise-apps/user-admin-consent-overview> — supports 12 question(s), topics: identity-apps
+- **Managed identities for Azure resources - Managed identities for Azure resources** — <https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/overview> — supports 11 question(s), topics: identity-apps
+- **Understand Microsoft Entra role concepts - Microsoft Entra ID** — <https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/concept-understand-roles> — supports 7 question(s), topics: identity-rbac
+- **Manage emergency access admin accounts - Microsoft Entra ID** — <https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/security-emergency-access> — supports 7 question(s), topics: identity-ca, identity-pim
+- **What's Microsoft Entra Permissions Management? - Microsoft Entra Permissions Management** — <https://learn.microsoft.com/en-us/entra/permissions-management/overview> — supports 4 question(s), topics: identity-gov
+- **Microsoft Agent 365 overview** — <https://learn.microsoft.com/en-us/microsoft-agent-365/overview> — supports 6 question(s), topics: ai-identity
+- **Microsoft Purview for Microsoft Agent 365** — <https://learn.microsoft.com/en-us/purview/ai-agent-365> — supports 13 question(s), topics: ai-identity, posture-purview
+- **Prevent oversharing with data risk assessments from Microsoft Purview Data Security Posture Management** — <https://learn.microsoft.com/en-us/purview/data-security-posture-management-oversharing> — supports 7 question(s), topics: ai-identity
+- **Step 2: Address files with the highest sensitivity - Secure by default with Microsoft Purview** — <https://learn.microsoft.com/en-us/purview/deploymentmodels/depmod-secure-by-default-step2> — supports 1 question(s), topics: posture-purview
+- **Learn about Adaptive Protection in data loss prevention** — <https://learn.microsoft.com/en-us/purview/dlp-adaptive-protection-learn> — supports 5 question(s), topics: posture-purview
+- **Learn about data loss prevention** — <https://learn.microsoft.com/en-us/purview/dlp-learn-about-dlp> — supports 23 question(s), topics: posture-purview, x-data-protection
+- **Double Key Encryption (DKE)** — <https://learn.microsoft.com/en-us/purview/double-key-encryption> — supports 7 question(s), topics: x-data-protection
+- **Data Security Posture Management for AI** — <https://learn.microsoft.com/en-us/purview/dspm-for-ai> — supports 5 question(s), topics: ai-identity
+- **Help dynamically mitigate risks with Adaptive Protection** — <https://learn.microsoft.com/en-us/purview/insider-risk-management-adaptive-protection> — supports 1 question(s), topics: posture-purview
+- **Learn about retention policies and labels to retain or delete** — <https://learn.microsoft.com/en-us/purview/retention> — supports 10 question(s), topics: posture-purview
+- **Learn about sensitivity labels** — <https://learn.microsoft.com/en-us/purview/sensitivity-labels> — supports 26 question(s), topics: posture-purview, x-data-protection
+- **What's new in Microsoft Purview** — <https://learn.microsoft.com/en-us/purview/whats-new> — supports 1 question(s), topics: posture-purview
+- **Create a service SAS** — <https://learn.microsoft.com/en-us/rest/api/storageservices/create-service-sas> — supports 3 question(s), topics: storage-data
+- **Input, Context, and Retrieval Hygiene** — <https://learn.microsoft.com/en-us/security/zero-trust/catalog-ai-defense-capabilities/input-context-retrieval-hygiene> — supports 12 question(s), topics: ai-foundry
+- **Dynamic data masking** — <https://learn.microsoft.com/en-us/sql/relational-databases/security/dynamic-data-masking> — supports 6 question(s), topics: storage-db
+- **Describe data loss prevention in Microsoft Purview** — <https://learn.microsoft.com/en-us/training/modules/describe-purview-data-solutions/4-describe-data-loss-prevention> — supports 1 question(s), topics: x-data-protection
+- **Describe Microsoft Security Exposure Management** — <https://learn.microsoft.com/en-us/training/modules/describe-threat-protection-with-microsoft-365-defender/6c-describe-security-exposure-management> — supports 4 question(s), topics: posture-copilot
+- **Evaluate solutions that use Microsoft Entra Private Access** — <https://learn.microsoft.com/en-us/training/modules/design-solutions-network-security/7-evaluate-solutions-entra-private-access> — supports 5 question(s), topics: network-edge
+- **Design security for Azure Storage** — <https://learn.microsoft.com/en-us/training/modules/design-solutions-secure-organization-data/5-design-security-azure-storage> — supports 2 question(s), topics: storage-data
+- **Design security with Microsoft Defender for SQL and Storage** — <https://learn.microsoft.com/en-us/training/modules/design-solutions-secure-organization-data/6-design-security-defender-sql-storage> — supports 2 question(s), topics: storage-db
+- **Design a solution for secure remote access** — <https://learn.microsoft.com/en-us/training/modules/design-solutions-securing-server-client-endpoints/7-design-solution-secure-remote-access> — supports 6 question(s), topics: compute-vm
+- **Design solutions for detection and response that includes XDR and SIEM** — <https://learn.microsoft.com/en-us/training/modules/design-solutions-security-operations/5-design-solutions-detection-response> — supports 4 question(s), topics: x-incident
+- **Design a solution for integrating hybrid and multicloud environments by using Azure Arc** — <https://learn.microsoft.com/en-us/training/modules/design-solutions-security-posture-management-hybrid-multicloud-environments/7-integrate-hybrid-multi-cloud-environments-azure-arc> — supports 3 question(s), topics: compute-vm
+- **Configure Privileged Identity Management - Training** — <https://learn.microsoft.com/en-us/training/modules/examine-privileged-identity-management/3-configure-privileged-identity-management> — supports 1 question(s), topics: identity-pim
+- **Design and implement data encryption** — <https://learn.microsoft.com/en-us/training/modules/implement-data-security-compliance/2-design-implement-data-encryption> — supports 5 question(s), topics: storage-db
+- **Implement security controls for containers** — <https://learn.microsoft.com/en-us/training/modules/implement-security-controls-containers/6-summary> — supports 9 question(s), topics: compute-containers
+- **Implement security controls for Function and Logic apps** — <https://learn.microsoft.com/en-us/training/modules/implement-security-controls-function-logic-apps/6-summary> — supports 11 question(s), topics: compute-app
+- **Defender for Servers** — <https://learn.microsoft.com/en-us/training/modules/microsoft-defender-cloud-threat-protection/3-defender-servers> — supports 8 question(s), topics: compute-vm
+- **Describe the features available in the standalone experience of Microsoft Security Copilot** — <https://learn.microsoft.com/en-us/training/modules/security-copilot-describe-core-features/2-describe-standalone-experience> — supports 20 question(s), topics: posture-copilot
+- **Microsoft Defender XDR in the Microsoft Defender Portal** — <https://learn.microsoft.com/en-us/unified-secops/defender-xdr-portal> — supports 12 question(s), topics: posture-copilot, x-incident
