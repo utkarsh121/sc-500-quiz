@@ -81,7 +81,7 @@ Total distinct source pages: 134. Total questions: 1020.
 - **Investigate data loss alerts with Microsoft Defender XDR** — <https://learn.microsoft.com/en-us/defender-xdr/dlp-investigate-alerts-defender> — supports 2 question(s), topics: x-incident
 - **Summarize incidents with Microsoft Copilot in Microsoft Defender** — <https://learn.microsoft.com/en-us/defender-xdr/security-copilot-m365d-incident-summary> — supports 5 question(s), topics: x-incident
 - **Best practices for Microsoft Entra Agent ID** — <https://learn.microsoft.com/en-us/entra/agent-id/best-practices-agent-id> — supports 2 question(s), topics: ai-identity
-- **What are agent identities?** — <https://learn.microsoft.com/en-us/entra/agent-id/what-are-agent-identities> — supports 7 question(s), topics: ai-identity
+- **What are agent identities?** — <https://learn.microsoft.com/en-us/entra/agent-id/what-are-agent-identities> — supports 6 question(s), topics: ai-identity
 - **Secure autonomous agents with Conditional Access** — <https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-autonomous-agents> — supports 2 question(s), topics: ai-identity
 - **How to Configure Grant Controls in Microsoft Entra** — <https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-grant> — supports 1 question(s), topics: ai-identity
 - **Quickstart: Add a guest user and send an invitation** — <https://learn.microsoft.com/en-us/entra/external-id/b2b-quickstart-add-guest-users-portal> — supports 1 question(s), topics: identity-rbac
@@ -108,7 +108,7 @@ Total distinct source pages: 134. Total questions: 1020.
 - **Understand Microsoft Entra role concepts - Microsoft Entra ID** — <https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/concept-understand-roles> — supports 7 question(s), topics: identity-rbac
 - **Manage emergency access admin accounts - Microsoft Entra ID** — <https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/security-emergency-access> — supports 7 question(s), topics: identity-ca, identity-pim
 - **What's Microsoft Entra Permissions Management? - Microsoft Entra Permissions Management** — <https://learn.microsoft.com/en-us/entra/permissions-management/overview> — supports 4 question(s), topics: identity-gov
-- **Microsoft Agent 365 overview** — <https://learn.microsoft.com/en-us/microsoft-agent-365/overview> — supports 6 question(s), topics: ai-identity
+- **Microsoft Agent 365 overview** — <https://learn.microsoft.com/en-us/microsoft-agent-365/overview> — supports 7 question(s), topics: ai-identity
 - **Microsoft Purview for Microsoft Agent 365** — <https://learn.microsoft.com/en-us/purview/ai-agent-365> — supports 13 question(s), topics: ai-identity, posture-purview
 - **Prevent oversharing with data risk assessments from Microsoft Purview Data Security Posture Management** — <https://learn.microsoft.com/en-us/purview/data-security-posture-management-oversharing> — supports 7 question(s), topics: ai-identity
 - **Step 2: Address files with the highest sensitivity - Secure by default with Microsoft Purview** — <https://learn.microsoft.com/en-us/purview/deploymentmodels/depmod-secure-by-default-step2> — supports 1 question(s), topics: posture-purview

@@ -2,6 +2,14 @@
 
 All notable changes to the question bank and the app. Questions are never deleted — corrections and retirements are recorded here, and the old question stays in its per-topic file under `data/topics/` with status `deprecated` or `superseded`.
 
+## v2026.11.4 — 2026-11-12
+
+D3-AGENT-023 re-sourced and reworded; no count changed (still 1020).
+
+- D3-AGENT-023 re-sourced from 'What are agent identities?' to 'Microsoft Agent 365 overview' (learn.microsoft.com/en-us/microsoft-agent-365/overview), bumped to version 3. The overview states verbatim: "As of May 1, 2026, Microsoft Agent 365 is generally available for the Commercial segment on a per user basis" and "Microsoft Agent 365 works best when using Microsoft E5 as a pre-requisite. At least one user must be licensed with a qualifying Microsoft Agent 365 license to enable Agent 365." The old page only said Agent ID "is available for all Microsoft Entra customers" and stated no GA date or E5 prerequisite.
+- The weakly sourced clause "the base Agent ID identity object is free" was reworded to the Entra page's own wording, "available for all Microsoft Entra customers", in the correct option and the explanation. The answer, options, and explanation otherwise unchanged.
+- Still open, not fixed here: a few other Agent ID quotes (e.g. D3-AGENT-009, D3-AGENT-038) are paraphrases rather than verbatim page text; the two D2 sources cited from search snippets after a 403 remain as flagged.
+
 ## v2026.11.3 — 2026-11-11
 
 Citation corrections for the three caveats recorded in v2026.11.2. 10 questions corrected, each bumped to version 2; no question deleted, no count changed (still 1020).

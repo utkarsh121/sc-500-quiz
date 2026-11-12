@@ -1,10 +1,15 @@
 /* Generated from data/topics/*.json — do not edit by hand. Edit the topic files and regenerate. */
 window.SC500_BANK = {
-  "bank_version": "2026.11.3",
+  "bank_version": "2026.11.4",
   "bank_name": "SC-500 Exam Practice — Question Bank",
-  "last_updated": "2026-11-11",
+  "last_updated": "2026-11-12",
   "total_questions": 1020,
   "changelog": [
+    {
+      "version": "2026.11.4",
+      "date": "2026-11-12",
+      "note": "D3-AGENT-023 re-sourced from 'What are agent identities?' to 'Microsoft Agent 365 overview' (learn.microsoft.com/en-us/microsoft-agent-365/overview), bumped to version 3: the overview states verbatim the 1 May 2026 GA date, per-user licensing, and E5 as the recommended prerequisite, which the old page did not. The weakly sourced 'base Agent ID identity object is free' clause was reworded to the Entra page's own wording, 'available for all Microsoft Entra customers'. No count changed (still 1020); 134 distinct source pages."
+    },
     {
       "version": "2026.11.3",
       "date": "2026-11-11",
@@ -12032,21 +12037,21 @@ window.SC500_BANK = {
       "correct_index": 0,
       "difficulty": "hard",
       "domain": "Secure compute",
-      "explanation": "Correct: Agent 365 is generally available for commercial customers since 1 May 2026, licensed per user, with Microsoft 365 E5 as the recommended prerequisite, and the base Agent ID identity is free. B is wrong: Agent 365 is GA, not preview. C is wrong: it is licensed per user, not per agent. D is wrong: E5 is the recommended prerequisite, not a blocker.",
+      "explanation": "Correct: Agent 365 is generally available for commercial customers since 1 May 2026, licensed per user, with Microsoft 365 E5 as the recommended prerequisite, and the base Agent ID identity object is available for all Microsoft Entra customers. B is wrong: Agent 365 is GA, not preview. C is wrong: it is licensed per user, not per agent. D is wrong: E5 is the recommended prerequisite, not a blocker.",
       "id": "D3-AGENT-023",
       "options": [
-        "Agent 365 is generally available since 1 May 2026, licensed per user, with Microsoft 365 E5 as the recommended prerequisite, while the base Agent ID identity object is free",
+        "Agent 365 is generally available since 1 May 2026, licensed per user, with Microsoft 365 E5 as the recommended prerequisite, while the base Agent ID identity object is available for all Microsoft Entra customers",
         "Agent 365 is still in preview and cannot be used in production",
         "Agent 365 is licensed per agent, not per user",
         "Agent 365 requires Microsoft 365 E7 and cannot be used with E5 at all"
       ],
       "question": "A company on Microsoft 365 E5 asks whether it can use Agent 365 and what it costs. Which statement is correct?",
-      "source_quote": "Microsoft Agent 365 enables agents to operate across Microsoft 365 services and enterprise workflows, which requires a Microsoft Agent 365 license for each user. Agent ID is available for all Microsoft Entra customers.",
-      "source_title": "What are agent identities?",
-      "source_url": "https://learn.microsoft.com/en-us/entra/agent-id/what-are-agent-identities",
+      "source_quote": "As of May 1, 2026, Microsoft Agent 365 is generally available for the Commercial segment on a per user basis. Microsoft Agent 365 works best when using Microsoft E5 as a pre-requisite. At least one user must be licensed with a qualifying Microsoft Agent 365 license to enable Agent 365.",
+      "source_title": "Microsoft Agent 365 overview",
+      "source_url": "https://learn.microsoft.com/en-us/microsoft-agent-365/overview",
       "status": "active",
       "topic": "ai-identity",
-      "version": 2
+      "version": 3
     },
     {
       "correct_index": 2,

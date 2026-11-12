@@ -1,7 +1,7 @@
 {
-  "bank_version": "2026.11.3",
-  "bank_name": "SC-500 Exam Practice — Question Bank",
-  "last_updated": "2026-11-11",
+  "bank_version": "2026.11.4",
+  "bank_name": "SC-500 Exam Practice \u2014 Question Bank",
+  "last_updated": "2026-11-12",
   "total_questions": 1020,
   "counts": {
     "by_domain": {
@@ -205,6 +205,11 @@
   "sources_count": 134,
   "versioning_policy": "Questions are never deleted. A question that becomes outdated is marked status 'deprecated' or 'superseded', kept in the bank and in git history, and replaced by a new versioned question. Corrections bump the question version and are recorded in CHANGELOG.md.",
   "changelog": [
+    {
+      "version": "2026.11.4",
+      "date": "2026-11-12",
+      "note": "D3-AGENT-023 re-sourced from 'What are agent identities?' to 'Microsoft Agent 365 overview' (learn.microsoft.com/en-us/microsoft-agent-365/overview), bumped to version 3: the overview states verbatim the 1 May 2026 GA date, per-user licensing, and E5 as the recommended prerequisite, which the old page did not. The weakly sourced 'base Agent ID identity object is free' clause was reworded to the Entra page's own wording, 'available for all Microsoft Entra customers'. No count changed (still 1020); 134 distinct source pages."
+    },
     {
       "version": "2026.11.3",
       "date": "2026-11-11",
